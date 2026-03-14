@@ -20,19 +20,19 @@ export default function Journeys() {
 
   return (
     <div>
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-white">
+      <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
             Journeys
           </h1>
-          <p className="mt-2 text-slate-400">
+          <p className="mt-2 text-sm text-slate-400 sm:text-base">
             Learning paths you own. Create a journey, then add items and track
             progress.
           </p>
         </div>
         <Link
           to="/journeys/new"
-          className="inline-flex items-center justify-center rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-violet-500"
+          className="inline-flex w-full shrink-0 items-center justify-center rounded-lg bg-violet-600 px-4 py-3 text-sm font-medium text-white hover:bg-violet-500 sm:w-auto sm:py-2.5"
         >
           New journey
         </Link>
@@ -49,7 +49,7 @@ export default function Journeys() {
           </Link>
         </div>
       ) : (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-2 lg:grid-cols-3 xl:gap-5">
           {list.map((j) => (
             <li key={j._id}>
               <JourneyCard journey={j} />

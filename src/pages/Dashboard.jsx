@@ -35,8 +35,8 @@ export default function Dashboard() {
 
   return (
     <div className="w-full space-y-10">
-      <header className="border-b border-slate-800/60 pb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+      <header className="border-b border-slate-800/60 pb-6 sm:pb-8">
+        <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
           Dashboard
         </h1>
         <p className="mt-2 max-w-2xl text-base text-slate-400">

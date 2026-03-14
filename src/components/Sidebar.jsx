@@ -69,7 +69,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="group/side relative z-30 hidden h-[100dvh] max-h-[100dvh] w-14 shrink-0 flex-col overflow-hidden border-r border-slate-800 bg-slate-900/95 backdrop-blur-sm transition-[width,box-shadow] duration-200 ease-out hover:w-56 hover:shadow-[8px_0_32px_rgba(0,0,0,0.35)] lg:sticky lg:top-0 lg:flex"
+      className="group/side relative z-30 hidden h-[100dvh] max-h-[100dvh] w-14 shrink-0 flex-col overflow-hidden border-r border-slate-800 bg-slate-900/95 backdrop-blur-sm transition-[width,box-shadow] duration-200 ease-out hover:w-56 hover:shadow-[8px_0_32px_rgba(0,0,0,0.35)] md:sticky md:top-0 md:flex"
       aria-label="Main navigation"
     >
       {/* Top: logo — does not shrink */}

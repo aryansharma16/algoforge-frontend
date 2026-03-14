@@ -302,7 +302,7 @@ export default function JourneyItemsSection({
   const d = draft
 
   return (
-    <section className="mt-12 overflow-hidden rounded-2xl border border-slate-800/90 bg-[#0a0c10] shadow-xl ring-1 ring-black/20">
+    <section className="mt-8 min-w-0 overflow-hidden rounded-xl border border-slate-800/90 bg-[#0a0c10] shadow-xl ring-1 ring-black/20 sm:mt-10 md:mt-12 sm:rounded-2xl">
       {/* Header strip */}
       <div className="relative border-b border-slate-800/90 bg-gradient-to-r from-[#12151c] via-[#0d1117] to-[#12151c] px-4 py-5 sm:px-6">
         <div
@@ -369,14 +369,14 @@ export default function JourneyItemsSection({
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             {/* Layout segments */}
-            <div className="flex rounded-xl border border-slate-700/80 bg-[#16161e] p-1">
+            <div className="flex max-w-full snap-x snap-mandatory overflow-x-auto rounded-xl border border-slate-700/80 bg-[#16161e] p-1 scrollbar-themed sm:snap-none sm:flex-wrap">
               {VIEWS.map((v) => (
                 <button
                   key={v.id}
                   type="button"
                   title={v.hint}
                   onClick={() => setView(v.id)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+                  className={`shrink-0 snap-start rounded-lg px-2.5 py-1.5 text-[11px] font-medium transition sm:px-3 sm:text-xs ${
                     view === v.id
                       ? 'bg-violet-600 text-white shadow-md shadow-violet-900/30'
                       : 'text-slate-400 hover:text-slate-200'

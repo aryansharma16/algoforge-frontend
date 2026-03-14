@@ -143,7 +143,7 @@ export default function JourneyTimeline({
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-800/80 bg-gradient-to-b from-slate-950/90 to-slate-900/50 p-5 sm:p-6">
+    <div className="min-w-0 overflow-hidden rounded-xl border border-slate-800/80 bg-gradient-to-b from-slate-950/90 to-slate-900/50 p-4 sm:rounded-2xl sm:p-5 md:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h3 className="text-[11px] font-semibold uppercase tracking-wider text-violet-400/90">

@@ -155,8 +155,8 @@ export default function JourneyDetails() {
   const typeLabel = JOURNEY_LABELS[journey.journeyType] || journey.journeyType
 
   return (
-    <div className="pb-16">
-      <nav className="mb-6 flex flex-wrap items-center gap-2 text-sm text-slate-500">
+    <div className="pb-12 sm:pb-16">
+      <nav className="mb-4 flex flex-wrap items-center gap-1 text-xs text-slate-500 sm:mb-6 sm:gap-2 sm:text-sm">
         <Link to="/journeys" className="text-violet-400 hover:underline">
           Journeys
         </Link>
@@ -165,12 +165,12 @@ export default function JourneyDetails() {
       </nav>
 
       {/* Hero */}
-      <header className="relative overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-violet-950/40 p-6 sm:p-8">
+      <header className="relative overflow-hidden rounded-xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-violet-950/40 p-4 sm:rounded-2xl sm:p-6 md:p-8">
         <div
           className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-600/10 blur-3xl"
           aria-hidden
         />
-        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+        <div className="relative flex flex-col gap-5 md:gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-md bg-violet-500/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-violet-300 ring-1 ring-violet-500/20">
@@ -182,7 +182,7 @@ export default function JourneyDetails() {
                 <VisibilityPill v={journey.visibility} />
               </span>
             </div>
-            <h1 className="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+            <h1 className="mt-2 break-words text-xl font-semibold tracking-tight text-white sm:mt-3 sm:text-2xl md:text-3xl">
               {journey.title}
             </h1>
             {journey.category && (
@@ -234,7 +234,7 @@ export default function JourneyDetails() {
       </header>
 
       {/* Stats row */}
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
+      <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-6 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5">
         <StatCard
           label="Items"
           value={doneCount}

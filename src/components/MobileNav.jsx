@@ -40,7 +40,7 @@ export default function MobileNav() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 flex h-14 items-center justify-between border-b border-slate-800 bg-slate-950/95 px-4 backdrop-blur-md lg:hidden">
+      <header className="fixed top-0 left-0 right-0 z-40 flex min-h-[3.5rem] items-center justify-between border-b border-slate-800 bg-slate-950/95 px-3 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md sm:px-4 md:hidden">
         <Link
           to="/dashboard"
           className="flex items-center gap-2"
@@ -86,7 +86,7 @@ export default function MobileNav() {
       </header>
 
       {open && (
-        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true">
           <button
             type="button"
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"

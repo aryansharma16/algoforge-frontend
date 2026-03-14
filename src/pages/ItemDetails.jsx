@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useParams } from 'react-router-dom'
 import { useGetItemByIdQuery } from '../api/itemApi'
 import {
@@ -7,11 +8,18 @@ import {
 } from '../api/submissionApi'
 import { toast, apiErrorMessage } from '../utils/toast'
 import SubmissionCodeEditor from '../components/SubmissionCodeEditor'
+import MultiPickField from '../components/MultiPickField'
+import { TAG_PRESETS } from '../data/itemPicklists'
+import { STORAGE_KEYS } from '../utils/itemPicklistStorage'
 import {
   SOLVING_METHODS,
   SUBMISSION_LANGUAGES,
   COMPLEXITY_OPTIONS,
   SUBMISSION_RESULTS,
+  SUBMISSION_FLAG_COLORS,
+  SUBMISSION_FLAG_COLOR_OPTIONS,
+  submissionFlagColorStyles,
+  submissionFlagLeftBorder,
 } from '../constants/submissionForm'
 
 function FieldLabel({ children, htmlFor, hint }) {
@@ -59,28 +67,26 @@ export default function ItemDetails() {
   const [spaceComplexity, setSpaceComplexity] = useState('')
   const [notes, setNotes] = useState('')
   const [title, setTitle] = useState('')
-  const [tagsInput, setTagsInput] = useState('')
+  const [tags, setTags] = useState([])
   const [resultStatus, setResultStatus] = useState('unspecified')
-  const [score, setScore] = useState('')
-  const [durationSeconds, setDurationSeconds] = useState('')
-  const [runtimeMs, setRuntimeMs] = useState('')
-  const [memoryKb, setMemoryKb] = useState('')
-  const [testCasesPassed, setTestCasesPassed] = useState('')
-  const [testCasesTotal, setTestCasesTotal] = useState('')
   const [externalUrl, setExternalUrl] = useState('')
   const [isStarred, setIsStarred] = useState(false)
+  const [flagColor, setFlagColor] = useState('none')
+  const [notesFullscreen, setNotesFullscreen] = useState(false)
 
-  function numOrUndef(v) {
-    const n = Number(v)
-    return v === '' || Number.isNaN(n) ? undefined : n
-  }
+  useEffect(() => {
+    if (!notesFullscreen) return
+    const onKey = (e) => e.key === 'Escape' && setNotesFullscreen(false)
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [notesFullscreen])
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const tags = tagsInput
-      .split(',')
-      .map((t) => t.trim())
-      .filter(Boolean)
     const body = {
       journeyId,
       itemId,
@@ -92,41 +98,27 @@ export default function ItemDetails() {
       spaceComplexity: spaceComplexity.trim(),
       notes: notes.trim(),
       title: title.trim(),
-      tags,
+      tags: Array.isArray(tags) ? tags : [],
       resultStatus,
       externalUrl: externalUrl.trim(),
       isStarred,
+      flagColor: SUBMISSION_FLAG_COLOR_OPTIONS.some((o) => o.id === flagColor)
+        ? flagColor
+        : 'none',
     }
-    const sc = numOrUndef(score)
-    if (sc !== undefined) body.score = Math.min(100, Math.max(0, sc))
-    const d = numOrUndef(durationSeconds)
-    if (d !== undefined) body.durationSeconds = d
-    const r = numOrUndef(runtimeMs)
-    if (r !== undefined) body.runtimeMs = r
-    const m = numOrUndef(memoryKb)
-    if (m !== undefined) body.memoryKb = m
-    const tp = numOrUndef(testCasesPassed)
-    if (tp !== undefined) body.testCasesPassed = tp
-    const tt = numOrUndef(testCasesTotal)
-    if (tt !== undefined) body.testCasesTotal = tt
 
     try {
       await createSubmission(body).unwrap()
       setCode('')
       setNotes('')
       setTitle('')
-      setTagsInput('')
+      setTags([])
       setTimeComplexity('')
       setSpaceComplexity('')
-      setScore('')
-      setDurationSeconds('')
-      setRuntimeMs('')
-      setMemoryKb('')
-      setTestCasesPassed('')
-      setTestCasesTotal('')
       setExternalUrl('')
       setResultStatus('unspecified')
       setIsStarred(false)
+      setFlagColor('none')
       toast.success('Submission saved')
     } catch (err) {
       toast.error('Could not save submission', {
@@ -168,9 +160,9 @@ export default function ItemDetails() {
   }
 
   return (
-    <div className="flex w-full max-w-none flex-col">
-      {/* Top bar — full width */}
-      <header className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 bg-[#0a0c10]/95 px-4 py-3 backdrop-blur-sm">
+    <div className="-mx-3 flex w-[calc(100%+1.5rem)] max-w-none flex-col xs:-mx-4 xs:w-[calc(100%+2rem)] sm:mx-0 sm:w-full">
+      {/* Top bar — full width; stack on narrow phones */}
+      <header className="sticky top-0 z-10 flex flex-col gap-3 border-b border-slate-800 bg-[#0a0c10]/95 px-3 py-3 backdrop-blur-sm xs:px-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
           <Link
             to={`/journeys/${journeyId}`}
@@ -195,10 +187,10 @@ export default function ItemDetails() {
 
       <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
         {/* Split: left details | right code — uses full main width */}
-        <div className="grid min-h-[min(100dvh,920px)] w-full grid-cols-1 lg:grid-cols-[minmax(300px,400px)_1fr] lg:min-h-[calc(100dvh-7rem)]">
+        <div className="grid min-h-0 w-full grid-cols-1 gap-0 md:min-h-[min(88dvh,800px)] lg:min-h-[calc(100dvh-6rem)] lg:grid-cols-[minmax(280px,min(100%,380px))_1fr] xl:grid-cols-[minmax(300px,420px)_1fr]">
           {/* LEFT — metadata & outcome */}
-          <aside className="scrollbar-themed flex flex-col gap-0 overflow-y-auto border-b border-slate-800 bg-[#0d1117] lg:border-b-0 lg:border-r lg:border-slate-800">
-            <div className="space-y-5 p-4 pb-24">
+          <aside className="scrollbar-themed max-h-[70dvh] overflow-y-auto border-b border-slate-800 bg-[#0d1117] sm:max-h-none lg:max-h-none lg:border-b-0 lg:border-r lg:border-slate-800">
+            <div className="space-y-4 p-3 pb-20 xs:p-4 sm:space-y-5 sm:pb-24">
               <div>
                 <h2 className="text-sm font-semibold text-white">Log submission</h2>
                 <p className="text-[11px] text-slate-500">
@@ -221,17 +213,15 @@ export default function ItemDetails() {
                       maxLength={200}
                     />
                   </div>
-                  <div>
-                    <FieldLabel htmlFor="sub-tags" hint="comma-separated">
-                      Tags
-                    </FieldLabel>
-                    <TextInput
-                      id="sub-tags"
-                      value={tagsInput}
-                      onChange={(e) => setTagsInput(e.target.value)}
-                      placeholder="hashmap, easy, retry"
-                    />
-                  </div>
+                  <MultiPickField
+                    label="Tags"
+                    presets={TAG_PRESETS}
+                    storageKey={STORAGE_KEYS.tag}
+                    value={tags}
+                    onChange={setTags}
+                    hint="Same chip picker as items. Search, pick, or add custom."
+                    placeholder="Search or add tag…"
+                  />
                 </div>
               </div>
 
@@ -319,97 +309,55 @@ export default function ItemDetails() {
 
               <div className="rounded-lg border border-slate-800/80 bg-[#16161e]/40 p-3">
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
-                  Outcome & metrics
+                  Result
                 </p>
-                <div className="space-y-3">
-                  <div>
-                    <FieldLabel htmlFor="sub-result">Result</FieldLabel>
-                    <select
-                      id="sub-result"
-                      value={resultStatus}
-                      onChange={(e) => setResultStatus(e.target.value)}
-                      className="select-ide w-full"
-                    >
-                      {SUBMISSION_RESULTS.map((r) => (
-                        <option key={r.id} value={r.id} className="bg-[#16161e]">
-                          {r.label}
-                        </option>
-                      ))}
-                    </select>
+                <FieldLabel htmlFor="sub-result">How it went</FieldLabel>
+                <select
+                  id="sub-result"
+                  value={resultStatus}
+                  onChange={(e) => setResultStatus(e.target.value)}
+                  className="select-ide w-full"
+                >
+                  {SUBMISSION_RESULTS.map((r) => (
+                    <option key={r.id} value={r.id} className="bg-[#16161e]">
+                      {r.label}
+                    </option>
+                  ))}
+                </select>
+                <div className="mt-4 border-t border-slate-800/80 pt-3">
+                  <FieldLabel htmlFor="sub-flag">Flag color</FieldLabel>
+                  <p className="mb-2 text-[10px] text-slate-600">
+                    Highlights this submission in history (badge + card edge).
+                  </p>
+                  <div className="mb-2 flex flex-wrap gap-1.5">
+                    {SUBMISSION_FLAG_COLOR_OPTIONS.map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        title={c.label}
+                        onClick={() => setFlagColor(c.id)}
+                        className={`rounded-lg px-2 py-1 text-[10px] font-medium ring-1 transition ${
+                          flagColor === c.id
+                            ? `${submissionFlagColorStyles(c.id)} ring-2 ring-white/30`
+                            : `${submissionFlagColorStyles(c.id)} opacity-70 hover:opacity-100`
+                        }`}
+                      >
+                        {c.label}
+                      </button>
+                    ))}
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <FieldLabel htmlFor="sub-score">Score 0–100</FieldLabel>
-                      <TextInput
-                        id="sub-score"
-                        type="number"
-                        min={0}
-                        max={100}
-                        value={score}
-                        onChange={(e) => setScore(e.target.value)}
-                        placeholder="—"
-                      />
-                    </div>
-                    <div>
-                      <FieldLabel htmlFor="sub-dur">Duration (s)</FieldLabel>
-                      <TextInput
-                        id="sub-dur"
-                        type="number"
-                        min={0}
-                        value={durationSeconds}
-                        onChange={(e) => setDurationSeconds(e.target.value)}
-                        placeholder="—"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <FieldLabel htmlFor="sub-rt">Runtime (ms)</FieldLabel>
-                      <TextInput
-                        id="sub-rt"
-                        type="number"
-                        min={0}
-                        value={runtimeMs}
-                        onChange={(e) => setRuntimeMs(e.target.value)}
-                        placeholder="—"
-                      />
-                    </div>
-                    <div>
-                      <FieldLabel htmlFor="sub-mem">Memory (KB)</FieldLabel>
-                      <TextInput
-                        id="sub-mem"
-                        type="number"
-                        min={0}
-                        value={memoryKb}
-                        onChange={(e) => setMemoryKb(e.target.value)}
-                        placeholder="—"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <FieldLabel htmlFor="sub-tp">Tests passed</FieldLabel>
-                      <TextInput
-                        id="sub-tp"
-                        type="number"
-                        min={0}
-                        value={testCasesPassed}
-                        onChange={(e) => setTestCasesPassed(e.target.value)}
-                        placeholder="—"
-                      />
-                    </div>
-                    <div>
-                      <FieldLabel htmlFor="sub-tt">Tests total</FieldLabel>
-                      <TextInput
-                        id="sub-tt"
-                        type="number"
-                        min={0}
-                        value={testCasesTotal}
-                        onChange={(e) => setTestCasesTotal(e.target.value)}
-                        placeholder="—"
-                      />
-                    </div>
-                  </div>
+                  <select
+                    id="sub-flag"
+                    value={flagColor}
+                    onChange={(e) => setFlagColor(e.target.value)}
+                    className="select-ide w-full"
+                  >
+                    {SUBMISSION_FLAG_COLOR_OPTIONS.map((c) => (
+                      <option key={c.id} value={c.id} className="bg-[#16161e]">
+                        {c.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -419,7 +367,17 @@ export default function ItemDetails() {
                 </p>
                 <div className="space-y-3">
                   <div>
-                    <FieldLabel htmlFor="sub-notes">Notes</FieldLabel>
+                    <div className="mb-1 flex items-center justify-between gap-2">
+                      <FieldLabel htmlFor="sub-notes">Notes</FieldLabel>
+                      <button
+                        type="button"
+                        onClick={() => setNotesFullscreen(true)}
+                        className="shrink-0 rounded-md border border-slate-600 bg-slate-800/80 px-2.5 py-1 text-[11px] font-medium text-slate-300 hover:border-violet-500/50 hover:text-white"
+                        title="Fullscreen notes (Esc to close)"
+                      >
+                        ⛶ Full screen
+                      </button>
+                    </div>
                     <textarea
                       id="sub-notes"
                       value={notes}
@@ -489,8 +447,32 @@ export default function ItemDetails() {
         </div>
       </form>
 
+      {notesFullscreen &&
+        createPortal(
+          <div className="fixed inset-0 z-[200] flex flex-col bg-[#0d1117]">
+            <div className="flex h-12 shrink-0 items-center justify-between border-b border-slate-700 bg-[#16161e] px-4">
+              <span className="text-sm font-medium text-slate-200">Notes · fullscreen</span>
+              <button
+                type="button"
+                onClick={() => setNotesFullscreen(false)}
+                className="rounded-lg bg-slate-800 px-4 py-1.5 text-sm text-slate-200 hover:bg-slate-700"
+              >
+                Done <kbd className="ml-1 text-slate-500">Esc</kbd>
+              </button>
+            </div>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              autoFocus
+              className="scrollbar-themed min-h-0 flex-1 resize-none border-0 bg-[#0d1117] p-6 text-base leading-relaxed text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-0"
+              placeholder="Approach, bugs, what to retry…"
+            />
+          </div>,
+          document.body
+        )}
+
       {/* History — full width below split */}
-      <section className="border-t border-slate-800 bg-[#0a0c10] px-4 py-8">
+      <section className="mt-2 border-t border-slate-800 bg-[#0a0c10] px-3 py-6 xs:px-4 sm:py-8">
         <h2 className="mb-4 text-lg font-semibold text-white">Submission history</h2>
         {sLoading ? (
           <p className="text-slate-400">Loading submissions…</p>
@@ -500,15 +482,30 @@ export default function ItemDetails() {
           </p>
         ) : (
           <ul className="space-y-4">
-            {subList.map((s) => (
+            {subList.map((s) => {
+              const fc = SUBMISSION_FLAG_COLORS.includes(s.flagColor)
+                ? s.flagColor
+                : 'none'
+              const borderL = submissionFlagLeftBorder(fc)
+              return (
               <li
                 key={s._id}
-                className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950/50"
+                className={`overflow-hidden rounded-xl border border-slate-800 bg-slate-950/50 ${
+                  fc === 'none' ? '' : `border-l-4 ${borderL}`
+                }`}
               >
                 <div className="flex flex-wrap items-center gap-2 border-b border-slate-800 bg-slate-900/70 px-3 py-2.5 text-xs">
                   {s.isStarred && (
                     <span className="text-amber-400" title="Starred">
                       ★
+                    </span>
+                  )}
+                  {fc && fc !== 'none' && (
+                    <span
+                      className={`rounded-md px-2 py-0.5 text-[10px] font-medium ring-1 ${submissionFlagColorStyles(fc)}`}
+                      title="Flag color"
+                    >
+                      {SUBMISSION_FLAG_COLOR_OPTIONS.find((o) => o.id === fc)?.label || fc}
                     </span>
                   )}
                   {resultBadge(s.resultStatus)}
@@ -582,7 +579,8 @@ export default function ItemDetails() {
                   </div>
                 )}
               </li>
-            ))}
+              )
+            })}
           </ul>
         )}
       </section>

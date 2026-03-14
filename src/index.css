@@ -5,10 +5,14 @@
 @source './**/*.{js,jsx}';
 
 @layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
   html,
   body,
   #root {
     min-height: 100%;
+    overflow-x: clip;
   }
 }
 

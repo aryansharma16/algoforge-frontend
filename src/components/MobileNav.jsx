@@ -114,6 +114,9 @@ export default function MobileNav() {
               <NavLink to="/settings" className={linkClass} onClick={() => setOpen(false)}>
                 Settings
               </NavLink>
+              <NavLink to="/about" className={linkClass} onClick={() => setOpen(false)}>
+                About
+              </NavLink>
               <NavLink to="/profile" className={linkClass} onClick={() => setOpen(false)}>
                 Profile
               </NavLink>

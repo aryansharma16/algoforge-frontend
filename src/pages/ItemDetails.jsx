@@ -73,6 +73,12 @@ export default function ItemDetails() {
   const [isStarred, setIsStarred] = useState(false)
   const [flagColor, setFlagColor] = useState('none')
   const [notesFullscreen, setNotesFullscreen] = useState(false)
+  const [justSaved, setJustSaved] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState({
+    method: '',
+    timeComplexity: '',
+    spaceComplexity: '',
+  })
 
   useEffect(() => {
     if (!notesFullscreen) return
@@ -85,17 +91,45 @@ export default function ItemDetails() {
     }
   }, [notesFullscreen])
 
+  function resetForm() {
+    setCode('')
+    setNotes('')
+    setTitle('')
+    setTags([])
+    setTimeComplexity('')
+    setSpaceComplexity('')
+    setExternalUrl('')
+    setResultStatus('unspecified')
+    setIsStarred(false)
+    setFlagColor('none')
+    setFieldErrors({ method: '', timeComplexity: '', spaceComplexity: '' })
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
+    const method = (solvingMethod || '').trim()
+    const tc = timeComplexity.trim()
+    const sc = spaceComplexity.trim()
+    const errors = {
+      method: !method ? 'Please select how you solved.' : '',
+      timeComplexity: !tc ? 'Time complexity is required.' : '',
+      spaceComplexity: !sc ? 'Space complexity is required.' : '',
+    }
+    setFieldErrors(errors)
+    if (errors.method || errors.timeComplexity || errors.spaceComplexity) {
+      toast.error('Please fix the errors below.')
+      return
+    }
+
     const body = {
       journeyId,
       itemId,
-      solvingMethod,
+      solvingMethod: method,
       language: language.trim() || 'java',
       languageVersion: languageVersion.trim(),
       code,
-      timeComplexity: timeComplexity.trim(),
-      spaceComplexity: spaceComplexity.trim(),
+      timeComplexity: tc,
+      spaceComplexity: sc,
       notes: notes.trim(),
       title: title.trim(),
       tags: Array.isArray(tags) ? tags : [],
@@ -109,16 +143,8 @@ export default function ItemDetails() {
 
     try {
       await createSubmission(body).unwrap()
-      setCode('')
-      setNotes('')
-      setTitle('')
-      setTags([])
-      setTimeComplexity('')
-      setSpaceComplexity('')
-      setExternalUrl('')
-      setResultStatus('unspecified')
-      setIsStarred(false)
-      setFlagColor('none')
+      resetForm()
+      setJustSaved(true)
       toast.success('Submission saved')
     } catch (err) {
       toast.error('Could not save submission', {
@@ -194,6 +220,27 @@ export default function ItemDetails() {
           {/* LEFT — metadata & outcome */}
           <aside className="scrollbar-themed max-h-[70dvh] overflow-y-auto border-b border-slate-200 bg-slate-50 sm:max-h-none lg:max-h-none lg:border-b-0 lg:border-r lg:border-slate-200 dark:border-slate-800 dark:bg-[#0d1117] dark:lg:border-slate-800">
             <div className="space-y-4 p-3 pb-20 xs:p-4 sm:space-y-5 sm:pb-24">
+              {justSaved ? (
+                <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white py-12 text-center dark:border-slate-700 dark:bg-slate-900/50">
+                  <p className="text-4xl font-medium text-emerald-600 dark:text-emerald-400" aria-hidden>
+                    ✓
+                  </p>
+                  <h2 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
+                    Thank you!
+                  </h2>
+                  <p className="mt-2 max-w-xs text-sm text-slate-600 dark:text-slate-400">
+                    Your submission was saved. Add another below or check history.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setJustSaved(false)}
+                    className="mt-6 rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-900/30 hover:bg-violet-500"
+                  >
+                    Add another submission
+                  </button>
+                </div>
+              ) : (
+                <>
               <div>
                 <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
                   Log submission
@@ -240,8 +287,11 @@ export default function ItemDetails() {
                     <select
                       id="sub-method"
                       value={solvingMethod}
-                      onChange={(e) => setSolvingMethod(e.target.value)}
-                      className="select-ide w-full"
+                      onChange={(e) => {
+                        setSolvingMethod(e.target.value)
+                        setFieldErrors((prev) => ({ ...prev, method: '' }))
+                      }}
+                      className={`select-ide w-full ${fieldErrors.method ? 'border-red-500 ring-1 ring-red-500/50' : ''}`}
                     >
                       {SOLVING_METHODS.map((m) => (
                         <option key={m.id} value={m.id} className="bg-[#16161e]">
@@ -249,6 +299,9 @@ export default function ItemDetails() {
                         </option>
                       ))}
                     </select>
+                    {fieldErrors.method && (
+                      <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.method}</p>
+                    )}
                   </div>
                   <div>
                     <FieldLabel htmlFor="sub-lang">Language</FieldLabel>
@@ -279,12 +332,15 @@ export default function ItemDetails() {
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <FieldLabel htmlFor="sub-tc">Time</FieldLabel>
+                      <FieldLabel htmlFor="sub-tc">Time complexity</FieldLabel>
                       <select
                         id="sub-tc"
                         value={timeComplexity}
-                        onChange={(e) => setTimeComplexity(e.target.value)}
-                        className="select-ide w-full max-w-full text-[11px]"
+                        onChange={(e) => {
+                          setTimeComplexity(e.target.value)
+                          setFieldErrors((prev) => ({ ...prev, timeComplexity: '' }))
+                        }}
+                        className={`select-ide w-full max-w-full text-[11px] ${fieldErrors.timeComplexity ? 'border-red-500 ring-1 ring-red-500/50' : ''}`}
                       >
                         {COMPLEXITY_OPTIONS.map((o) => (
                           <option key={o || 'e'} value={o} className="bg-[#16161e]">
@@ -292,14 +348,20 @@ export default function ItemDetails() {
                           </option>
                         ))}
                       </select>
+                      {fieldErrors.timeComplexity && (
+                        <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.timeComplexity}</p>
+                      )}
                     </div>
                     <div>
-                      <FieldLabel htmlFor="sub-sc">Space</FieldLabel>
+                      <FieldLabel htmlFor="sub-sc">Space complexity</FieldLabel>
                       <select
                         id="sub-sc"
                         value={spaceComplexity}
-                        onChange={(e) => setSpaceComplexity(e.target.value)}
-                        className="select-ide w-full max-w-full text-[11px]"
+                        onChange={(e) => {
+                          setSpaceComplexity(e.target.value)
+                          setFieldErrors((prev) => ({ ...prev, spaceComplexity: '' }))
+                        }}
+                        className={`select-ide w-full max-w-full text-[11px] ${fieldErrors.spaceComplexity ? 'border-red-500 ring-1 ring-red-500/50' : ''}`}
                       >
                         {COMPLEXITY_OPTIONS.map((o) => (
                           <option key={`s-${o || 'e'}`} value={o} className="bg-[#16161e]">
@@ -307,6 +369,9 @@ export default function ItemDetails() {
                           </option>
                         ))}
                       </select>
+                      {fieldErrors.spaceComplexity && (
+                        <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.spaceComplexity}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -421,6 +486,8 @@ export default function ItemDetails() {
               >
                 {submitting ? 'Saving…' : 'Save submission'}
               </button>
+                </>
+              )}
             </div>
           </aside>
 

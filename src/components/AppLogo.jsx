@@ -25,7 +25,7 @@ export default function AppLogo({ size = 36, showWordmark = false, className = '
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
       <AppLogoMark size={size} />
-      <span className="bg-gradient-to-r from-violet-300 to-fuchsia-300 bg-clip-text text-lg font-bold tracking-tight text-transparent">
+      <span className="bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-violet-300 dark:to-fuchsia-300">
         AlgoForge
       </span>
     </div>

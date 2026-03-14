@@ -31,6 +31,14 @@ function IconSettings({ className }) {
     </svg>
   )
 }
+function IconAbout({ className }) {
+  return (
+    <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 16v-4M12 8h.01" />
+    </svg>
+  )
+}
 function IconLogout({ className }) {
   return (
     <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
@@ -109,6 +117,15 @@ export default function Sidebar() {
           >
             <IconSettings className="shrink-0 text-current" />
             <span>Settings</span>
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `${itemBase} ${isActive ? active : inactive}`
+            }
+          >
+            <IconAbout className="shrink-0 text-current" />
+            <span>About</span>
           </NavLink>
         </div>
       </nav>

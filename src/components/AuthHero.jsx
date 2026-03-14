@@ -39,15 +39,15 @@ function IconCheck() {
 
 export default function AuthHero() {
   const features = [
-    'Track progress across all your journeys',
-    'Structured paths from basics to advanced',
-    'Practice with real algorithm challenges',
+    'One place for DSA, system design, coding & more',
+    'Organize by goals — placements, interviews, learning',
+    'Log solutions, track streaks, and see real progress',
   ]
 
   const cards = [
     { label: 'Progress', value: '—', Icon: IconProgress },
     { label: 'Journeys', value: '—', Icon: IconJourneys },
-    { label: 'Challenges', value: '—', Icon: IconChallenges },
+    { label: 'Items', value: '—', Icon: IconChallenges },
   ]
 
   return (
@@ -69,10 +69,10 @@ export default function AuthHero() {
         {/* Headline block */}
         <div className="space-y-3">
           <h2 className="text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-[1.75rem] xl:text-3xl">
-            Level up your algorithm skills.
+            Your tech prep, organized.
           </h2>
-          <p className="max-w-md text-sm leading-relaxed text-white/85 sm:text-base">
-            Sign in to track your progress, manage journeys, and practice with structured challenges.
+          <p className="max-w-md text-sm leading-relaxed text-white/90 sm:text-base">
+            From DSA and system design to coding practice — build journeys, add problems & topics, and track everything in one place.
           </p>
         </div>
 

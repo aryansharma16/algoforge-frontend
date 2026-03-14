@@ -30,6 +30,44 @@
  * Thin scrollbars matching dark + violet theme.
  * Hides fat OS scrollbars; uses 5px thumb on WebKit, thin on Firefox.
  */
+/* Auth card: thin multicolor gradient border + little boundary shadow (no animation) */
+.auth-card-glow {
+  position: relative;
+  padding: 1px;
+  border-radius: 0.75rem;
+  /* Thin bright gradient line at boundaries */
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    #f9a8d4,
+    #fdba74,
+    #fde047,
+    #a78bfa,
+    #c084fc,
+    #f9a8d4
+  );
+  /* Little shadow at the edges */
+  box-shadow: 0 8px 24px -8px rgba(139, 92, 246, 0.2);
+}
+
+.dark .auth-card-glow {
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    #f472b6,
+    #fb923c,
+    #facc15,
+    #a78bfa,
+    #c084fc,
+    #f472b6
+  );
+  box-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.4);
+}
+
+.auth-card-inner {
+  position: relative;
+  z-index: 1;
+  border-radius: calc(0.75rem - 1px);
+}
+
 @layer utilities {
   .scrollbar-themed {
     scrollbar-width: thin;

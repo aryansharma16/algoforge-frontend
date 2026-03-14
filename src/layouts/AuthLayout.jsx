@@ -5,14 +5,16 @@ import AuthHero from '../components/AuthHero'
 export default function AuthLayout() {
   return (
     <div className="flex h-[100dvh] max-h-[100dvh] w-full flex-col overflow-hidden bg-slate-100 dark:bg-slate-950 md:flex-row">
-      {/* Left: form — centered card + footer, no page scroll */}
+      {/* Left: form — centered card with running gradient border + boundary glow */}
       <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden px-4 py-4 sm:px-6 sm:py-6 md:py-8">
         <div className="flex w-full max-w-[400px] flex-1 flex-col items-center justify-center">
-          <div className="w-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/95 sm:p-8 md:shadow-md">
-            <header className="mb-6">
-              <AppLogo size={32} showWordmark className="font-semibold" />
-            </header>
-            <Outlet />
+          <div className="auth-card-glow w-full">
+            <div className="auth-card-inner w-full bg-white p-6 dark:bg-slate-900/95 sm:p-8">
+              <header className="mb-6">
+                <AppLogo size={32} showWordmark className="font-semibold" />
+              </header>
+              <Outlet />
+            </div>
           </div>
         </div>
         <footer className="shrink-0 w-full max-w-[400px] py-3">

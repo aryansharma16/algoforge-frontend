@@ -15,6 +15,8 @@ import EditItem from '../pages/EditItem'
 import Profile from '../pages/Profile'
 import Settings from '../pages/Settings'
 import About from '../pages/About'
+import PrivacyPolicy from '../pages/PrivacyPolicy'
+import TermsOfService from '../pages/TermsOfService'
 
 function RequireAuth() {
   const token = useSelector((s) => s.auth.token)
@@ -30,6 +32,8 @@ function GuestOnly() {
 
 export default function Router() {
   return useRoutes([
+    { path: '/privacy-policy', element: <PrivacyPolicy /> },
+    { path: '/terms', element: <TermsOfService /> },
     {
       path: '/login',
       element: <GuestOnly />,

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useGetJourneysQuery, useDeleteJourneyMutation } from '../api/journeyApi'
 import JourneyCard from '../components/JourneyCard'
@@ -88,6 +88,10 @@ export default function Journeys() {
   const [menuOpen, setMenuOpen] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
 
+  const list = Array.isArray(data) ? data : []
+  const filtered = filterAndSortJourneys(list, search, typeFilter, statusFilter, sortBy, sortDir)
+  const hasFilters = search.trim() || typeFilter !== 'all' || statusFilter !== 'all'
+
   async function confirmDelete() {
     if (!deleteTarget?._id) return
     try {
@@ -121,15 +125,6 @@ export default function Journeys() {
       </p>
     )
   }
-
-  const list = Array.isArray(data) ? data : []
-  const filtered = useMemo(
-    () =>
-      filterAndSortJourneys(list, search, typeFilter, statusFilter, sortBy, sortDir),
-    [list, search, typeFilter, statusFilter, sortBy, sortDir]
-  )
-
-  const hasFilters = search.trim() || typeFilter !== 'all' || statusFilter !== 'all'
 
   return (
     <div>

@@ -3,9 +3,9 @@ import countriesData from '../data/geo/countries.json'
 import indiaData from '../data/geo/india-states-cities.json'
 
 const selectClass =
-  'w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500'
+  'w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100'
 const inputClass =
-  'w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 placeholder:text-slate-600 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500'
+  'w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600'
 
 export default function ProfileLocationFields({
   userKey,
@@ -38,11 +38,11 @@ export default function ProfileLocationFields({
   const cityInList = isIndia && stateCode && citiesForState.includes(city)
 
   return (
-    <div className="space-y-4 rounded-xl border border-slate-800/80 bg-slate-950/30 p-4 sm:p-5">
+    <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800/80 dark:bg-slate-950/30 sm:p-5">
       <div>
-        <h3 className="text-sm font-semibold text-slate-200">Location</h3>
-        <p className="mt-1 text-xs text-slate-500">
-          Defaults to <strong className="text-slate-400">India</strong>. Then state
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-200">Location</h3>
+        <p className="mt-1 text-xs text-slate-600 dark:text-slate-500">
+          Defaults to <strong className="text-slate-700 dark:text-slate-400">India</strong>. Then state
           (e.g. Punjab) → city. Other countries: type state and city.
         </p>
       </div>

@@ -2,11 +2,11 @@ import { useGetDashboardQuery } from '../api/dashboardApi'
 
 function Stat({ label, value }) {
   return (
-    <div className="rounded-2xl border border-slate-800/80 bg-slate-900/70 p-5 shadow-sm transition hover:border-slate-700 hover:bg-slate-900/90">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-slate-300 dark:border-slate-800/80 dark:bg-slate-900/70 dark:hover:border-slate-700 dark:hover:bg-slate-900/90">
       <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
         {label}
       </p>
-      <p className="mt-2 text-3xl font-semibold tabular-nums tracking-tight text-white sm:text-4xl">
+      <p className="mt-2 text-3xl font-semibold tabular-nums tracking-tight text-slate-900 dark:text-white sm:text-4xl">
         {value ?? '—'}
       </p>
     </div>
@@ -17,7 +17,9 @@ export default function Dashboard() {
   const { data, isLoading, isError, error } = useGetDashboardQuery()
 
   if (isLoading) {
-    return <p className="text-slate-400">Loading dashboard…</p>
+    return (
+      <p className="text-slate-600 dark:text-slate-400">Loading dashboard…</p>
+    )
   }
   if (isError) {
     return (
@@ -35,11 +37,11 @@ export default function Dashboard() {
 
   return (
     <div className="w-full space-y-10">
-      <header className="border-b border-slate-800/60 pb-6 sm:pb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
+      <header className="border-b border-slate-200 pb-6 dark:border-slate-800/60 sm:pb-8">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl md:text-4xl">
           Dashboard
         </h1>
-        <p className="mt-2 max-w-2xl text-base text-slate-400">
+        <p className="mt-2 max-w-2xl text-base text-slate-600 dark:text-slate-400">
           Overview of your preparation activity
         </p>
       </header>
@@ -60,29 +62,31 @@ export default function Dashboard() {
         <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
           Active journey
         </h2>
-        <div className="w-full rounded-2xl border border-slate-800/80 bg-slate-900/60 p-6 shadow-sm sm:p-8">
-          <p className="text-xl font-semibold text-white sm:text-2xl">
+        <div className="w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800/80 dark:bg-slate-900/60 sm:p-8">
+          <p className="text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
             {active?.title ?? 'No active journey'}
           </p>
           {active?.status && (
-            <p className="mt-2 text-sm capitalize text-violet-300/90">{active.status}</p>
+            <p className="mt-2 text-sm capitalize text-violet-600 dark:text-violet-300/90">
+              {active.status}
+            </p>
           )}
-          <div className="mt-6 grid w-full gap-6 border-t border-slate-800/80 pt-6 sm:grid-cols-3 lg:gap-10">
+          <div className="mt-6 grid w-full gap-6 border-t border-slate-200 pt-6 dark:border-slate-800/80 sm:grid-cols-3 lg:gap-10">
             <div>
               <span className="text-sm text-slate-500">Completed items</span>
-              <p className="mt-1 text-2xl font-semibold text-white">
+              <p className="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                 {journey.completedItems ?? '—'}
               </p>
             </div>
             <div>
               <span className="text-sm text-slate-500">Remaining items</span>
-              <p className="mt-1 text-2xl font-semibold text-white">
+              <p className="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                 {journey.remainingItems ?? '—'}
               </p>
             </div>
             <div>
               <span className="text-sm text-slate-500">Target items</span>
-              <p className="mt-1 text-2xl font-semibold text-white">
+              <p className="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                 {journey.targetItems ?? active?.targetItems ?? '—'}
               </p>
             </div>
@@ -98,8 +102,10 @@ export default function Dashboard() {
           <Stat label="Today submissions" value={activity.todaySubmissions} />
           <Stat label="Weekly submissions" value={activity.weeklySubmissions} />
         </div>
-        <h3 className="mb-3 text-sm font-semibold text-slate-300">Recent activity</h3>
-        <ul className="w-full divide-y divide-slate-800 rounded-2xl border border-slate-800/80 bg-slate-900/50">
+        <h3 className="mb-3 text-sm font-semibold text-slate-700 dark:text-slate-300">
+          Recent activity
+        </h3>
+        <ul className="w-full divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white dark:divide-slate-800 dark:border-slate-800/80 dark:bg-slate-900/50">
           {(activity.recentActivity ?? []).length === 0 ? (
             <li className="p-6 text-sm text-slate-500">No recent submissions</li>
           ) : (
@@ -109,13 +115,13 @@ export default function Dashboard() {
                 className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 lg:p-6"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold text-white">
+                  <p className="font-semibold text-slate-900 dark:text-white">
                     {row.itemTitle ?? 'Item'}
                   </p>
                   <p className="mt-0.5 text-sm text-slate-500">{row.journeyTitle}</p>
                 </div>
                 <div className="shrink-0 text-left sm:text-right">
-                  <span className="font-medium capitalize text-violet-400">
+                  <span className="font-medium capitalize text-violet-600 dark:text-violet-400">
                     {row.solvingMethod?.replace(/_/g, ' ')}
                   </span>
                   <p className="mt-1 text-xs text-slate-500">

@@ -19,10 +19,14 @@ const VIEWS = [
 function statusPillClass(status) {
   const s = String(status || 'pending').toLowerCase()
   const map = {
-    pending: 'bg-slate-700/60 text-slate-200 ring-slate-500/30',
-    in_progress: 'bg-amber-500/20 text-amber-100 ring-amber-400/35',
-    completed: 'bg-emerald-500/20 text-emerald-100 ring-emerald-400/35',
-    skipped: 'bg-slate-600/25 text-slate-400 ring-slate-500/25',
+    pending:
+      'bg-slate-200 text-slate-800 ring-slate-300 dark:bg-slate-700/60 dark:text-slate-200 dark:ring-slate-500/30',
+    in_progress:
+      'bg-amber-100 text-amber-900 ring-amber-300 dark:bg-amber-500/20 dark:text-amber-100 dark:ring-amber-400/35',
+    completed:
+      'bg-emerald-100 text-emerald-900 ring-emerald-300 dark:bg-emerald-500/20 dark:text-emerald-100 dark:ring-emerald-400/35',
+    skipped:
+      'bg-slate-200 text-slate-600 ring-slate-300 dark:bg-slate-600/25 dark:text-slate-400 dark:ring-slate-500/25',
   }
   return map[s] || map.pending
 }
@@ -162,7 +166,7 @@ function ToggleChip({ active, onClick, children }) {
       className={`rounded-lg px-2.5 py-1.5 text-[11px] font-medium transition ${
         active
           ? 'bg-violet-600 text-white shadow-sm shadow-violet-900/40'
-          : 'bg-[#16161e] text-slate-400 ring-1 ring-slate-700/80 hover:bg-slate-800 hover:text-slate-200'
+          : 'bg-slate-100 text-slate-600 ring-1 ring-slate-200 hover:bg-slate-200 hover:text-slate-900 dark:bg-[#16161e] dark:text-slate-400 dark:ring-slate-700/80 dark:hover:bg-slate-800 dark:hover:text-slate-200'
       }`}
     >
       {children}
@@ -286,11 +290,11 @@ export default function JourneyItemsSection({
 
   if (loading) {
     return (
-      <div className="mt-10 flex items-center gap-3 rounded-2xl border border-slate-800/80 bg-[#0d1117] px-6 py-10">
+      <div className="mt-10 flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-6 py-10 dark:border-slate-800/80 dark:bg-[#0d1117]">
         <span className="h-8 w-8 animate-pulse rounded-full bg-violet-500/20" />
         <div className="space-y-2">
-          <div className="h-4 w-32 animate-pulse rounded bg-slate-800" />
-          <div className="h-3 w-48 animate-pulse rounded bg-slate-800/80" />
+          <div className="h-4 w-32 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
+          <div className="h-3 w-48 animate-pulse rounded bg-slate-100 dark:bg-slate-800/80" />
         </div>
       </div>
     )
@@ -302,9 +306,9 @@ export default function JourneyItemsSection({
   const d = draft
 
   return (
-    <section className="mt-8 min-w-0 overflow-hidden rounded-xl border border-slate-800/90 bg-[#0a0c10] shadow-xl ring-1 ring-black/20 sm:mt-10 md:mt-12 sm:rounded-2xl">
+    <section className="mt-8 min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg ring-1 ring-slate-200/80 dark:border-slate-800/90 dark:bg-[#0a0c10] dark:shadow-xl dark:ring-black/20 sm:mt-10 md:mt-12 sm:rounded-2xl">
       {/* Header strip */}
-      <div className="relative border-b border-slate-800/90 bg-gradient-to-r from-[#12151c] via-[#0d1117] to-[#12151c] px-4 py-5 sm:px-6">
+      <div className="relative border-b border-slate-200 bg-gradient-to-r from-slate-50 via-white to-slate-50 px-4 py-5 dark:border-slate-800/90 dark:from-[#12151c] dark:via-[#0d1117] dark:to-[#12151c] sm:px-6">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.06]"
           style={{
@@ -315,29 +319,31 @@ export default function JourneyItemsSection({
         <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-500/15 text-lg text-violet-300 ring-1 ring-violet-500/25">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-100 text-lg text-violet-700 ring-1 ring-violet-200 dark:bg-violet-500/15 dark:text-violet-300 dark:ring-violet-500/25">
                 ≡
               </span>
-              <h2 className="text-xl font-semibold tracking-tight text-white">Items</h2>
+              <h2 className="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">
+                Items
+              </h2>
             </div>
-            <p className="mt-2 max-w-xl text-sm text-slate-500">
+            <p className="mt-2 max-w-xl text-sm text-slate-600 dark:text-slate-500">
               Search, filter, and open items. Layout changes how dense the grid feels.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-lg bg-slate-800/80 px-3 py-1.5 text-xs font-medium text-slate-300 ring-1 ring-slate-700/80">
+            <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-slate-200 dark:bg-slate-800/80 dark:text-slate-300 dark:ring-slate-700/80">
               {list.length} total
             </span>
             <span
               className={`rounded-lg px-3 py-1.5 text-xs font-medium ring-1 ${
                 sorted.length < list.length
-                  ? 'bg-violet-950/50 text-violet-200 ring-violet-500/30'
-                  : 'bg-slate-800/80 text-slate-400 ring-slate-700/80'
+                  ? 'bg-violet-100 text-violet-900 ring-violet-300 dark:bg-violet-950/50 dark:text-violet-200 dark:ring-violet-500/30'
+                  : 'bg-slate-100 text-slate-600 ring-slate-200 dark:bg-slate-800/80 dark:text-slate-400 dark:ring-slate-700/80'
               }`}
             >
               {sorted.length} shown
             </span>
-            <span className="rounded-lg bg-emerald-950/30 px-3 py-1.5 text-xs font-medium text-emerald-400/90 ring-1 ring-emerald-500/20">
+            <span className="rounded-lg bg-emerald-100 px-3 py-1.5 text-xs font-medium text-emerald-800 ring-emerald-300 dark:bg-emerald-950/30 dark:text-emerald-400/90 dark:ring-emerald-500/20">
               {completedCount} done
             </span>
           </div>
@@ -345,7 +351,7 @@ export default function JourneyItemsSection({
       </div>
 
       {/* Toolbar */}
-      <div className="border-b border-slate-800/80 bg-[#0d1117] px-3 py-3 sm:px-4">
+      <div className="border-b border-slate-200 bg-slate-50 px-3 py-3 dark:border-slate-800/80 dark:bg-[#0d1117] sm:px-4">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-4">
           <div className="relative min-w-0 flex-1">
             <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">
@@ -363,13 +369,13 @@ export default function JourneyItemsSection({
               placeholder="Search title, description, notes…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-slate-700/80 bg-[#16161e] py-2.5 pl-10 pr-3 text-sm text-slate-100 placeholder:text-slate-600 focus:border-violet-500/40 focus:outline-none focus:ring-1 focus:ring-violet-500/25"
+              className="w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-500 focus:border-violet-500/40 focus:outline-none focus:ring-1 focus:ring-violet-500/25 dark:border-slate-700/80 dark:bg-[#16161e] dark:text-slate-100 dark:placeholder:text-slate-600"
             />
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             {/* Layout segments */}
-            <div className="flex max-w-full snap-x snap-mandatory overflow-x-auto rounded-xl border border-slate-700/80 bg-[#16161e] p-1 scrollbar-themed sm:snap-none sm:flex-wrap">
+            <div className="flex max-w-full snap-x snap-mandatory overflow-x-auto rounded-xl border border-slate-300 bg-white p-1 scrollbar-themed dark:border-slate-700/80 dark:bg-[#16161e] sm:snap-none sm:flex-wrap">
               {VIEWS.map((v) => (
                 <button
                   key={v.id}
@@ -379,7 +385,7 @@ export default function JourneyItemsSection({
                   className={`shrink-0 snap-start rounded-lg px-2.5 py-1.5 text-[11px] font-medium transition sm:px-3 sm:text-xs ${
                     view === v.id
                       ? 'bg-violet-600 text-white shadow-md shadow-violet-900/30'
-                      : 'text-slate-400 hover:text-slate-200'
+                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
                   }`}
                 >
                   {v.label}
@@ -403,7 +409,7 @@ export default function JourneyItemsSection({
                 type="button"
                 title={sortDir === 'asc' ? 'Ascending' : 'Descending'}
                 onClick={() => setSortDir((x) => (x === 'asc' ? 'desc' : 'asc'))}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-600 bg-[#16161e] text-slate-300 hover:border-violet-500/40 hover:text-white"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-700 hover:border-violet-500/40 hover:text-violet-700 dark:border-slate-600 dark:bg-[#16161e] dark:text-slate-300 dark:hover:text-white"
               >
                 {sortDir === 'asc' ? '↑' : '↓'}
               </button>
@@ -414,7 +420,7 @@ export default function JourneyItemsSection({
                   className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-medium ${
                     filterBadge
                       ? 'border-violet-500/50 bg-violet-950/40 text-violet-100'
-                      : 'border-slate-600 bg-[#16161e] text-slate-300 hover:border-slate-500'
+                      : 'border-slate-300 bg-white text-slate-700 hover:border-slate-400 dark:border-slate-600 dark:bg-[#16161e] dark:text-slate-300 dark:hover:border-slate-500'
                   }`}
                 >
                   Filters
@@ -426,7 +432,7 @@ export default function JourneyItemsSection({
                   <span className="text-slate-500">{filtersOpen ? '▲' : '▼'}</span>
                 </button>
                 {filtersOpen && (
-                  <div className="scrollbar-themed absolute right-0 top-full z-30 mt-2 w-[min(100vw-2rem,24rem)] max-h-[min(70vh,28rem)] overflow-y-auto rounded-xl border border-slate-600 bg-[#16161e] p-4 shadow-2xl ring-1 ring-black/50 sm:w-[22rem]">
+                  <div className="scrollbar-themed absolute right-0 top-full z-30 mt-2 w-[min(100vw-2rem,24rem)] max-h-[min(70vh,28rem)] overflow-y-auto rounded-xl border border-slate-200 bg-white p-4 shadow-2xl ring-1 ring-slate-200 dark:border-slate-600 dark:bg-[#16161e] dark:ring-black/50 sm:w-[22rem]">
                     <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                       Filter items
                     </p>
@@ -608,11 +614,11 @@ export default function JourneyItemsSection({
                                 minSubmissions: e.target.value,
                               }))
                             }
-                            className="w-full rounded-lg border border-slate-600 bg-[#0d1117] px-2 py-2 text-sm text-slate-200"
+                            className="w-full rounded-lg border border-slate-300 bg-white px-2 py-2 text-sm text-slate-900 dark:border-slate-600 dark:bg-[#0d1117] dark:text-slate-200"
                           />
                         </div>
                       </div>
-                      <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-400">
+                      <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                         <input
                           type="checkbox"
                           checked={d.revisionOnly}
@@ -622,12 +628,12 @@ export default function JourneyItemsSection({
                               revisionOnly: e.target.checked,
                             }))
                           }
-                          className="rounded border-slate-600"
+                          className="rounded border-slate-400 dark:border-slate-600"
                         />
                         Revision required only
                       </label>
                     </div>
-                    <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-800 pt-4">
+                    <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-200 pt-4 dark:border-slate-800">
                       <button
                         type="button"
                         onClick={applyFilters}
@@ -638,14 +644,14 @@ export default function JourneyItemsSection({
                       <button
                         type="button"
                         onClick={clearAppliedAndDraft}
-                        className="rounded-lg border border-slate-600 px-4 py-2 text-sm text-slate-300 hover:bg-slate-800"
+                        className="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
                       >
                         Clear all
                       </button>
                       <button
                         type="button"
                         onClick={() => setFiltersOpen(false)}
-                        className="ml-auto rounded-lg px-3 py-2 text-sm text-slate-500 hover:text-white"
+                        className="ml-auto rounded-lg px-3 py-2 text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white"
                       >
                         Close
                       </button>
@@ -666,10 +672,10 @@ export default function JourneyItemsSection({
                   <span className="opacity-80">▼</span>
                 </button>
                 {addOpen && (
-                  <div className="absolute right-0 top-full z-30 mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-slate-600 bg-[#16161e] py-1 shadow-xl ring-1 ring-black/40">
+                  <div className="absolute right-0 top-full z-30 mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-xl ring-1 ring-slate-200 dark:border-slate-600 dark:bg-[#16161e] dark:ring-black/40">
                     <button
                       type="button"
-                      className="block w-full px-4 py-2.5 text-left text-sm text-slate-200 hover:bg-violet-600/20 hover:text-white"
+                      className="block w-full px-4 py-2.5 text-left text-sm text-slate-800 hover:bg-violet-100 hover:text-violet-900 dark:text-slate-200 dark:hover:bg-violet-600/20 dark:hover:text-white"
                       onClick={() => {
                         setAddOpen(false)
                         onCreateClick()
@@ -686,17 +692,17 @@ export default function JourneyItemsSection({
       </div>
 
       {/* Content area */}
-      <div className="bg-[#0a0c10] p-4 sm:p-5">
+      <div className="bg-slate-50 p-4 dark:bg-[#0a0c10] sm:p-5">
         {sorted.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-slate-700/80 bg-[#0d1117]/80 px-6 py-14 text-center">
-            <p className="text-slate-400">Nothing matches search or filters.</p>
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center dark:border-slate-700/80 dark:bg-[#0d1117]/80">
+            <p className="text-slate-600 dark:text-slate-400">Nothing matches search or filters.</p>
             <button
               type="button"
               onClick={() => {
                 setSearch('')
                 clearAppliedAndDraft()
               }}
-              className="mt-4 rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-violet-300 hover:bg-slate-700"
+              className="mt-4 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-violet-700 hover:bg-slate-50 dark:border-0 dark:bg-slate-800 dark:text-violet-300 dark:hover:bg-slate-700"
             >
               Clear search & filters
             </button>
@@ -707,12 +713,12 @@ export default function JourneyItemsSection({
               <li key={item._id}>
                 <Link
                   to={`${base}/${item._id}`}
-                  className="group flex aspect-square max-h-[9.5rem] flex-col items-center justify-center rounded-2xl border border-slate-800/90 bg-gradient-to-b from-[#16161e] to-[#0d1117] p-3 text-center shadow-lg shadow-black/20 transition hover:border-violet-500/45 hover:shadow-violet-950/20"
+                  className="group flex aspect-square max-h-[9.5rem] flex-col items-center justify-center rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-3 text-center shadow-md transition hover:border-violet-400 hover:shadow-violet-200/50 dark:border-slate-800/90 dark:from-[#16161e] dark:to-[#0d1117] dark:shadow-black/20 dark:hover:border-violet-500/45 dark:hover:shadow-violet-950/20"
                 >
-                  <span className="text-2xl text-violet-400/90 transition group-hover:scale-110">
+                  <span className="text-2xl text-violet-600 transition group-hover:scale-110 dark:text-violet-400/90">
                     {typeIcon(item.type)}
                   </span>
-                  <span className="mt-2 line-clamp-2 text-xs font-semibold text-white">
+                  <span className="mt-2 line-clamp-2 text-xs font-semibold text-slate-900 dark:text-white">
                     {item.title}
                   </span>
                   <span
@@ -730,20 +736,20 @@ export default function JourneyItemsSection({
               <li key={item._id}>
                 <Link
                   to={`${base}/${item._id}`}
-                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800/90 bg-gradient-to-b from-[#141820] to-[#0d1117] p-0 shadow-lg shadow-black/25 transition hover:border-violet-500/35 hover:shadow-violet-950/10"
+                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-0 shadow-md transition hover:border-violet-300 hover:shadow-md dark:border-slate-800/90 dark:from-[#141820] dark:to-[#0d1117] dark:shadow-black/25 dark:hover:border-violet-500/35 dark:hover:shadow-violet-950/10"
                 >
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-500/25 to-transparent opacity-0 transition group-hover:opacity-100" />
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/40 to-transparent opacity-0 transition group-hover:opacity-100 dark:via-violet-500/25" />
                   <div className="flex flex-1 flex-col p-4">
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex min-w-0 flex-1 items-start gap-3">
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-lg text-violet-300 ring-1 ring-violet-500/20">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-lg text-violet-700 ring-1 ring-violet-200 dark:bg-violet-500/10 dark:text-violet-300 dark:ring-violet-500/20">
                           {typeIcon(item.type)}
                         </span>
                         <div className="min-w-0 flex-1">
-                          <h3 className="line-clamp-2 font-semibold leading-snug text-white group-hover:text-violet-100">
+                          <h3 className="line-clamp-2 font-semibold leading-snug text-slate-900 group-hover:text-violet-800 dark:text-white dark:group-hover:text-violet-100">
                             {item.title}
                           </h3>
-                          <p className="mt-1 text-[11px] text-slate-500">
+                          <p className="mt-1 text-[11px] text-slate-600 dark:text-slate-500">
                             {ITEM_TYPE_LABELS[item.type] || item.type}
                             {item.platform ? ` · ${item.platform}` : ''}
                           </p>
@@ -756,15 +762,15 @@ export default function JourneyItemsSection({
                       </span>
                     </div>
                     {item.description && (
-                      <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-slate-500">
+                      <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-slate-600 dark:text-slate-500">
                         {item.description}
                       </p>
                     )}
-                    <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-800/80 pt-3">
-                      <span className="rounded-md bg-slate-800/80 px-2 py-1 font-mono text-[10px] text-slate-400">
+                    <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-200 pt-3 dark:border-slate-800/80">
+                      <span className="rounded-md bg-slate-100 px-2 py-1 font-mono text-[10px] text-slate-600 dark:bg-slate-800/80 dark:text-slate-400">
                         #{item.orderIndex ?? 0}
                       </span>
-                      <span className="rounded-md bg-slate-800/80 px-2 py-1 text-[10px] text-slate-400">
+                      <span className="rounded-md bg-slate-100 px-2 py-1 text-[10px] text-slate-600 dark:bg-slate-800/80 dark:text-slate-400">
                         {item.submissionCount ?? 0} submissions
                       </span>
                     </div>
@@ -773,20 +779,20 @@ export default function JourneyItemsSection({
                         {item.tags.slice(0, 4).map((tag) => (
                           <span
                             key={tag}
-                            className="rounded-md bg-violet-950/40 px-1.5 py-0.5 text-[10px] text-violet-300/95 ring-1 ring-violet-500/15"
+                            className="rounded-md bg-violet-100 px-1.5 py-0.5 text-[10px] text-violet-800 ring-1 ring-violet-200 dark:bg-violet-950/40 dark:text-violet-300/95 dark:ring-violet-500/15"
                           >
                             {tag}
                           </span>
                         ))}
                         {item.tags.length > 4 && (
-                          <span className="text-[10px] text-slate-600">
+                          <span className="text-[10px] text-slate-500 dark:text-slate-600">
                             +{item.tags.length - 4}
                           </span>
                         )}
                       </div>
                     )}
                   </div>
-                  <div className="flex items-center justify-between border-t border-slate-800/80 bg-black/20 px-4 py-2.5 text-[11px] text-violet-400/80">
+                  <div className="flex items-center justify-between border-t border-slate-200 bg-slate-100/80 px-4 py-2.5 text-[11px] text-violet-700 dark:border-slate-800/80 dark:bg-black/20 dark:text-violet-400/80">
                     <span>Open item</span>
                     <span className="transition group-hover:translate-x-0.5">→</span>
                   </div>
@@ -800,14 +806,14 @@ export default function JourneyItemsSection({
               <li key={item._id}>
                 <Link
                   to={`${base}/${item._id}`}
-                  className="block rounded-2xl border border-slate-800/90 bg-gradient-to-br from-[#12151c] to-[#0a0c10] p-5 shadow-lg transition hover:border-violet-500/30 hover:shadow-violet-950/5 sm:p-6"
+                  className="block rounded-2xl border border-slate-200 bg-white p-5 shadow-md transition hover:border-violet-300 sm:p-6 dark:border-slate-800/90 dark:bg-gradient-to-br dark:from-[#12151c] dark:to-[#0a0c10] dark:shadow-lg dark:hover:border-violet-500/30 dark:hover:shadow-violet-950/5"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-violet-400">{typeIcon(item.type)}</span>
-                        <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-                        <span className="rounded-lg bg-slate-800 px-2 py-0.5 text-[10px] text-slate-400">
+                        <span className="text-violet-600 dark:text-violet-400">{typeIcon(item.type)}</span>
+                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{item.title}</h3>
+                        <span className="rounded-lg bg-slate-100 px-2 py-0.5 text-[10px] text-slate-600 dark:bg-slate-800 dark:text-slate-400">
                           {ITEM_TYPE_LABELS[item.type]}
                         </span>
                         <span
@@ -817,22 +823,22 @@ export default function JourneyItemsSection({
                         </span>
                       </div>
                       {item.description && (
-                        <p className="mt-2 line-clamp-2 text-sm text-slate-400">
+                        <p className="mt-2 line-clamp-2 text-sm text-slate-600 dark:text-slate-400">
                           {item.description}
                         </p>
                       )}
                     </div>
                     <div className="shrink-0 text-right text-xs text-slate-500">
-                      <div className="rounded-lg bg-slate-800/50 px-2 py-1 font-mono">
+                      <div className="rounded-lg bg-slate-100 px-2 py-1 font-mono dark:bg-slate-800/50">
                         Order #{item.orderIndex ?? 0}
                       </div>
                       <div className="mt-1">Created {formatShort(item.createdAt)}</div>
                     </div>
                   </div>
                   <div className="mt-4 grid gap-2 text-xs sm:grid-cols-2 lg:grid-cols-4">
-                    <div className="rounded-xl bg-[#0d1117] px-3 py-2.5 ring-1 ring-slate-800">
+                    <div className="rounded-xl bg-slate-50 px-3 py-2.5 ring-1 ring-slate-200 dark:bg-[#0d1117] dark:ring-slate-800">
                       <span className="text-slate-500">Submissions</span>
-                      <span className="ml-2 font-mono text-slate-200">
+                      <span className="ml-2 font-mono text-slate-800 dark:text-slate-200">
                         {item.submissionCount ?? 0}
                       </span>
                       {item.lastSubmissionAt && (
@@ -842,9 +848,9 @@ export default function JourneyItemsSection({
                       )}
                     </div>
                     {(item.platform || item.platformUrl) && (
-                      <div className="rounded-xl bg-[#0d1117] px-3 py-2.5 ring-1 ring-slate-800">
+                      <div className="rounded-xl bg-slate-50 px-3 py-2.5 ring-1 ring-slate-200 dark:bg-[#0d1117] dark:ring-slate-800">
                         <span className="text-slate-500">Platform</span>
-                        <p className="truncate text-slate-200">{item.platform || '—'}</p>
+                        <p className="truncate text-slate-800 dark:text-slate-200">{item.platform || '—'}</p>
                         {item.platformDifficulty && (
                           <p className="text-[10px] text-slate-500">
                             Diff: {item.platformDifficulty}
@@ -853,16 +859,16 @@ export default function JourneyItemsSection({
                       </div>
                     )}
                     {(item.personalDifficulty || item.platformDifficulty) && (
-                      <div className="rounded-xl bg-[#0d1117] px-3 py-2.5 ring-1 ring-slate-800">
+                      <div className="rounded-xl bg-slate-50 px-3 py-2.5 ring-1 ring-slate-200 dark:bg-[#0d1117] dark:ring-slate-800">
                         <span className="text-slate-500">Difficulty</span>
-                        <p className="text-slate-200">
+                        <p className="text-slate-800 dark:text-slate-200">
                           {item.personalDifficulty || item.platformDifficulty || '—'}
                         </p>
                       </div>
                     )}
-                    <div className="rounded-xl bg-[#0d1117] px-3 py-2.5 ring-1 ring-slate-800">
+                    <div className="rounded-xl bg-slate-50 px-3 py-2.5 ring-1 ring-slate-200 dark:bg-[#0d1117] dark:ring-slate-800">
                       <span className="text-slate-500">Resources</span>
-                      <span className="ml-2 text-slate-200">
+                      <span className="ml-2 text-slate-800 dark:text-slate-200">
                         {Array.isArray(item.resources) ? item.resources.length : 0}
                       </span>
                       {item.revisionRequired && (
@@ -875,7 +881,7 @@ export default function JourneyItemsSection({
                       {item.tags?.map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-lg bg-violet-950/50 px-2 py-0.5 text-[10px] text-violet-300 ring-1 ring-violet-500/20"
+                          className="rounded-lg bg-violet-100 px-2 py-0.5 text-[10px] text-violet-800 ring-1 ring-violet-200 dark:bg-violet-950/50 dark:text-violet-300 dark:ring-violet-500/20"
                         >
                           {tag}
                         </span>
@@ -883,7 +889,7 @@ export default function JourneyItemsSection({
                       {item.flags?.map((fl) => (
                         <span
                           key={fl}
-                          className="rounded-lg bg-amber-950/40 px-2 py-0.5 text-[10px] text-amber-200 ring-1 ring-amber-500/20"
+                          className="rounded-lg bg-amber-100 px-2 py-0.5 text-[10px] text-amber-900 ring-1 ring-amber-300 dark:bg-amber-950/40 dark:text-amber-200 dark:ring-amber-500/20"
                         >
                           {fl}
                         </span>
@@ -895,9 +901,9 @@ export default function JourneyItemsSection({
             ))}
           </ul>
         ) : (
-          <div className="overflow-x-auto rounded-2xl border border-slate-800/90 bg-[#0d1117]">
+          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white dark:border-slate-800/90 dark:bg-[#0d1117]">
             <table className="w-full min-w-[640px] text-left text-sm">
-              <thead className="border-b border-slate-800 bg-[#16161e] text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+              <thead className="border-b border-slate-200 bg-slate-50 text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:border-slate-800 dark:bg-[#16161e] dark:text-slate-500">
                 <tr>
                   <th className="px-4 py-3.5">Title</th>
                   <th className="px-4 py-3.5">Type</th>
@@ -908,18 +914,18 @@ export default function JourneyItemsSection({
                   <th className="px-4 py-3.5">Updated</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80">
                 {sorted.map((item) => (
-                  <tr key={item._id} className="transition hover:bg-slate-800/30">
+                  <tr key={item._id} className="transition hover:bg-slate-50 dark:hover:bg-slate-800/30">
                     <td className="px-4 py-3">
                       <Link
                         to={`${base}/${item._id}`}
-                        className="font-medium text-violet-300 hover:text-violet-200 hover:underline"
+                        className="font-medium text-violet-700 hover:text-violet-900 hover:underline dark:text-violet-300 dark:hover:text-violet-200"
                       >
                         {item.title}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-slate-400">
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-400">
                       {ITEM_TYPE_LABELS[item.type] || item.type}
                     </td>
                     <td className="px-4 py-3">
@@ -929,7 +935,7 @@ export default function JourneyItemsSection({
                         {ITEM_STATUS_LABELS[item.status] || item.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 tabular-nums text-slate-400">
+                    <td className="px-4 py-3 tabular-nums text-slate-600 dark:text-slate-400">
                       {item.submissionCount ?? 0}
                     </td>
                     <td className="max-w-[8rem] truncate px-4 py-3 text-slate-500">

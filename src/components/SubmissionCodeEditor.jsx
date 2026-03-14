@@ -260,9 +260,9 @@ export default function SubmissionCodeEditor({
   }, [fullscreen])
 
   const header = (
-    <div className="flex h-11 shrink-0 items-center gap-3 border-b border-slate-700/90 bg-[#16161e] px-3">
-      <span className="text-xs font-medium text-slate-400">{languageLabel}</span>
-      <span className="rounded bg-slate-800 px-2 py-0.5 font-mono text-[11px] text-violet-300">
+    <div className="flex h-11 shrink-0 items-center gap-3 border-b border-slate-200 bg-slate-50 px-3 dark:border-slate-700/90 dark:bg-[#16161e]">
+      <span className="text-xs font-medium text-slate-600 dark:text-slate-400">{languageLabel}</span>
+      <span className="rounded bg-slate-200 px-2 py-0.5 font-mono text-[11px] text-violet-800 dark:bg-slate-800 dark:text-violet-300">
         {languageId}
       </span>
       <div className="ml-auto flex items-center gap-2">
@@ -271,7 +271,7 @@ export default function SubmissionCodeEditor({
           <button
             type="button"
             onClick={() => setFullscreen(true)}
-            className="rounded-md border border-slate-600 bg-slate-800/80 px-2.5 py-1 text-xs font-medium text-slate-300 hover:border-violet-500/50 hover:text-white"
+            className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:border-violet-500/50 hover:text-violet-800 dark:border-slate-600 dark:bg-slate-800/80 dark:text-slate-300 dark:hover:text-white"
             title="Fullscreen (Esc to exit)"
           >
             ⛶ Full screen
@@ -283,10 +283,10 @@ export default function SubmissionCodeEditor({
 
   const shell = (tall) => (
     <div
-      className={`flex min-h-0 flex-col overflow-hidden bg-[#1a1b26] shadow-xl ring-1 ring-black/30 ${
+      className={`flex min-h-0 flex-col overflow-hidden bg-[#1a1b26] shadow-xl ring-1 ring-slate-200/80 dark:ring-black/30 ${
         tall || fillHeight
           ? 'h-full rounded-none border-0 shadow-none ring-0'
-          : 'rounded-xl border border-slate-700/90'
+          : 'rounded-xl border border-slate-300 dark:border-slate-700/90'
       }`}
       style={
         tall || fillHeight ? { height: '100%', minHeight: 0 } : { minHeight }
@@ -311,8 +311,8 @@ export default function SubmissionCodeEditor({
 
   if (readOnly) {
     return (
-      <div className="overflow-hidden rounded-xl border border-slate-700/90">
-        <div className="flex h-9 items-center border-b border-slate-700/80 bg-[#16161e] px-3">
+      <div className="overflow-hidden rounded-xl border border-slate-300 dark:border-slate-700/90">
+        <div className="flex h-9 items-center border-b border-slate-200 bg-slate-50 px-3 dark:border-slate-700/80 dark:bg-[#16161e]">
           <span className="text-[11px] text-slate-500">{languageLabel}</span>
         </div>
         <EditorBody

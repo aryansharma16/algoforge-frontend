@@ -10,7 +10,7 @@ const empty = () => ({
 })
 
 const inp =
-  'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500'
+  'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600'
 const sel = `${inp} cursor-pointer`
 
 export default function SocialProfileCards({ items, onChange }) {
@@ -43,7 +43,9 @@ export default function SocialProfileCards({ items, onChange }) {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h3 className="text-sm font-semibold text-slate-200">Social & coding profiles</h3>
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-200">
+            Social & coding profiles
+          </h3>
           <p className="text-xs text-slate-500">
             LinkedIn, GitHub, LeetCode, etc. · max {MAX_SOCIAL_PROFILES}
           </p>
@@ -53,10 +55,10 @@ export default function SocialProfileCards({ items, onChange }) {
         {list.map((row, idx) => (
           <div
             key={idx}
-            className="rounded-2xl border border-cyan-900/40 bg-gradient-to-b from-slate-900/90 to-slate-950 p-4 sm:p-5"
+            className="rounded-2xl border border-cyan-200 bg-cyan-50/50 p-4 dark:border-cyan-900/40 dark:bg-gradient-to-b dark:from-slate-900/90 dark:to-slate-950 sm:p-5"
           >
-            <div className="mb-3 flex items-center justify-between border-b border-slate-800 pb-2">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-cyan-400/90">
+            <div className="mb-3 flex items-center justify-between border-b border-slate-200 pb-2 dark:border-slate-800">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-cyan-800 dark:text-cyan-400/90">
                 Link {idx + 1}
               </span>
               <button
@@ -113,7 +115,7 @@ export default function SocialProfileCards({ items, onChange }) {
         <button
           type="button"
           onClick={add}
-          className="w-full rounded-xl border border-dashed border-cyan-500/40 bg-cyan-950/20 py-3 text-sm font-medium text-cyan-300 hover:bg-cyan-950/40"
+          className="w-full rounded-xl border-2 border-dashed border-cyan-600 bg-cyan-50 py-3 text-sm font-semibold text-cyan-950 shadow-sm hover:bg-cyan-100 dark:border-cyan-500/40 dark:bg-cyan-950/20 dark:font-medium dark:text-cyan-200 dark:shadow-none dark:hover:bg-cyan-950/40"
         >
           + Add profile link
         </button>

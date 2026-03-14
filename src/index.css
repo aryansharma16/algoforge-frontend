@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 @config '../tailwind.config.js';
 
+/* class-based dark mode: html.dark … */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Scan all files under src for class names */
 @source './**/*.{js,jsx}';
 
@@ -13,6 +16,12 @@
   #root {
     min-height: 100%;
     overflow-x: clip;
+  }
+  html.light {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
   }
 }
 
@@ -67,6 +76,17 @@
   }
   .select-ide:focus {
     @apply border-violet-500/60 ring-1 ring-violet-500/30;
+  }
+
+  html.light .scrollbar-themed {
+    scrollbar-color: rgba(139, 92, 246, 0.35) rgba(241, 245, 249, 0.9);
+  }
+  html.light .select-ide {
+    @apply border-slate-300 bg-white text-slate-800;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  }
+  html.light .select-ide:hover {
+    @apply border-violet-400 bg-slate-50 text-slate-900;
   }
 }
 

@@ -118,13 +118,13 @@ export default function JourneyTimeline({
 
   if (!start || !end) {
     return (
-      <div className="rounded-2xl border border-slate-800/80 bg-slate-950/50 p-5">
-        <h3 className="text-[11px] font-semibold uppercase tracking-wider text-violet-400/90">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/50 dark:shadow-none">
+        <h3 className="text-[11px] font-semibold uppercase tracking-wider text-violet-600 dark:text-violet-400/90">
           Timeline & completion
         </h3>
-        <p className="mt-2 text-sm text-slate-500">
-          Set <strong className="text-slate-400">start</strong> and{' '}
-          <strong className="text-slate-400">end</strong> on the journey to see the calendar
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-500">
+          Set <strong className="text-slate-800 dark:text-slate-400">start</strong> and{' '}
+          <strong className="text-slate-800 dark:text-slate-400">end</strong> on the journey to see the calendar
           timeline.
         </p>
         <CompletionBar metrics={metrics} />
@@ -143,14 +143,14 @@ export default function JourneyTimeline({
   }
 
   return (
-    <div className="min-w-0 overflow-hidden rounded-xl border border-slate-800/80 bg-gradient-to-b from-slate-950/90 to-slate-900/50 p-4 sm:rounded-2xl sm:p-5 md:p-6">
+    <div className="min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4 shadow-sm dark:border-slate-800/80 dark:from-slate-950/90 dark:to-slate-900/50 dark:shadow-none sm:rounded-2xl sm:p-5 md:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h3 className="text-[11px] font-semibold uppercase tracking-wider text-violet-400/90">
+          <h3 className="text-[11px] font-semibold uppercase tracking-wider text-violet-600 dark:text-violet-400/90">
             Timeline
           </h3>
-          <p className="mt-1 text-xs text-slate-500">
-            <span className="tabular-nums text-slate-400">{timeline.daySpan}</span> days
+          <p className="mt-1 text-xs text-slate-600 dark:text-slate-500">
+            <span className="tabular-nums text-slate-800 dark:text-slate-400">{timeline.daySpan}</span> days
             ·{' '}
             {start.toLocaleDateString(undefined, {
               month: 'short',
@@ -165,7 +165,7 @@ export default function JourneyTimeline({
             })}
           </p>
         </div>
-        <div className="text-right text-[10px] text-slate-600">
+        <div className="text-right text-[10px] text-slate-500 dark:text-slate-600">
           {timeline.beforeStart && <span>Not started yet</span>}
           {timeline.afterEnd && <span>Journey window ended</span>}
           {timeline.todayInRange && (
@@ -176,7 +176,7 @@ export default function JourneyTimeline({
 
       {/* Calendar rail */}
       <div className="relative mt-6 pb-8">
-        <div className="h-3 w-full overflow-hidden rounded-full bg-slate-800/90 ring-1 ring-slate-700/80">
+        <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200 ring-1 ring-slate-300 dark:bg-slate-800/90 dark:ring-slate-700/80">
           <div
             className="h-full rounded-full bg-gradient-to-r from-violet-600/50 via-violet-500/70 to-indigo-500/60"
             style={{
@@ -198,7 +198,7 @@ export default function JourneyTimeline({
               style={{ left: `${mo.left}%` }}
             >
               <span className="h-2 w-px bg-slate-600" />
-              <span className="mt-1 max-w-[4rem] truncate text-center text-[10px] font-medium text-slate-400">
+              <span className="mt-1 max-w-[4rem] truncate text-center text-[10px] font-medium text-slate-600 dark:text-slate-400">
                 {mo.label}
               </span>
             </div>
@@ -206,15 +206,15 @@ export default function JourneyTimeline({
         </div>
 
         {/* Time checkpoints (quarters of the journey window) */}
-        <div className="relative -mt-4 h-8 border-t border-slate-800/80 pt-2">
+        <div className="relative -mt-4 h-8 border-t border-slate-200 pt-2 dark:border-slate-800/80">
           {timeline.timeCheckpoints.map((cp) => (
             <div
               key={cp.p}
               className="absolute top-2 flex -translate-x-1/2 flex-col items-center"
               style={{ left: `${cp.left}%` }}
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-slate-500 ring-2 ring-slate-900" />
-              <span className="mt-0.5 text-[9px] tabular-nums text-slate-600">
+              <span className="h-1.5 w-1.5 rounded-full bg-slate-400 ring-2 ring-white dark:bg-slate-500 dark:ring-slate-900" />
+              <span className="mt-0.5 text-[9px] tabular-nums text-slate-500 dark:text-slate-600">
                 {cp.p}%
               </span>
             </div>
@@ -233,12 +233,12 @@ export default function JourneyTimeline({
         </div>
       </div>
 
-      <div className="border-t border-slate-800/80 pt-5">
-        <h4 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+      <div className="border-t border-slate-200 pt-5 dark:border-slate-800/80">
+        <h4 className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-500">
           Item completion (checkpoints)
         </h4>
-        <p className="mt-1 text-[11px] text-slate-500">
-          Dots mark 0% · 25% · 50% · 75% · 100% of your <strong className="text-slate-400">target</strong> item
+        <p className="mt-1 text-[11px] text-slate-600 dark:text-slate-500">
+          Dots mark 0% · 25% · 50% · 75% · 100% of your <strong className="text-slate-800 dark:text-slate-400">target</strong> item
           count. Fill reflects completed / in-progress items (submissions or status).
         </p>
         <CompletionBar metrics={metrics} className="mt-3" />
@@ -255,7 +255,7 @@ function CompletionBar({ metrics, className = '' }) {
   return (
     <div className={className}>
       <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
-        <span className="text-2xl font-bold tabular-nums text-white">
+        <span className="text-2xl font-bold tabular-nums text-slate-900 dark:text-white">
           {metrics.percentDisplay}%
         </span>
         <span className="text-xs text-slate-500">
@@ -266,7 +266,7 @@ function CompletionBar({ metrics, className = '' }) {
         </span>
       </div>
       <div className="relative py-3">
-        <div className="h-4 w-full overflow-hidden rounded-full bg-slate-800 ring-1 ring-slate-700/60">
+        <div className="h-4 w-full overflow-hidden rounded-full bg-slate-200 ring-1 ring-slate-300 dark:bg-slate-800 dark:ring-slate-700/60">
           <div
             className="h-full rounded-full bg-gradient-to-r from-violet-600 to-indigo-500 transition-[width] duration-700 ease-out"
             style={{ width: `${fill}%` }}
@@ -280,14 +280,14 @@ function CompletionBar({ metrics, className = '' }) {
               style={{ left: `${p}%` }}
             >
               <span
-                className={`h-2.5 w-2.5 rounded-full ring-2 ring-slate-950 ${
-                  fill >= p ? 'bg-indigo-400' : 'bg-slate-600'
+                className={`h-2.5 w-2.5 rounded-full ring-2 ring-white dark:ring-slate-950 ${
+                  fill >= p ? 'bg-indigo-500 dark:bg-indigo-400' : 'bg-slate-400 dark:bg-slate-600'
                 }`}
               />
             </div>
           ))}
         </div>
-        <div className="relative mt-0.5 h-4 text-[9px] tabular-nums text-slate-600">
+        <div className="relative mt-0.5 h-4 text-[9px] tabular-nums text-slate-500 dark:text-slate-600">
           {checkpoints.map((p) => (
             <span
               key={p}
@@ -305,8 +305,8 @@ function CompletionBar({ metrics, className = '' }) {
 
 function FormulaNote({ metrics }) {
   return (
-    <p className="mt-3 rounded-lg border border-slate-800/80 bg-slate-950/80 px-3 py-2 text-[11px] leading-relaxed text-slate-500">
-      <span className="font-medium text-slate-400">How this is calculated: </span>
+    <p className="mt-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] leading-relaxed text-slate-600 dark:border-slate-800/80 dark:bg-slate-950/80 dark:text-slate-500">
+      <span className="font-medium text-slate-800 dark:text-slate-400">How this is calculated: </span>
       {metrics.target > 0 ? (
         <>
           We count an item as <strong className="text-slate-400">done</strong> if it has

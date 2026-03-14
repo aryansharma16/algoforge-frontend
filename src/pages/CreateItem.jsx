@@ -46,7 +46,8 @@ export default function CreateItem() {
     }
   }
 
-  if (jLoad) return <p className="text-slate-400">Loading journey…</p>
+  if (jLoad)
+    return <p className="text-slate-600 dark:text-slate-400">Loading journey…</p>
   if (jErr || !journey) {
     return (
       <div className="text-red-400">
@@ -60,48 +61,54 @@ export default function CreateItem() {
 
   return (
     <div className="mx-auto max-w-3xl pb-20">
-      <nav className="mb-6 text-sm text-slate-500" aria-label="Breadcrumb">
+      <nav
+        className="mb-6 text-sm text-slate-600 dark:text-slate-500"
+        aria-label="Breadcrumb"
+      >
         <ol className="flex flex-wrap items-center gap-2">
           <li>
-            <Link to="/journeys" className="text-violet-400 hover:underline">
+            <Link
+              to="/journeys"
+              className="text-violet-600 hover:underline dark:text-violet-400"
+            >
               Journeys
             </Link>
           </li>
-          <li className="text-slate-600">/</li>
+          <li className="text-slate-500 dark:text-slate-600">/</li>
           <li>
             <Link
               to={`/journeys/${journeyId}`}
-              className="max-w-[10rem] truncate text-violet-400 hover:underline sm:max-w-none"
+              className="max-w-[10rem] truncate text-violet-600 hover:underline dark:text-violet-400 sm:max-w-none"
             >
               {journey.title || 'Journey'}
             </Link>
           </li>
-          <li className="text-slate-600">/</li>
-          <li className="text-slate-300">New item</li>
+          <li className="text-slate-500 dark:text-slate-600">/</li>
+          <li className="text-slate-700 dark:text-slate-300">New item</li>
         </ol>
       </nav>
 
-      <header className="mb-8 border-b border-slate-800/80 pb-8">
-        <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-violet-400/80">
+      <header className="mb-8 border-b border-slate-200 pb-8 dark:border-slate-800/80">
+        <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400/80">
           Learning item
         </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
           Create item
         </h1>
-        <p className="mt-2 max-w-xl text-sm text-slate-400">
+        <p className="mt-2 max-w-xl text-sm text-slate-600 dark:text-slate-400">
           Full schema: type, status, platform, tags, resources, notes. Edit anytime later.
         </p>
       </header>
 
       <form
         onSubmit={onSubmit}
-        className="rounded-2xl border border-slate-800/80 bg-slate-950/20 p-5 sm:p-8"
+        className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800/80 dark:bg-slate-950/20 sm:p-8"
       >
         <ItemForm form={form} errors={errors} setField={setField} idPrefix="create-item" />
-        <div className="mt-10 flex flex-wrap justify-end gap-3 border-t border-slate-800 pt-6">
+        <div className="mt-10 flex flex-wrap justify-end gap-3 border-t border-slate-200 pt-6 dark:border-slate-800">
           <Link
             to={`/journeys/${journeyId}`}
-            className="rounded-xl px-4 py-2.5 text-sm text-slate-400 hover:bg-slate-800 hover:text-white"
+            className="rounded-xl px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-200 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             Cancel
           </Link>

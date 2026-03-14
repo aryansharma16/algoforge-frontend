@@ -8,7 +8,7 @@ const empty = () => ({
 })
 
 const inp =
-  'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500'
+  'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600'
 
 export default function ProfileEducationCards({ items, onChange }) {
   const list = items.length ? items : [empty()]
@@ -30,7 +30,7 @@ export default function ProfileEducationCards({ items, onChange }) {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h3 className="text-sm font-semibold text-slate-200">Education</h3>
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-200">Education</h3>
           <p className="text-xs text-slate-500">One card per school · add more anytime</p>
         </div>
       </div>
@@ -38,10 +38,10 @@ export default function ProfileEducationCards({ items, onChange }) {
         {list.map((row, idx) => (
           <div
             key={idx}
-            className="rounded-2xl border border-slate-700/80 bg-gradient-to-b from-slate-900/90 to-slate-950 p-4 shadow-lg sm:p-5"
+            className="rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-700/80 dark:bg-gradient-to-b dark:from-slate-900/90 dark:to-slate-950 dark:shadow-lg sm:p-5"
           >
-            <div className="mb-4 flex items-start justify-between gap-2 border-b border-slate-800 pb-3">
-              <span className="rounded-lg bg-fuchsia-600/20 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-fuchsia-300">
+            <div className="mb-4 flex items-start justify-between gap-2 border-b border-slate-200 pb-3 dark:border-slate-800">
+              <span className="rounded-lg bg-fuchsia-100 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-fuchsia-800 dark:bg-fuchsia-600/20 dark:text-fuchsia-300">
                 Education {idx + 1}
               </span>
               <button
@@ -113,7 +113,7 @@ export default function ProfileEducationCards({ items, onChange }) {
       <button
         type="button"
         onClick={add}
-        className="w-full rounded-xl border border-dashed border-fuchsia-500/40 bg-fuchsia-950/20 py-3 text-sm font-medium text-fuchsia-300 hover:bg-fuchsia-950/40"
+        className="w-full rounded-xl border-2 border-dashed border-fuchsia-600 bg-fuchsia-50 py-3 text-sm font-semibold text-fuchsia-950 shadow-sm hover:bg-fuchsia-100 dark:border-fuchsia-500/40 dark:bg-fuchsia-950/20 dark:font-medium dark:text-fuchsia-200 dark:shadow-none dark:hover:bg-fuchsia-950/40"
       >
         + Add education
       </button>

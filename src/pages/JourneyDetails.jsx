@@ -19,11 +19,16 @@ function formatDate(iso) {
 
 function StatusPill({ status }) {
   const colors = {
-    planned: 'bg-slate-500/20 text-slate-300 ring-slate-500/30',
-    active: 'bg-emerald-500/15 text-emerald-300 ring-emerald-500/25',
-    paused: 'bg-amber-500/15 text-amber-200 ring-amber-500/25',
-    completed: 'bg-violet-500/15 text-violet-200 ring-violet-500/25',
-    archived: 'bg-slate-600/30 text-slate-400 ring-slate-600/40',
+    planned:
+      'bg-slate-200 text-slate-700 ring-slate-300 dark:bg-slate-500/20 dark:text-slate-300 dark:ring-slate-500/30',
+    active:
+      'bg-emerald-100 text-emerald-800 ring-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:ring-emerald-500/25',
+    paused:
+      'bg-amber-100 text-amber-900 ring-amber-300 dark:bg-amber-500/15 dark:text-amber-200 dark:ring-amber-500/25',
+    completed:
+      'bg-violet-100 text-violet-900 ring-violet-300 dark:bg-violet-500/15 dark:text-violet-200 dark:ring-violet-500/25',
+    archived:
+      'bg-slate-200 text-slate-600 ring-slate-300 dark:bg-slate-600/30 dark:text-slate-400 dark:ring-slate-600/40',
   }
   const c = colors[status] || colors.planned
   return (
@@ -37,9 +42,9 @@ function StatusPill({ status }) {
 
 function VisibilityPill({ v }) {
   const colors = {
-    private: 'text-slate-400',
-    unlisted: 'text-amber-400/90',
-    public: 'text-sky-400',
+    private: 'text-slate-600 dark:text-slate-400',
+    unlisted: 'text-amber-700 dark:text-amber-400/90',
+    public: 'text-sky-600 dark:text-sky-400',
   }
   return (
     <span className={`text-xs font-medium capitalize ${colors[v] || ''}`}>
@@ -50,12 +55,16 @@ function VisibilityPill({ v }) {
 
 function StatCard({ label, value, sub }) {
   return (
-    <div className="rounded-xl border border-slate-800/80 bg-slate-950/50 px-4 py-3">
+    <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/50 dark:shadow-none">
       <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
         {label}
       </p>
-      <p className="mt-1 text-lg font-semibold tabular-nums text-white">{value}</p>
-      {sub && <p className="mt-0.5 text-[10px] text-slate-600">{sub}</p>}
+      <p className="mt-1 text-lg font-semibold tabular-nums text-slate-900 dark:text-white">
+        {value}
+      </p>
+      {sub && (
+        <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-600">{sub}</p>
+      )}
     </div>
   )
 }
@@ -75,7 +84,7 @@ function ProgressRing({ percent }) {
           fill="none"
           stroke="currentColor"
           strokeWidth="6"
-          className="text-slate-800"
+          className="text-slate-200 dark:text-slate-800"
         />
         <circle
           cx="48"
@@ -96,7 +105,7 @@ function ProgressRing({ percent }) {
           </linearGradient>
         </defs>
       </svg>
-      <span className="absolute text-center text-sm font-bold leading-tight text-white">
+      <span className="absolute text-center text-sm font-bold leading-tight text-slate-900 dark:text-white">
         {pct < 1 && pct > 0 ? pct.toFixed(1) : Math.round(pct)}%
       </span>
     </div>
@@ -136,8 +145,8 @@ export default function JourneyDetails() {
   if (jLoading) {
     return (
       <div className="animate-pulse space-y-4">
-        <div className="h-4 w-32 rounded bg-slate-800" />
-        <div className="h-40 rounded-2xl bg-slate-800/80" />
+        <div className="h-4 w-32 rounded bg-slate-200 dark:bg-slate-800" />
+        <div className="h-40 rounded-2xl bg-slate-200 dark:bg-slate-800/80" />
       </div>
     )
   }
@@ -156,51 +165,60 @@ export default function JourneyDetails() {
 
   return (
     <div className="pb-12 sm:pb-16">
-      <nav className="mb-4 flex flex-wrap items-center gap-1 text-xs text-slate-500 sm:mb-6 sm:gap-2 sm:text-sm">
-        <Link to="/journeys" className="text-violet-400 hover:underline">
+      <nav className="mb-4 flex flex-wrap items-center gap-1 text-xs text-slate-600 sm:mb-6 sm:gap-2 sm:text-sm dark:text-slate-500">
+        <Link
+          to="/journeys"
+          className="text-violet-600 hover:underline dark:text-violet-400"
+        >
           Journeys
         </Link>
-        <span className="text-slate-600">/</span>
-        <span className="max-w-[14rem] truncate text-slate-400">{journey.title}</span>
+        <span className="text-slate-400 dark:text-slate-600">/</span>
+        <span className="max-w-[14rem] truncate text-slate-700 dark:text-slate-400">
+          {journey.title}
+        </span>
       </nav>
 
       {/* Hero */}
-      <header className="relative overflow-hidden rounded-xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-violet-950/40 p-4 sm:rounded-2xl sm:p-6 md:p-8">
+      <header className="relative overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-violet-100/80 p-4 shadow-sm dark:border-slate-800 dark:from-slate-900 dark:via-slate-950 dark:to-violet-950/40 dark:shadow-none sm:rounded-2xl sm:p-6 md:p-8">
         <div
-          className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-600/10 blur-3xl"
+          className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/10"
           aria-hidden
         />
         <div className="relative flex flex-col gap-5 md:gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-md bg-violet-500/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-violet-300 ring-1 ring-violet-500/20">
+              <span className="rounded-md bg-violet-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-violet-800 ring-1 ring-violet-300 dark:bg-violet-500/15 dark:text-violet-300 dark:ring-violet-500/20">
                 {typeLabel}
               </span>
               <StatusPill status={journey.status} />
-              <span className="flex items-center gap-1 text-[11px] text-slate-500">
+              <span className="flex items-center gap-1 text-[11px] text-slate-600 dark:text-slate-500">
                 <span className="opacity-60">·</span>
                 <VisibilityPill v={journey.visibility} />
               </span>
             </div>
-            <h1 className="mt-2 break-words text-xl font-semibold tracking-tight text-white sm:mt-3 sm:text-2xl md:text-3xl">
+            <h1 className="mt-2 break-words text-xl font-semibold tracking-tight text-slate-900 sm:mt-3 sm:text-2xl md:text-3xl dark:text-white">
               {journey.title}
             </h1>
             {journey.category && (
-              <p className="mt-2 text-sm text-violet-300/80">{journey.category}</p>
+              <p className="mt-2 text-sm text-violet-700 dark:text-violet-300/80">
+                {journey.category}
+              </p>
             )}
             {journey.description ? (
-              <p className="mt-4 max-w-2xl whitespace-pre-wrap text-sm leading-relaxed text-slate-400">
+              <p className="mt-4 max-w-2xl whitespace-pre-wrap text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                 {journey.description}
               </p>
             ) : (
-              <p className="mt-4 text-sm italic text-slate-600">No description yet.</p>
+              <p className="mt-4 text-sm italic text-slate-500 dark:text-slate-600">
+                No description yet.
+              </p>
             )}
             {topicTags.length > 0 && (
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {topicTags.map((id) => (
                   <span
                     key={id}
-                    className="rounded-lg bg-slate-800/90 px-2 py-1 text-[11px] font-medium text-slate-300 ring-1 ring-slate-700"
+                    className="rounded-lg bg-slate-100 px-2 py-1 text-[11px] font-medium text-slate-700 ring-1 ring-slate-200 dark:bg-slate-800/90 dark:text-slate-300 dark:ring-slate-700"
                   >
                     {CS_TOPIC_LABEL[id] || id.replace(/_/g, ' ')}
                   </span>
@@ -211,14 +229,14 @@ export default function JourneyDetails() {
           <div className="flex shrink-0 flex-col items-center gap-4 sm:flex-row lg:flex-col lg:items-end">
             <div className="flex flex-col items-center gap-1">
               <ProgressRing percent={progress.percent} />
-              <span className="max-w-[6rem] text-center text-[9px] text-slate-500">
+              <span className="max-w-[6rem] text-center text-[9px] text-slate-600 dark:text-slate-500">
                 Done vs target
               </span>
             </div>
             <div className="flex flex-wrap justify-center gap-2 sm:justify-end">
               <Link
                 to={`/journeys/${journeyId}/edit`}
-                className="rounded-xl border border-slate-600 bg-slate-900/80 px-4 py-2.5 text-sm font-medium text-slate-200 hover:border-slate-500 hover:bg-slate-800"
+                className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-800 shadow-sm hover:border-slate-400 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:bg-slate-800"
               >
                 Edit journey
               </Link>
@@ -263,11 +281,11 @@ export default function JourneyDetails() {
       </div>
 
       {extraMeta && (
-        <details className="mt-4 rounded-xl border border-slate-800/80 bg-slate-950/30 px-4 py-3">
-          <summary className="cursor-pointer text-xs font-medium text-slate-400 hover:text-slate-300">
+        <details className="mt-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-800/80 dark:bg-slate-950/30">
+          <summary className="cursor-pointer text-xs font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300">
             Custom metadata (JSON)
           </summary>
-          <pre className="scrollbar-themed mt-3 max-h-40 overflow-y-auto overflow-x-hidden rounded-lg bg-slate-950 p-3 text-[11px] text-slate-500">
+          <pre className="scrollbar-themed mt-3 max-h-40 overflow-y-auto overflow-x-hidden rounded-lg border border-slate-200 bg-white p-3 text-[11px] text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-500">
             {JSON.stringify(extraMeta, null, 2)}
           </pre>
         </details>
@@ -280,11 +298,11 @@ export default function JourneyDetails() {
         error={iErr}
         onCreateClick={() => navigate(`/journeys/${journeyId}/items/new`)}
         empty={
-          <div className="mt-10 rounded-2xl border border-dashed border-slate-700 bg-slate-950/40 py-16 text-center">
-            <p className="text-slate-500">No items yet.</p>
+          <div className="mt-10 rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-16 text-center dark:border-slate-700 dark:bg-slate-950/40">
+            <p className="text-slate-600 dark:text-slate-500">No items yet.</p>
             <Link
               to={`/journeys/${journeyId}/items/new`}
-              className="mt-3 inline-block text-sm font-medium text-violet-400 hover:underline"
+              className="mt-3 inline-block text-sm font-medium text-violet-600 hover:underline dark:text-violet-400"
             >
               Create first item
             </Link>

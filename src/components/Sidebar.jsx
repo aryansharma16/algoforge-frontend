@@ -1,4 +1,4 @@
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/authSlice'
 import { apiSlice } from '../api/apiSlice'
@@ -21,11 +21,11 @@ function IconJourneys({ className }) {
     </svg>
   )
 }
-function IconUser({ className }) {
+function IconSettings({ className }) {
   return (
     <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
+      <circle cx="12" cy="12" r="3" />
+      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
     </svg>
   )
 }
@@ -38,29 +38,22 @@ function IconLogout({ className }) {
     </svg>
   )
 }
-function IconChevrons({ className }) {
-  return (
-    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-      <polyline points="13 17 18 12 13 7" />
-      <polyline points="6 17 11 12 6 7" />
-    </svg>
-  )
-}
 
 const itemBase =
-  'flex items-center gap-3 rounded-xl py-2.5 text-sm font-medium transition-colors min-h-[2.75rem]'
-const linkCollapsed = `${itemBase} justify-center px-0 w-full`
-const linkExpanded = `group/side:hover:justify-start group/side:hover:px-3`
+  'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors min-h-[2.75rem]'
 const active =
-  'bg-violet-600/25 text-violet-200 border border-violet-500/20'
-const inactive = 'text-slate-400 hover:bg-slate-800 hover:text-slate-100 border border-transparent'
+  'bg-violet-100 text-violet-900 border border-violet-400/60 shadow-sm dark:bg-violet-600/25 dark:text-violet-100 dark:border-violet-500/30 dark:shadow-none'
+const inactive =
+  'border border-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100'
 
 export default function Sidebar() {
   const dispatch = useDispatch()
+  const { pathname } = useLocation()
   const reduxUser = useSelector((s) => s.auth.user)
   const { data: me } = useGetCurrentUserQuery()
   const user = me || reduxUser
   const displayName = user?.displayName?.trim() || user?.username || 'Profile'
+  const onProfilePage = pathname === '/profile'
 
   function handleLogout() {
     dispatch(logout())
@@ -69,83 +62,101 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="group/side relative z-30 hidden h-[100dvh] max-h-[100dvh] w-14 shrink-0 flex-col overflow-hidden border-r border-slate-800 bg-slate-900/95 backdrop-blur-sm transition-[width,box-shadow] duration-200 ease-out hover:w-56 hover:shadow-[8px_0_32px_rgba(0,0,0,0.35)] md:sticky md:top-0 md:flex"
+      className="relative z-30 hidden h-[100dvh] w-56 shrink-0 flex-col overflow-hidden border-r border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900/95 dark:shadow-none md:sticky md:top-0 md:flex"
       aria-label="Main navigation"
     >
-      {/* Top: logo — does not shrink */}
-      <div className="shrink-0 border-b border-slate-800">
+      <div className="shrink-0 border-b border-slate-200 dark:border-slate-800">
         <Link
           to="/dashboard"
-          className="flex flex-col items-center gap-1 py-3 transition-colors hover:bg-slate-800/40 group-hover/side:items-stretch group-hover/side:px-3"
-          title="AlgoForge — hover to expand"
+          className="flex items-center gap-3 px-4 py-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/40"
         >
-          <div className="flex w-full items-center justify-center gap-2 group-hover/side:justify-between">
-            <AppLogoMark size={34} className="shrink-0 drop-shadow-md" />
-            <IconChevrons className="hidden shrink-0 text-slate-500 opacity-0 transition-opacity group-hover/side:block group-hover/side:opacity-100" />
-          </div>
-          <span className="max-h-0 max-w-0 overflow-hidden text-center text-[10px] font-semibold uppercase tracking-widest text-slate-500 opacity-0 transition-all group-hover/side:max-h-6 group-hover/side:max-w-full group-hover/side:py-1 group-hover/side:opacity-100">
-            Expand
-          </span>
-          <span className="max-w-0 truncate bg-gradient-to-r from-violet-300 to-fuchsia-300 bg-clip-text text-left text-base font-bold tracking-tight text-transparent opacity-0 transition-all duration-200 group-hover/side:max-w-[10rem] group-hover/side:opacity-100">
+          <AppLogoMark size={34} className="shrink-0 drop-shadow-md" />
+          <span className="bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-violet-300 dark:to-fuchsia-300">
             AlgoForge
           </span>
         </Link>
       </div>
 
-      {/* Middle: nav only — scrolls if many items later */}
-      <nav className="scrollbar-themed min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-1.5 py-3">
+      <nav className="scrollbar-themed min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-2 py-3">
         <div className="flex flex-col gap-1">
           <NavLink
             to="/dashboard"
-            title="Dashboard"
             className={({ isActive }) =>
-              `${linkCollapsed} ${linkExpanded} ${isActive ? active : inactive}`
+              `${itemBase} ${isActive ? active : inactive}`
             }
           >
             <IconDashboard className="shrink-0 text-current" />
-            <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-200 group-hover/side:max-w-[11rem] group-hover/side:opacity-100">
-              Dashboard
-            </span>
+            <span>Dashboard</span>
           </NavLink>
           <NavLink
             to="/journeys"
-            title="Learning Journeys"
             className={({ isActive }) =>
-              `${linkCollapsed} ${linkExpanded} ${isActive ? active : inactive}`
+              `${itemBase} ${isActive ? active : inactive}`
             }
           >
             <IconJourneys className="shrink-0 text-current" />
-            <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-200 group-hover/side:max-w-[11rem] group-hover/side:opacity-100">
-            Learning Journeys
+            <span>Learning Journeys</span>
+          </NavLink>
+          <NavLink
+            to="/settings"
+            className={({ isActive }) =>
+              `${itemBase} ${isActive ? active : inactive}`
+            }
+          >
+            <IconSettings className="shrink-0 text-current" />
+            <span>Settings</span>
+          </NavLink>
+          <NavLink
+            to="/profile"
+            end
+            className={({ isActive }) =>
+              `${itemBase} ${isActive ? active : inactive}`
+            }
+          >
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-violet-100 text-[11px] font-bold text-violet-700 ring-1 ring-violet-200 dark:bg-slate-700 dark:text-violet-200 dark:ring-slate-600">
+              {displayName?.trim()?.[0]?.toUpperCase() || 'P'}
             </span>
+            <span>Profile</span>
           </NavLink>
         </div>
       </nav>
 
-      {/* Bottom: profile + logout — always at bottom of viewport */}
-      <div className="mt-auto shrink-0 border-t border-slate-800 bg-slate-900/80">
+      <div className="mt-auto shrink-0 border-t border-slate-200 bg-slate-50/80 dark:border-slate-800 dark:bg-slate-900/80">
         <Link
           to="/profile"
-          title={displayName}
-          className="flex flex-col items-center gap-1.5 px-1 py-4 transition-colors hover:bg-slate-800/80 group-hover/side:flex-row group-hover/side:items-center group-hover/side:gap-3 group-hover/side:px-3 group-hover/side:py-3"
+          className={`flex items-center gap-3 px-3 py-4 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/80 ${
+            onProfilePage
+              ? 'bg-violet-100 ring-1 ring-inset ring-violet-300 dark:bg-violet-950/40 dark:ring-violet-500/30'
+              : ''
+          }`}
         >
-          <UserAvatar user={user || {}} size={40} className="shrink-0 ring-2 ring-slate-700" />
-          <div className="flex min-w-0 flex-1 flex-col items-center group-hover/side:items-start">
-            <p className="w-full max-w-[3.25rem] truncate text-center text-[10px] font-semibold text-slate-200 group-hover/side:max-w-[9rem] group-hover/side:text-left group-hover/side:text-sm">
+          <UserAvatar
+            user={user || {}}
+            size={40}
+            className="shrink-0 ring-2 ring-slate-200 dark:ring-slate-700"
+          />
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold text-slate-900 dark:text-slate-200">
               {displayName}
             </p>
-            <p className="hidden text-xs text-slate-500 group-hover/side:block">View profile</p>
+            <p
+              className={`text-xs dark:text-slate-500 ${
+                onProfilePage
+                  ? 'font-medium text-violet-700 dark:text-violet-300'
+                  : 'text-slate-500'
+              }`}
+            >
+              {onProfilePage ? 'On profile' : 'View profile'}
+            </p>
           </div>
         </Link>
         <button
           type="button"
           onClick={handleLogout}
-          className={`${linkCollapsed} ${linkExpanded} mb-3 w-full border-t border-slate-800/80 pt-3 text-red-400/90 hover:bg-red-950/30 hover:text-red-300`}
+          className={`${itemBase} mb-3 w-full border-t border-slate-200 pt-3 text-red-600 hover:bg-red-50 dark:border-slate-800 dark:text-red-400/90 dark:hover:bg-red-950/30 dark:hover:text-red-300`}
         >
           <IconLogout className="shrink-0" />
-          <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-200 group-hover/side:max-w-[11rem] group-hover/side:opacity-100">
-            Logout
-          </span>
+          <span>Logout</span>
         </button>
       </div>
     </aside>

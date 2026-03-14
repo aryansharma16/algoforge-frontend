@@ -17,7 +17,7 @@ import {
 import { STORAGE_KEYS } from '../../utils/itemPicklistStorage'
 
 const input =
-  'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:border-violet-500/40 focus:outline-none focus:ring-1 focus:ring-violet-500/25'
+  'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-violet-500/40 focus:outline-none focus:ring-1 focus:ring-violet-500/25 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600'
 
 export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) {
   const err = (k) => (errors[k] ? 'border-red-500/60' : '')
@@ -39,13 +39,13 @@ export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) 
   return (
     <div className="space-y-8">
       {errors._form && (
-        <p className="rounded-lg border border-red-800/60 bg-red-950/40 px-3 py-2 text-sm text-red-300">
+        <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-800/60 dark:bg-red-950/40 dark:text-red-300">
           {errors._form}
         </p>
       )}
 
-      <section className="rounded-2xl border border-slate-800/80 bg-slate-950/40 p-5 sm:p-6">
-        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-400/90">
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">
+        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-400/90">
           Core
         </h2>
         <div className="space-y-4">
@@ -120,8 +120,8 @@ export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) 
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-800/80 bg-slate-950/40 p-5 sm:p-6">
-        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-400/90">
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">
+        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-400/90">
           Platform & difficulty
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -185,8 +185,8 @@ export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) 
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-800/80 bg-slate-950/40 p-5 sm:p-6">
-        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-400/90">
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">
+        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-400/90">
           Tags & flags
         </h2>
         <div className="grid gap-6 sm:grid-cols-2">
@@ -215,8 +215,8 @@ export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) 
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-800/80 bg-slate-950/40 p-5 sm:p-6">
-        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-400/90">
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">
+        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-400/90">
           Resources
         </h2>
         <p className="mb-3 text-xs text-slate-600">
@@ -226,7 +226,7 @@ export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) 
           {form.resources.map((r, i) => (
             <div
               key={i}
-              className="grid gap-2 rounded-xl border border-slate-800 bg-slate-950/60 p-3 sm:grid-cols-12"
+              className="grid gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-950/60 sm:grid-cols-12"
             >
               <input
                 value={r.title}
@@ -259,7 +259,7 @@ export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) 
             type="button"
             onClick={addResource}
             disabled={form.resources.length >= ITEM_LIMITS.resourcesMax}
-            className="text-sm text-violet-400 hover:underline disabled:opacity-40"
+            className="text-sm text-violet-600 hover:underline disabled:opacity-40 dark:text-violet-400"
           >
             + Add resource
           </button>
@@ -267,8 +267,8 @@ export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) 
         {errors.resources && <p className="mt-2 text-xs text-red-400">{errors.resources}</p>}
       </section>
 
-      <section className="rounded-2xl border border-slate-800/80 bg-slate-950/40 p-5 sm:p-6">
-        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-400/90">
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">
+        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-400/90">
           Notes & review
         </h2>
         <div>
@@ -285,12 +285,12 @@ export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) 
             {form.notes.length}/{ITEM_LIMITS.notesMax}
           </p>
         </div>
-        <label className="mt-4 flex cursor-pointer items-center gap-2 text-sm text-slate-400">
+        <label className="mt-4 flex cursor-pointer items-center gap-2 text-sm text-slate-700 dark:text-slate-400">
           <input
             type="checkbox"
             checked={form.revisionRequired}
             onChange={(e) => setField('revisionRequired', e.target.checked)}
-            className="rounded border-slate-600"
+            className="rounded border-slate-400 dark:border-slate-600"
           />
           Revision required
         </label>

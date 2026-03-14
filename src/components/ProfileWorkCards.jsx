@@ -8,7 +8,7 @@ const empty = () => ({
 })
 
 const inp =
-  'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500'
+  'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600'
 
 export default function ProfileWorkCards({ items, onChange }) {
   const list = items.length ? items : [empty()]
@@ -37,7 +37,9 @@ export default function ProfileWorkCards({ items, onChange }) {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h3 className="text-sm font-semibold text-slate-200">Work experience</h3>
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-200">
+            Work experience
+          </h3>
           <p className="text-xs text-slate-500">One card per role · add as many as you need</p>
         </div>
       </div>
@@ -45,10 +47,10 @@ export default function ProfileWorkCards({ items, onChange }) {
         {list.map((row, idx) => (
           <div
             key={idx}
-            className="rounded-2xl border border-slate-700/80 bg-gradient-to-b from-slate-900/90 to-slate-950 p-4 shadow-lg sm:p-5"
+            className="rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-700/80 dark:bg-gradient-to-b dark:from-slate-900/90 dark:to-slate-950 dark:shadow-lg sm:p-5"
           >
-            <div className="mb-4 flex items-start justify-between gap-2 border-b border-slate-800 pb-3">
-              <span className="rounded-lg bg-violet-600/20 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-violet-300">
+            <div className="mb-4 flex items-start justify-between gap-2 border-b border-slate-200 pb-3 dark:border-slate-800">
+              <span className="rounded-lg bg-violet-100 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-violet-800 dark:bg-violet-600/20 dark:text-violet-300">
                 Role {idx + 1}
               </span>
               <button
@@ -98,12 +100,12 @@ export default function ProfileWorkCards({ items, onChange }) {
                 />
               </div>
             </div>
-            <label className="mt-3 flex cursor-pointer items-center gap-2 text-sm text-slate-300">
+            <label className="mt-3 flex cursor-pointer items-center gap-2 text-sm text-slate-800 dark:text-slate-300">
               <input
                 type="checkbox"
                 checked={row.current}
                 onChange={(e) => update(idx, 'current', e.target.checked)}
-                className="rounded border-slate-600 bg-slate-900 text-violet-600"
+                className="h-4 w-4 rounded border-slate-400 bg-white text-violet-600 focus:ring-violet-500 dark:border-slate-600 dark:bg-slate-900"
               />
               I currently work here
             </label>
@@ -122,7 +124,7 @@ export default function ProfileWorkCards({ items, onChange }) {
       <button
         type="button"
         onClick={add}
-        className="w-full rounded-xl border border-dashed border-violet-500/40 bg-violet-950/20 py-3 text-sm font-medium text-violet-300 hover:bg-violet-950/40"
+        className="w-full rounded-xl border-2 border-dashed border-violet-400 bg-violet-50 py-3 text-sm font-semibold text-violet-900 shadow-sm hover:bg-violet-100 dark:border-violet-500/40 dark:bg-violet-950/20 dark:font-medium dark:text-violet-200 dark:shadow-none dark:hover:bg-violet-950/40"
       >
         + Add work experience
       </button>

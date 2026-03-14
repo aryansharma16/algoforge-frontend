@@ -13,6 +13,7 @@ import ItemDetails from '../pages/ItemDetails'
 import CreateItem from '../pages/CreateItem'
 import EditItem from '../pages/EditItem'
 import Profile from '../pages/Profile'
+import Settings from '../pages/Settings'
 
 function RequireAuth() {
   const token = useSelector((s) => s.auth.token)
@@ -70,6 +71,7 @@ export default function Router() {
               path: 'journeys/:journeyId/items/:itemId',
               element: <ItemDetails />,
             },
+            { path: 'settings', element: <Settings /> },
             { path: 'profile', element: <Profile /> },
           ],
         },

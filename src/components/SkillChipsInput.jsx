@@ -23,12 +23,14 @@ export default function SkillChipsInput({ skills, onChange, placeholder = 'Add s
 
   return (
     <div>
-      <label className="mb-2 block text-xs font-medium text-slate-400">Skills</label>
-      <div className="flex min-h-[48px] flex-wrap gap-2 rounded-xl border border-slate-700 bg-slate-950/80 p-2">
+      <label className="mb-2 block text-xs font-medium text-slate-600 dark:text-slate-400">
+        Skills
+      </label>
+      <div className="flex min-h-[48px] flex-wrap gap-2 rounded-xl border border-slate-300 bg-white p-2 dark:border-slate-700 dark:bg-slate-950/80">
         {skills.map((skill, idx) => (
           <span
             key={`${skill}-${idx}`}
-            className="inline-flex items-center gap-1 rounded-full border border-violet-500/30 bg-violet-950/50 pl-3 pr-1 py-1 text-xs font-medium text-violet-200"
+            className="inline-flex items-center gap-1 rounded-full border border-violet-200 bg-violet-100 pl-3 pr-1 py-1 text-xs font-medium text-violet-900 dark:border-violet-500/30 dark:bg-violet-950/50 dark:text-violet-200"
           >
             {skill}
             <button
@@ -57,7 +59,7 @@ export default function SkillChipsInput({ skills, onChange, placeholder = 'Add s
               onChange(skills.slice(0, -1))
           }}
           onBlur={() => draft.trim() && add(draft)}
-          className="min-w-[8rem] flex-1 border-0 bg-transparent px-2 py-1 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-0"
+          className="min-w-[8rem] flex-1 border-0 bg-transparent px-2 py-1 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-0 dark:text-slate-200 dark:placeholder:text-slate-600"
           placeholder={skills.length ? '' : placeholder}
         />
       </div>

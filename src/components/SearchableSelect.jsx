@@ -92,27 +92,27 @@ export default function SearchableSelect({
               pick(filtered[highlight] ?? filtered[0])
             }
           }}
-          className={`w-full rounded-lg border bg-slate-950 px-3 py-2 text-slate-100 placeholder:text-slate-600 ${
-            error ? 'border-red-500' : 'border-slate-700'
+          className={`w-full rounded-lg border bg-white px-3 py-2 text-slate-900 placeholder:text-slate-500 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600 ${
+            error ? 'border-red-500' : 'border-slate-300 dark:border-slate-700'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
         />
         {open && filtered.length > 0 && (
           <ul
             id={listId}
             role="listbox"
-            className="scrollbar-themed absolute z-10 mt-1 max-h-52 w-full overflow-y-auto overflow-x-hidden rounded-lg border border-slate-600 bg-slate-900 py-1 shadow-lg"
+            className="scrollbar-themed absolute z-10 mt-1 max-h-52 w-full overflow-y-auto overflow-x-hidden rounded-lg border border-slate-200 bg-white py-1 shadow-lg dark:border-slate-600 dark:bg-slate-900"
           >
             {filtered.map((opt, i) => (
               <li
                 key={String(opt)}
                 role="option"
                 aria-selected={opt === value}
-                className={`cursor-pointer px-3 py-2 text-sm hover:bg-slate-800 ${
+                className={`cursor-pointer px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-800 ${
                   i === highlight
-                    ? 'bg-slate-800 text-white'
+                    ? 'bg-violet-100 text-violet-900 dark:bg-slate-800 dark:text-white'
                     : opt === value
-                      ? 'bg-violet-900/40 text-violet-200'
-                      : 'text-slate-200'
+                      ? 'bg-violet-100 text-violet-900 dark:bg-violet-900/40 dark:text-violet-200'
+                      : 'text-slate-800 dark:text-slate-200'
                 }`}
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => pick(opt)}

@@ -121,14 +121,14 @@ export default function SearchableCreatableSelect({
             setHighlight((h) => Math.max(h - 1, 0))
           }
         }}
-        className={`w-full rounded-lg border bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 ${
-          error ? 'border-red-500' : 'border-slate-700'
+        className={`w-full rounded-lg border bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600 ${
+          error ? 'border-red-500' : 'border-slate-300 dark:border-slate-700'
         }`}
       />
       {open && (listRows.length > 0 || showCreate) && (
         <ul
           id={listId}
-          className="scrollbar-themed absolute z-20 mt-1 max-h-56 w-full overflow-y-auto overflow-x-hidden rounded-lg border border-slate-600 bg-slate-900 py-1 shadow-xl"
+          className="scrollbar-themed absolute z-20 mt-1 max-h-56 w-full overflow-y-auto overflow-x-hidden rounded-lg border border-slate-200 bg-white py-1 shadow-xl dark:border-slate-600 dark:bg-slate-900"
         >
           {listRows.map((row, i) => (
             <li
@@ -138,8 +138,14 @@ export default function SearchableCreatableSelect({
                 row.kind === 'create' ? useCustom() : pick(row.o)
               }
               className={`cursor-pointer px-3 py-2 text-sm ${
-                i === highlight ? 'bg-slate-800 text-white' : 'text-slate-200'
-              } ${row.kind === 'create' ? 'border-b border-slate-800 text-violet-300' : ''}`}
+                i === highlight
+                  ? 'bg-violet-100 text-violet-900 dark:bg-slate-800 dark:text-white'
+                  : 'text-slate-800 dark:text-slate-200'
+              } ${
+                row.kind === 'create'
+                  ? 'border-b border-slate-200 text-violet-700 dark:border-slate-800 dark:text-violet-300'
+                  : ''
+              }`}
             >
               {row.kind === 'create' ? row.label : row.o}
             </li>

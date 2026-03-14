@@ -326,20 +326,20 @@ function ProfileEditor({ user, userKey }) {
   )
 
   const inputClass =
-    'w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 placeholder:text-slate-600 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500'
+    'w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600'
 
   if (mode === 'preview') {
     return (
       <>
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div className="inline-flex rounded-xl border border-slate-700 bg-slate-900/80 p-1">
+          <div className="inline-flex rounded-xl border border-slate-200 bg-slate-100 p-1 dark:border-slate-700 dark:bg-slate-900/80">
             <span className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white">
               Preview
             </span>
             <button
               type="button"
               onClick={enterEdit}
-              className="rounded-lg px-4 py-2 text-sm text-slate-400 hover:text-white"
+              className="rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-white hover:text-slate-900 dark:text-slate-400 dark:hover:bg-transparent dark:hover:text-white"
             >
               Edit
             </button>
@@ -347,18 +347,18 @@ function ProfileEditor({ user, userKey }) {
         </div>
         <ProfilePreview user={displayUser} onEdit={enterEdit} />
         {extraRows.length > 0 && (
-          <div className="mt-8 rounded-2xl border border-slate-800/60 bg-slate-900/30 p-6">
-            <h3 className="text-sm font-medium text-slate-400">Other</h3>
+          <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-800/60 dark:bg-slate-900/30">
+            <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">Other</h3>
             <dl className="mt-4 grid gap-3 text-sm">
               {extraRows.map(([key, value]) => (
                 <div
                   key={key}
-                  className="flex flex-wrap justify-between gap-2 rounded-lg bg-slate-950/50 px-3 py-2"
+                  className="flex flex-wrap justify-between gap-2 rounded-lg border border-slate-100 bg-white px-3 py-2 dark:border-transparent dark:bg-slate-950/50"
                 >
-                  <dt className="text-slate-500 capitalize">
+                  <dt className="text-slate-600 capitalize dark:text-slate-500">
                     {key.replace(/([A-Z])/g, ' $1').trim()}
                   </dt>
-                  <dd className="text-slate-300">{String(value)}</dd>
+                  <dd className="text-slate-800 dark:text-slate-300">{String(value)}</dd>
                 </div>
               ))}
             </dl>
@@ -371,14 +371,14 @@ function ProfileEditor({ user, userKey }) {
   return (
     <>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <div className="inline-flex rounded-xl border border-slate-700 bg-slate-900/80 p-1">
+        <div className="inline-flex rounded-xl border border-slate-200 bg-slate-100 p-1 dark:border-slate-700 dark:bg-slate-900/80">
           <button
             type="button"
             onClick={() => {
               setMode('preview')
               setForm(pickEditable(displayUser))
             }}
-            className="rounded-lg px-4 py-2 text-sm text-slate-400 hover:text-white"
+            className="rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-white hover:text-slate-900 dark:text-slate-400 dark:hover:bg-transparent dark:hover:text-white"
           >
             Preview
           </button>
@@ -388,46 +388,50 @@ function ProfileEditor({ user, userKey }) {
         </div>
       </div>
 
-      <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 p-6 sm:p-8">
+      <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/40 sm:p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
           <UserAvatar user={{ ...user, ...form }} size={80} />
           <div>
-            <h2 className="text-xl font-semibold text-white">Editing profile</h2>
-            <p className="text-sm text-slate-500">{displayTitle}</p>
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+              Editing profile
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-500">{displayTitle}</p>
           </div>
         </div>
       </div>
 
-      <div className="mt-6 rounded-3xl border border-slate-800/80 bg-slate-900/40 p-6 shadow-xl sm:p-8">
+      <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:border-slate-800/80 dark:bg-slate-900/40 dark:shadow-xl sm:p-8">
         <form onSubmit={onSubmit} className="space-y-8">
           {saved && (
-            <div className="rounded-xl border border-emerald-800/50 bg-emerald-950/30 px-4 py-3 text-sm text-emerald-200">
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-800/50 dark:bg-emerald-950/30 dark:text-emerald-200">
               Saved — showing preview.
             </div>
           )}
           {formError && (
-            <div className="rounded-xl border border-red-800/50 bg-red-950/30 px-4 py-3 text-sm text-red-200">
+            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-800/50 dark:bg-red-950/30 dark:text-red-200">
               {formError}
             </div>
           )}
 
           <section className="space-y-6">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-500">
               Identity
             </h3>
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-xs text-slate-400">Email (read-only)</label>
-                <div className="flex items-center gap-2 rounded-xl border border-slate-700/80 bg-slate-950/80 px-4 py-3 text-slate-300">
+                <label className="mb-1.5 block text-xs text-slate-600 dark:text-slate-400">
+                  Email (read-only)
+                </label>
+                <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 dark:border-slate-700/80 dark:bg-slate-950/80 dark:text-slate-300">
                   <span className="min-w-0 flex-1 truncate">{email}</span>
-                  <span className="shrink-0 rounded-md bg-slate-800 px-2 py-0.5 text-[10px] uppercase text-slate-500">
+                  <span className="shrink-0 rounded-md bg-slate-200 px-2 py-0.5 text-[10px] uppercase text-slate-600 dark:bg-slate-800 dark:text-slate-500">
                     Fixed
                   </span>
                 </div>
               </div>
               <div>
-                <label className="mb-1.5 block text-xs text-slate-400">
-                  Username <span className="text-red-400">*</span> (2–64)
+                <label className="mb-1.5 block text-xs text-slate-600 dark:text-slate-400">
+                  Username <span className="text-red-500 dark:text-red-400">*</span> (2–64)
                 </label>
                 <input
                   autoComplete="username"
@@ -439,7 +443,9 @@ function ProfileEditor({ user, userKey }) {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-xs text-slate-400">Display name</label>
+                <label className="mb-1.5 block text-xs text-slate-600 dark:text-slate-400">
+                  Display name
+                </label>
                 <input
                   value={form.displayName}
                   onChange={(e) => setField('displayName', e.target.value)}
@@ -448,7 +454,9 @@ function ProfileEditor({ user, userKey }) {
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-xs text-slate-400">Photo URL</label>
+                <label className="mb-1.5 block text-xs text-slate-600 dark:text-slate-400">
+                  Photo URL
+                </label>
                 <input
                   type="url"
                   value={form.photo}
@@ -458,7 +466,7 @@ function ProfileEditor({ user, userKey }) {
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-xs text-slate-400">Bio</label>
+                <label className="mb-1.5 block text-xs text-slate-600 dark:text-slate-400">Bio</label>
                 <textarea
                   rows={3}
                   value={form.bio}
@@ -471,13 +479,15 @@ function ProfileEditor({ user, userKey }) {
             </div>
           </section>
 
-          <section className="space-y-6 border-t border-slate-800 pt-8">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <section className="space-y-6 border-t border-slate-200 pt-8 dark:border-slate-800">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-500">
               Contact
             </h3>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <label className="mb-1.5 block text-xs text-slate-400">Phone</label>
+                <label className="mb-1.5 block text-xs text-slate-600 dark:text-slate-400">
+                  Phone
+                </label>
                 <input
                   type="tel"
                   value={form.number}
@@ -487,7 +497,9 @@ function ProfileEditor({ user, userKey }) {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-xs text-slate-400">Organisation</label>
+                <label className="mb-1.5 block text-xs text-slate-600 dark:text-slate-400">
+                  Organisation
+                </label>
                 <input
                   value={form.organisation}
                   onChange={(e) => setField('organisation', e.target.value)}
@@ -496,7 +508,9 @@ function ProfileEditor({ user, userKey }) {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-xs text-slate-400">Current company</label>
+                <label className="mb-1.5 block text-xs text-slate-600 dark:text-slate-400">
+                  Current company
+                </label>
                 <input
                   value={form.currentCompany}
                   onChange={(e) => setField('currentCompany', e.target.value)}
@@ -505,7 +519,9 @@ function ProfileEditor({ user, userKey }) {
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-xs text-slate-400">Resume</label>
+                <label className="mb-1.5 block text-xs text-slate-600 dark:text-slate-400">
+                  Resume
+                </label>
                 <textarea
                   rows={2}
                   value={form.resume}
@@ -515,7 +531,9 @@ function ProfileEditor({ user, userKey }) {
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-xs text-slate-400">Address</label>
+                <label className="mb-1.5 block text-xs text-slate-600 dark:text-slate-400">
+                  Address
+                </label>
                 <textarea
                   rows={2}
                   value={form.address}
@@ -527,7 +545,7 @@ function ProfileEditor({ user, userKey }) {
             </div>
           </section>
 
-          <section className="border-t border-slate-800 pt-8">
+          <section className="border-t border-slate-200 pt-8 dark:border-slate-800">
             <ProfileLocationFields
               userKey={userKey}
               countryCode={form.countryCode}
@@ -543,14 +561,14 @@ function ProfileEditor({ user, userKey }) {
             />
           </section>
 
-          <section className="border-t border-slate-800 pt-8">
+          <section className="border-t border-slate-200 pt-8 dark:border-slate-800">
             <SkillChipsInput
               skills={form.skills}
               onChange={(skills) => setField('skills', skills)}
             />
           </section>
 
-          <section className="border-t border-slate-800 pt-8">
+          <section className="border-t border-slate-200 pt-8 dark:border-slate-800">
             <SocialProfileCards
               items={form.socialProfiles}
               onChange={(socialProfiles) => {
@@ -560,7 +578,7 @@ function ProfileEditor({ user, userKey }) {
             />
           </section>
 
-          <section className="space-y-8 border-t border-slate-800 pt-8">
+          <section className="space-y-8 border-t border-slate-200 pt-8 dark:border-slate-800">
             <ProfileWorkCards
               items={form.workExperience}
               onChange={(workExperience) => {
@@ -577,7 +595,7 @@ function ProfileEditor({ user, userKey }) {
             />
           </section>
 
-          <div className="flex flex-wrap items-center justify-end gap-3 border-t border-slate-800 pt-6">
+          <div className="flex flex-wrap items-center justify-end gap-3 border-t border-slate-200 pt-6 dark:border-slate-800">
             <button
               type="button"
               onClick={() => {
@@ -585,14 +603,14 @@ function ProfileEditor({ user, userKey }) {
                 setFormError('')
                 setSaved(false)
               }}
-              className="rounded-xl px-4 py-2.5 text-sm text-slate-400 hover:bg-slate-800"
+              className="rounded-xl px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
             >
               Reset
             </button>
             <button
               type="button"
               onClick={() => setMode('preview')}
-              className="rounded-xl border border-slate-600 px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-800"
+              className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
             >
               Cancel
             </button>
@@ -608,18 +626,18 @@ function ProfileEditor({ user, userKey }) {
       </div>
 
       {extraRows.length > 0 && (
-        <div className="mt-8 rounded-2xl border border-slate-800/60 bg-slate-900/30 p-6">
-          <h3 className="text-sm font-medium text-slate-400">Other</h3>
+        <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-800/60 dark:bg-slate-900/30">
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">Other</h3>
           <dl className="mt-4 grid gap-3 text-sm">
             {extraRows.map(([key, value]) => (
               <div
                 key={key}
-                className="flex flex-wrap justify-between gap-2 rounded-lg bg-slate-950/50 px-3 py-2"
+                className="flex flex-wrap justify-between gap-2 rounded-lg border border-slate-100 bg-white px-3 py-2 dark:border-transparent dark:bg-slate-950/50"
               >
-                <dt className="text-slate-500 capitalize">
+                <dt className="text-slate-600 capitalize dark:text-slate-500">
                   {key.replace(/([A-Z])/g, ' $1').trim()}
                 </dt>
-                <dd className="text-slate-300">{String(value)}</dd>
+                <dd className="text-slate-800 dark:text-slate-300">{String(value)}</dd>
               </div>
             ))}
           </dl>
@@ -641,7 +659,7 @@ export default function Profile() {
   }
   if (isError || !user) {
     return (
-      <div className="mx-auto max-w-md rounded-2xl border border-red-900/50 bg-red-950/20 p-8 text-center text-red-300">
+      <div className="mx-auto max-w-md rounded-2xl border border-red-200 bg-red-50 p-8 text-center text-red-800 dark:border-red-900/50 dark:bg-red-950/20 dark:text-red-300">
         {error?.data?.message || 'Could not load profile'}
       </div>
     )

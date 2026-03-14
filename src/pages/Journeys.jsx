@@ -6,11 +6,13 @@ export default function Journeys() {
   const { data, isLoading, isError, error } = useGetJourneysQuery()
 
   if (isLoading) {
-    return <p className="text-slate-400">Loading journeys…</p>
+    return (
+      <p className="text-slate-600 dark:text-slate-400">Loading journeys…</p>
+    )
   }
   if (isError) {
     return (
-      <p className="text-red-400">
+      <p className="text-red-600 dark:text-red-400">
         {error?.data?.message || 'Could not load journeys'}
       </p>
     )
@@ -22,10 +24,10 @@ export default function Journeys() {
     <div>
       <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
         <div className="min-w-0">
-          <h1 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
+          <h1 className="text-xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
             Journeys
           </h1>
-          <p className="mt-2 text-sm text-slate-400 sm:text-base">
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 sm:text-base">
             Learning paths you own. Create a journey, then add items and track
             progress.
           </p>
@@ -39,11 +41,11 @@ export default function Journeys() {
       </div>
 
       {list.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-slate-700 bg-slate-900/30 px-8 py-16 text-center">
-          <p className="text-slate-400">No journeys yet.</p>
+        <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-8 py-16 text-center dark:border-slate-700 dark:bg-slate-900/30">
+          <p className="text-slate-600 dark:text-slate-400">No journeys yet.</p>
           <Link
             to="/journeys/new"
-            className="mt-4 inline-block text-sm font-medium text-violet-400 hover:underline"
+            className="mt-4 inline-block text-sm font-medium text-violet-600 hover:underline dark:text-violet-400"
           >
             Create your first journey →
           </Link>

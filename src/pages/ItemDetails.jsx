@@ -40,7 +40,7 @@ function TextInput(props) {
   const { className = '', ...rest } = props
   return (
     <input
-      className={`w-full rounded-lg border border-slate-600/80 bg-[#0d1117] px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/25 ${className}`}
+      className={`w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/25 dark:border-slate-600/80 dark:bg-[#0d1117] dark:text-slate-200 dark:placeholder:text-slate-600 ${className}`}
       {...rest}
     />
   )
@@ -127,7 +127,8 @@ export default function ItemDetails() {
     }
   }
 
-  if (isLoading) return <p className="p-4 text-slate-400">Loading item…</p>
+  if (isLoading)
+    return <p className="p-4 text-slate-600 dark:text-slate-400">Loading item…</p>
   if (isError || !item) {
     return <p className="p-4 text-red-400">Item not found.</p>
   }
@@ -151,7 +152,7 @@ export default function ItemDetails() {
           ? 'bg-red-950/50 text-red-300'
           : status === 'partial'
             ? 'bg-amber-950/50 text-amber-200'
-            : 'bg-slate-800 text-slate-400'
+            : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
     return (
       <span className={`rounded px-2 py-0.5 text-[11px] font-medium ${cls}`}>
         {label}
@@ -162,24 +163,26 @@ export default function ItemDetails() {
   return (
     <div className="-mx-3 flex w-[calc(100%+1.5rem)] max-w-none flex-col xs:-mx-4 xs:w-[calc(100%+2rem)] sm:mx-0 sm:w-full">
       {/* Top bar — full width; stack on narrow phones */}
-      <header className="sticky top-0 z-10 flex flex-col gap-3 border-b border-slate-800 bg-[#0a0c10]/95 px-3 py-3 backdrop-blur-sm xs:px-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+      <header className="sticky top-0 z-10 flex flex-col gap-3 border-b border-slate-200 bg-white/95 px-3 py-3 backdrop-blur-sm dark:border-slate-800 dark:bg-[#0a0c10]/95 xs:px-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
           <Link
             to={`/journeys/${journeyId}`}
-            className="text-xs text-violet-400 hover:underline"
+            className="text-xs text-violet-600 hover:underline dark:text-violet-400"
           >
             ← Journey
           </Link>
-          <h1 className="truncate text-xl font-semibold text-white">{item.title}</h1>
+          <h1 className="truncate text-xl font-semibold text-slate-900 dark:text-white">
+            {item.title}
+          </h1>
           {item.description && (
-            <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">
+            <p className="mt-0.5 line-clamp-2 text-xs text-slate-600 dark:text-slate-500">
               {item.description}
             </p>
           )}
         </div>
         <Link
           to={`/journeys/${journeyId}/items/${itemId}/edit`}
-          className="shrink-0 rounded-lg border border-slate-600 bg-slate-800/80 px-3 py-1.5 text-sm text-slate-200 hover:border-violet-500/50"
+          className="shrink-0 rounded-lg border border-slate-300 bg-slate-50 px-3 py-1.5 text-sm text-slate-800 hover:border-violet-500/50 dark:border-slate-600 dark:bg-slate-800/80 dark:text-slate-200"
         >
           Edit item
         </Link>
@@ -189,16 +192,18 @@ export default function ItemDetails() {
         {/* Split: left details | right code — uses full main width */}
         <div className="grid min-h-0 w-full grid-cols-1 gap-0 md:min-h-[min(88dvh,800px)] lg:min-h-[calc(100dvh-6rem)] lg:grid-cols-[minmax(280px,min(100%,380px))_1fr] xl:grid-cols-[minmax(300px,420px)_1fr]">
           {/* LEFT — metadata & outcome */}
-          <aside className="scrollbar-themed max-h-[70dvh] overflow-y-auto border-b border-slate-800 bg-[#0d1117] sm:max-h-none lg:max-h-none lg:border-b-0 lg:border-r lg:border-slate-800">
+          <aside className="scrollbar-themed max-h-[70dvh] overflow-y-auto border-b border-slate-200 bg-slate-50 sm:max-h-none lg:max-h-none lg:border-b-0 lg:border-r lg:border-slate-200 dark:border-slate-800 dark:bg-[#0d1117] dark:lg:border-slate-800">
             <div className="space-y-4 p-3 pb-20 xs:p-4 sm:space-y-5 sm:pb-24">
               <div>
-                <h2 className="text-sm font-semibold text-white">Log submission</h2>
+                <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
+                  Log submission
+                </h2>
                 <p className="text-[11px] text-slate-500">
                   Left: details · Right: code · History below
                 </p>
               </div>
 
-              <div className="rounded-lg border border-slate-800/80 bg-[#16161e]/40 p-3">
+              <div className="rounded-lg border border-slate-200 bg-white p-3 dark:border-slate-800/80 dark:bg-[#16161e]/40">
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                   Identity
                 </p>
@@ -225,7 +230,7 @@ export default function ItemDetails() {
                 </div>
               </div>
 
-              <div className="rounded-lg border border-slate-800/80 bg-[#16161e]/40 p-3">
+              <div className="rounded-lg border border-slate-200 bg-white p-3 dark:border-slate-800/80 dark:bg-[#16161e]/40">
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                   How you solved
                 </p>
@@ -307,7 +312,7 @@ export default function ItemDetails() {
                 </div>
               </div>
 
-              <div className="rounded-lg border border-slate-800/80 bg-[#16161e]/40 p-3">
+              <div className="rounded-lg border border-slate-200 bg-white p-3 dark:border-slate-800/80 dark:bg-[#16161e]/40">
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                   Result
                 </p>
@@ -324,7 +329,7 @@ export default function ItemDetails() {
                     </option>
                   ))}
                 </select>
-                <div className="mt-4 border-t border-slate-800/80 pt-3">
+                <div className="mt-4 border-t border-slate-200 pt-3 dark:border-slate-800/80">
                   <FieldLabel htmlFor="sub-flag">Flag color</FieldLabel>
                   <p className="mb-2 text-[10px] text-slate-600">
                     Highlights this submission in history (badge + card edge).
@@ -361,7 +366,7 @@ export default function ItemDetails() {
                 </div>
               </div>
 
-              <div className="rounded-lg border border-slate-800/80 bg-[#16161e]/40 p-3">
+              <div className="rounded-lg border border-slate-200 bg-white p-3 dark:border-slate-800/80 dark:bg-[#16161e]/40">
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                   Notes & links
                 </p>
@@ -372,7 +377,7 @@ export default function ItemDetails() {
                       <button
                         type="button"
                         onClick={() => setNotesFullscreen(true)}
-                        className="shrink-0 rounded-md border border-slate-600 bg-slate-800/80 px-2.5 py-1 text-[11px] font-medium text-slate-300 hover:border-violet-500/50 hover:text-white"
+                        className="shrink-0 rounded-md border border-slate-300 bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-700 hover:border-violet-500/50 hover:text-violet-800 dark:border-slate-600 dark:bg-slate-800/80 dark:text-slate-300 dark:hover:text-white"
                         title="Fullscreen notes (Esc to close)"
                       >
                         ⛶ Full screen
@@ -383,7 +388,7 @@ export default function ItemDetails() {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       rows={4}
-                      className="scrollbar-themed w-full resize-y rounded-lg border border-slate-600/80 bg-[#0d1117] px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/25"
+                      className="scrollbar-themed w-full resize-y rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/25 dark:border-slate-600/80 dark:bg-[#0d1117] dark:text-slate-200 dark:placeholder:text-slate-600"
                       placeholder="Approach, bugs, what to retry…"
                     />
                   </div>
@@ -397,12 +402,12 @@ export default function ItemDetails() {
                       placeholder="https://…"
                     />
                   </div>
-                  <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-300">
+                  <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-800 dark:text-slate-300">
                     <input
                       type="checkbox"
                       checked={isStarred}
                       onChange={(e) => setIsStarred(e.target.checked)}
-                      className="rounded border-slate-600 bg-[#0d1117] text-violet-600 focus:ring-violet-500"
+                      className="rounded border-slate-400 bg-white text-violet-600 focus:ring-violet-500 dark:border-slate-600 dark:bg-[#0d1117]"
                     />
                     Star this submission
                   </label>
@@ -420,13 +425,13 @@ export default function ItemDetails() {
           </aside>
 
           {/* RIGHT — code (full height) */}
-          <div className="flex min-h-[360px] min-w-0 flex-col bg-[#1a1b26] lg:min-h-0">
-            <div className="flex h-11 shrink-0 flex-wrap items-center gap-2 border-b border-slate-700/90 bg-[#16161e] px-3">
-              <span className="text-xs font-medium text-slate-400">Code</span>
-              <span className="rounded bg-slate-800 px-2 py-0.5 font-mono text-[11px] text-violet-300">
+          <div className="flex min-h-[360px] min-w-0 flex-col border-t border-slate-200 bg-slate-100 dark:border-t-0 dark:bg-[#1a1b26] lg:min-h-0 lg:border-t-0">
+            <div className="flex h-11 shrink-0 flex-wrap items-center gap-2 border-b border-slate-200 bg-white px-3 dark:border-slate-700/90 dark:bg-[#16161e]">
+              <span className="text-xs font-medium text-slate-600 dark:text-slate-400">Code</span>
+              <span className="rounded bg-slate-200 px-2 py-0.5 font-mono text-[11px] text-violet-800 dark:bg-slate-800 dark:text-violet-300">
                 {langConfig.label}
               </span>
-              <span className="ml-auto text-[10px] text-slate-600">
+              <span className="ml-auto text-[10px] text-slate-500 dark:text-slate-600">
                 Syntax highlight · pre wrap off
               </span>
             </div>
@@ -449,13 +454,15 @@ export default function ItemDetails() {
 
       {notesFullscreen &&
         createPortal(
-          <div className="fixed inset-0 z-[200] flex flex-col bg-[#0d1117]">
-            <div className="flex h-12 shrink-0 items-center justify-between border-b border-slate-700 bg-[#16161e] px-4">
-              <span className="text-sm font-medium text-slate-200">Notes · fullscreen</span>
+          <div className="fixed inset-0 z-[200] flex flex-col bg-white dark:bg-[#0d1117]">
+            <div className="flex h-12 shrink-0 items-center justify-between border-b border-slate-200 bg-slate-50 px-4 dark:border-slate-700 dark:bg-[#16161e]">
+              <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
+                Notes · fullscreen
+              </span>
               <button
                 type="button"
                 onClick={() => setNotesFullscreen(false)}
-                className="rounded-lg bg-slate-800 px-4 py-1.5 text-sm text-slate-200 hover:bg-slate-700"
+                className="rounded-lg border border-slate-300 bg-white px-4 py-1.5 text-sm text-slate-800 hover:bg-slate-50 dark:border-0 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
               >
                 Done <kbd className="ml-1 text-slate-500">Esc</kbd>
               </button>
@@ -464,7 +471,7 @@ export default function ItemDetails() {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               autoFocus
-              className="scrollbar-themed min-h-0 flex-1 resize-none border-0 bg-[#0d1117] p-6 text-base leading-relaxed text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-0"
+              className="scrollbar-themed min-h-0 flex-1 resize-none border-0 bg-white p-6 text-base leading-relaxed text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-0 dark:bg-[#0d1117] dark:text-slate-200 dark:placeholder:text-slate-600"
               placeholder="Approach, bugs, what to retry…"
             />
           </div>,
@@ -472,12 +479,14 @@ export default function ItemDetails() {
         )}
 
       {/* History — full width below split */}
-      <section className="mt-2 border-t border-slate-800 bg-[#0a0c10] px-3 py-6 xs:px-4 sm:py-8">
-        <h2 className="mb-4 text-lg font-semibold text-white">Submission history</h2>
+      <section className="mt-2 border-t border-slate-200 bg-slate-50 px-3 py-6 dark:border-slate-800 dark:bg-[#0a0c10] xs:px-4 sm:py-8">
+        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
+          Submission history
+        </h2>
         {sLoading ? (
-          <p className="text-slate-400">Loading submissions…</p>
+          <p className="text-slate-600 dark:text-slate-400">Loading submissions…</p>
         ) : subList.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-slate-800 py-12 text-center text-slate-500">
+          <p className="rounded-xl border border-dashed border-slate-300 py-12 text-center text-slate-600 dark:border-slate-800 dark:text-slate-500">
             No submissions yet.
           </p>
         ) : (
@@ -490,11 +499,11 @@ export default function ItemDetails() {
               return (
               <li
                 key={s._id}
-                className={`overflow-hidden rounded-xl border border-slate-800 bg-slate-950/50 ${
+                className={`overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950/50 ${
                   fc === 'none' ? '' : `border-l-4 ${borderL}`
                 }`}
               >
-                <div className="flex flex-wrap items-center gap-2 border-b border-slate-800 bg-slate-900/70 px-3 py-2.5 text-xs">
+                <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 bg-slate-50 px-3 py-2.5 text-xs dark:border-slate-800 dark:bg-slate-900/70">
                   {s.isStarred && (
                     <span className="text-amber-400" title="Starred">
                       ★
@@ -509,13 +518,13 @@ export default function ItemDetails() {
                     </span>
                   )}
                   {resultBadge(s.resultStatus)}
-                  <span className="rounded bg-violet-950/50 px-2 py-0.5 font-medium text-violet-300">
+                  <span className="rounded bg-violet-100 px-2 py-0.5 font-medium text-violet-800 dark:bg-violet-950/50 dark:text-violet-300">
                     {SOLVING_METHODS.find((m) => m.id === s.solvingMethod)
                       ?.label || s.solvingMethod?.replace(/_/g, ' ')}
                   </span>
-                  <span className="text-slate-400">{s.language || 'java'}</span>
+                  <span className="text-slate-600 dark:text-slate-400">{s.language || 'java'}</span>
                   {s.title && (
-                    <span className="max-w-[12rem] truncate font-medium text-slate-300">
+                    <span className="max-w-[12rem] truncate font-medium text-slate-800 dark:text-slate-300">
                       {s.title}
                     </span>
                   )}
@@ -539,11 +548,11 @@ export default function ItemDetails() {
                   </span>
                 </div>
                 {Array.isArray(s.tags) && s.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1 border-b border-slate-800/80 px-3 py-2">
+                  <div className="flex flex-wrap gap-1 border-b border-slate-200 px-3 py-2 dark:border-slate-800/80">
                     {s.tags.map((t) => (
                       <span
                         key={t}
-                        className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400"
+                        className="rounded bg-slate-200 px-1.5 py-0.5 text-[10px] text-slate-700 dark:bg-slate-800 dark:text-slate-400"
                       >
                         {t}
                       </span>
@@ -562,7 +571,7 @@ export default function ItemDetails() {
                   </div>
                 )}
                 {(s.notes || s.externalUrl) && (
-                  <div className="space-y-2 border-t border-slate-800/80 px-4 py-3 text-sm text-slate-400">
+                  <div className="space-y-2 border-t border-slate-200 px-4 py-3 text-sm text-slate-700 dark:border-slate-800/80 dark:text-slate-400">
                     {s.notes && (
                       <p className="whitespace-pre-wrap">{s.notes}</p>
                     )}
@@ -571,7 +580,7 @@ export default function ItemDetails() {
                         href={s.externalUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="block truncate text-violet-400 hover:underline"
+                        className="block truncate text-violet-600 hover:underline dark:text-violet-400"
                       >
                         {s.externalUrl}
                       </a>

@@ -10,6 +10,7 @@ import {
   mapJourneyServerErrors,
 } from '../features/journeys/journeyFormState'
 import { toast, apiErrorMessage } from '../utils/toast'
+import Spinner from '../components/Spinner'
 
 export default function CreateJourney() {
   const [createJourney, { isLoading }] = useCreateJourneyMutation()
@@ -149,8 +150,9 @@ export default function CreateJourney() {
           <button
             type="submit"
             disabled={isLoading}
-            className="rounded-lg bg-violet-600 px-5 py-2 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-50"
+            className="flex items-center justify-center gap-2 rounded-lg bg-violet-600 px-5 py-2 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-50"
           >
+            {isLoading && <Spinner size="sm" className="shrink-0" />}
             {isLoading ? 'Creating…' : 'Create journey'}
           </button>
         </div>

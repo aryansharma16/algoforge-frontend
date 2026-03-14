@@ -11,6 +11,7 @@ import {
   validateConfirmPassword,
 } from '../utils/authValidation'
 import PasswordInput from '../components/PasswordInput'
+import Spinner from '../components/Spinner'
 
 const MIN_PASSWORD_LENGTH = 8
 
@@ -173,8 +174,9 @@ export default function Register() {
         <button
           type="submit"
           disabled={isLoading}
-          className="mt-1 w-full rounded-lg bg-violet-600 py-2.5 font-semibold text-white transition hover:bg-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 dark:focus:ring-offset-slate-900"
+          className="mt-1 flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 py-2.5 font-semibold text-white transition hover:bg-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 dark:focus:ring-offset-slate-900"
         >
+          {isLoading && <Spinner size="sm" className="shrink-0" />}
           {isLoading ? 'Creating account…' : 'Register'}
         </button>
       </form>

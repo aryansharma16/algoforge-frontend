@@ -15,6 +15,7 @@ import {
 } from '../features/journeys/journeyFormState'
 import { toast, apiErrorMessage } from '../utils/toast'
 import ConfirmDialog from '../components/ConfirmDialog'
+import Spinner from '../components/Spinner'
 
 function EditJourneyForm({ journey, journeyId }) {
   const navigate = useNavigate()
@@ -68,8 +69,9 @@ function EditJourneyForm({ journey, journeyId }) {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-lg bg-violet-600 px-5 py-2 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-50"
+          className="flex items-center justify-center gap-2 rounded-lg bg-violet-600 px-5 py-2 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-50"
         >
+          {saving && <Spinner size="sm" className="shrink-0" />}
           {saving ? 'Saving…' : 'Save changes'}
         </button>
       </div>
@@ -82,7 +84,12 @@ export default function EditJourney() {
   const { data: journey, isLoading, isError } = useGetJourneyByIdQuery(journeyId)
 
   if (isLoading) {
-    return <p className="text-slate-400">Loading journey…</p>
+    return (
+      <div className="animate-pulse space-y-6">
+        <div className="h-4 w-48 rounded bg-slate-200 dark:bg-slate-700" />
+        <div className="h-64 rounded-2xl bg-slate-100 dark:bg-slate-800/80" />
+      </div>
+    )
   }
   if (isError || !journey) {
     return (

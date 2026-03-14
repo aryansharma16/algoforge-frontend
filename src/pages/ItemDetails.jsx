@@ -11,6 +11,8 @@ import SubmissionCodeEditor from '../components/SubmissionCodeEditor'
 import MultiPickField from '../components/MultiPickField'
 import { TAG_PRESETS } from '../data/itemPicklists'
 import { STORAGE_KEYS } from '../utils/itemPicklistStorage'
+import Spinner from '../components/Spinner'
+import ItemDetailsSkeleton from '../components/skeletons/ItemDetailsSkeleton'
 import {
   SOLVING_METHODS,
   SUBMISSION_LANGUAGES,
@@ -153,8 +155,7 @@ export default function ItemDetails() {
     }
   }
 
-  if (isLoading)
-    return <p className="p-4 text-slate-600 dark:text-slate-400">Loading item…</p>
+  if (isLoading) return <ItemDetailsSkeleton />
   if (isError || !item) {
     return <p className="p-4 text-red-400">Item not found.</p>
   }
@@ -482,8 +483,9 @@ export default function ItemDetails() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full rounded-lg bg-gradient-to-b from-violet-600 to-violet-700 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-900/30 hover:from-violet-500 hover:to-violet-600 disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-violet-600 to-violet-700 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-900/30 hover:from-violet-500 hover:to-violet-600 disabled:opacity-50"
               >
+                {submitting && <Spinner size="sm" className="shrink-0" />}
                 {submitting ? 'Saving…' : 'Save submission'}
               </button>
                 </>

@@ -16,6 +16,7 @@ import { MAX_SOCIAL_PROFILES } from '../constants/socialProfiles'
 import { normalizeWorkForForm } from '../utils/profileWork'
 import { getInitials } from '../utils/avatar'
 import { toast, apiErrorMessage } from '../utils/toast'
+import Spinner from '../components/Spinner'
 import countriesData from '../data/geo/countries.json'
 import indiaData from '../data/geo/india-states-cities.json'
 
@@ -617,8 +618,9 @@ function ProfileEditor({ user, userKey }) {
             <button
               type="submit"
               disabled={saving}
-              className="rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+              className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
             >
+              {saving && <Spinner size="sm" className="shrink-0" />}
               {saving ? 'Saving…' : 'Save & preview'}
             </button>
           </div>

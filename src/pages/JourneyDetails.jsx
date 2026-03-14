@@ -6,6 +6,7 @@ import { JOURNEY_LABELS } from '../constants/journey'
 import { CS_TOPIC_LABEL } from '../constants/csTopics'
 import JourneyTimeline, { completionMetrics } from '../components/JourneyTimeline'
 import JourneyItemsSection from '../components/JourneyItemsSection'
+import JourneyDetailsSkeleton from '../components/skeletons/JourneyDetailsSkeleton'
 
 function formatDate(iso) {
   if (!iso) return null
@@ -142,14 +143,7 @@ export default function JourneyDetails() {
     return rest
   }, [journey])
 
-  if (jLoading) {
-    return (
-      <div className="animate-pulse space-y-4">
-        <div className="h-4 w-32 rounded bg-slate-200 dark:bg-slate-800" />
-        <div className="h-40 rounded-2xl bg-slate-200 dark:bg-slate-800/80" />
-      </div>
-    )
-  }
+  if (jLoading) return <JourneyDetailsSkeleton />
   if (jErr || !journey) {
     return (
       <div className="rounded-xl border border-red-900/50 bg-red-950/20 p-6 text-red-300">

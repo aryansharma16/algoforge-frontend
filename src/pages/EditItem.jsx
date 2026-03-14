@@ -16,6 +16,7 @@ import {
 } from '../features/items/itemFormState'
 import { toast, apiErrorMessage } from '../utils/toast'
 import ConfirmDialog from '../components/ConfirmDialog'
+import Spinner from '../components/Spinner'
 
 function EditItemForm({ item, journeyId, itemId }) {
   const navigate = useNavigate()
@@ -65,8 +66,9 @@ function EditItemForm({ item, journeyId, itemId }) {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-50"
+          className="flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-50"
         >
+          {saving && <Spinner size="sm" className="shrink-0" />}
           {saving ? 'Saving…' : 'Save changes'}
         </button>
       </div>

@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useDeleteItemMutation } from '../api/itemApi'
 import ConfirmDialog from './ConfirmDialog'
+import ItemsSectionSkeleton from './skeletons/ItemsSectionSkeleton'
 import { toast, apiErrorMessage } from '../utils/toast'
 import {
   LEARNING_ITEM_TYPES,
@@ -373,17 +374,7 @@ export default function JourneyItemsSection({
     [list]
   )
 
-  if (loading) {
-    return (
-      <div className="mt-10 flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-6 py-10 dark:border-slate-800/80 dark:bg-[#0d1117]">
-        <span className="h-8 w-8 animate-pulse rounded-full bg-violet-500/20" />
-        <div className="space-y-2">
-          <div className="h-4 w-32 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-          <div className="h-3 w-48 animate-pulse rounded bg-slate-100 dark:bg-slate-800/80" />
-        </div>
-      </div>
-    )
-  }
+  if (loading) return <ItemsSectionSkeleton />
   if (error) return <p className="mt-10 text-red-400">Could not load items</p>
   if (list.length === 0) return empty
 

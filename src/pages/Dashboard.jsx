@@ -1,4 +1,5 @@
 import { useGetDashboardQuery } from '../api/dashboardApi'
+import DashboardSkeleton from '../components/skeletons/DashboardSkeleton'
 
 function Stat({ label, value }) {
   return (
@@ -16,11 +17,7 @@ function Stat({ label, value }) {
 export default function Dashboard() {
   const { data, isLoading, isError, error } = useGetDashboardQuery()
 
-  if (isLoading) {
-    return (
-      <p className="text-slate-600 dark:text-slate-400">Loading dashboard…</p>
-    )
-  }
+  if (isLoading) return <DashboardSkeleton />
   if (isError) {
     return (
       <p className="text-red-400">

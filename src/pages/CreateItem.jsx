@@ -11,6 +11,7 @@ import {
   mapItemServerErrors,
 } from '../features/items/itemFormState'
 import { toast, apiErrorMessage } from '../utils/toast'
+import Spinner from '../components/Spinner'
 
 export default function CreateItem() {
   const { journeyId } = useParams()
@@ -115,8 +116,9 @@ export default function CreateItem() {
           <button
             type="submit"
             disabled={isLoading}
-            className="rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-50"
+            className="flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-50"
           >
+            {isLoading && <Spinner size="sm" className="shrink-0" />}
             {isLoading ? 'Creating…' : 'Create item'}
           </button>
         </div>

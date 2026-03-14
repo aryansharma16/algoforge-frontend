@@ -1,0 +1,125 @@
+@import 'tailwindcss';
+@config '../tailwind.config.js';
+
+/* Scan all files under src for class names */
+@source './**/*.{js,jsx}';
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+}
+
+/**
+ * Thin scrollbars matching dark + violet theme.
+ * Hides fat OS scrollbars; uses 5px thumb on WebKit, thin on Firefox.
+ */
+@layer utilities {
+  .scrollbar-themed {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 92, 246, 0.4) rgba(15, 23, 42, 0.35);
+  }
+  .scrollbar-themed::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  .scrollbar-themed::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 4px 0;
+    border-radius: 9999px;
+  }
+  .scrollbar-themed::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      rgba(139, 92, 246, 0.45),
+      rgba(99, 102, 241, 0.35)
+    );
+    border-radius: 9999px;
+    border: 1px solid rgba(15, 23, 42, 0.4);
+  }
+  .scrollbar-themed::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(167, 139, 250, 0.65),
+      rgba(129, 140, 248, 0.5)
+    );
+  }
+  .scrollbar-themed::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* IDE-style native selects (dark chrome, no “school” default) */
+  .select-ide {
+    @apply cursor-pointer rounded-md border border-slate-600/90 bg-[#16161e] py-1.5 pl-2.5 pr-8 text-xs font-medium text-slate-200 shadow-inner outline-none transition-colors;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+  }
+  .select-ide:hover {
+    @apply border-violet-500/40 bg-[#1a1b26] text-white;
+  }
+  .select-ide:focus {
+    @apply border-violet-500/60 ring-1 ring-violet-500/30;
+  }
+}
+
+/* Prism needs language-* on <pre>; Tailwind preflight must not zero .token colors */
+.submission-prism.language-java,
+.submission-prism[class*='language-'] {
+  color: #c9d1d9 !important;
+  background: transparent !important;
+}
+.submission-prism .token.comment,
+.submission-prism .token.prolog,
+.submission-prism .token.doctype,
+.submission-prism .token.cdata {
+  color: #8b949e !important;
+}
+.submission-prism .token.punctuation {
+  color: #c9d1d9 !important;
+}
+.submission-prism .token.property,
+.submission-prism .token.tag,
+.submission-prism .token.boolean,
+.submission-prism .token.number,
+.submission-prism .token.constant,
+.submission-prism .token.symbol {
+  color: #79c0ff !important;
+}
+.submission-prism .token.selector,
+.submission-prism .token.attr-name,
+.submission-prism .token.string,
+.submission-prism .token.char,
+.submission-prism .token.builtin {
+  color: #a5d6ff !important;
+}
+.submission-prism .token.operator,
+.submission-prism .token.entity,
+.submission-prism .token.url,
+.submission-prism .language-css .token.string {
+  color: #ff7b72 !important;
+}
+.submission-prism .token.atrule,
+.submission-prism .token.attr-value,
+.submission-prism .token.keyword {
+  color: #d2a8ff !important;
+}
+.submission-prism .token.function,
+.submission-prism .token.class-name {
+  color: #d2a8ff !important;
+}
+.submission-prism .token.regex,
+.submission-prism .token.important,
+.submission-prism .token.variable {
+  color: #ffa657 !important;
+}
+.submission-prism .token.important,
+.submission-prism .token.bold {
+  font-weight: 700 !important;
+}
+.submission-prism .token.italic {
+  font-style: italic !important;
+}

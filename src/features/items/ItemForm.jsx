@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import SearchableSelect from '../../components/SearchableSelect'
+import ConfirmDialog from '../../components/ConfirmDialog'
 import SearchableCreatableSelect from '../../components/SearchableCreatableSelect'
 import MultiPickField from '../../components/MultiPickField'
 import {
@@ -20,6 +22,7 @@ const input =
   'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-violet-500/40 focus:outline-none focus:ring-1 focus:ring-violet-500/25 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600'
 
 export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) {
+  const [resourceRemoveIdx, setResourceRemoveIdx] = useState(null)
   const err = (k) => (errors[k] ? 'border-red-500/60' : '')
 
   function setResource(i, key, v) {
@@ -248,8 +251,8 @@ export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) 
               />
               <button
                 type="button"
-                onClick={() => removeResource(i)}
-                className="rounded-lg text-xs text-slate-500 hover:text-red-400 sm:col-span-1"
+                onClick={() => setResourceRemoveIdx(i)}
+                className="rounded-lg text-xs text-slate-500 hover:text-red-600 dark:hover:text-red-400 sm:col-span-1"
               >
                 Remove
               </button>
@@ -265,6 +268,19 @@ export default function ItemForm({ form, errors, setField, idPrefix = 'item' }) 
           </button>
         </div>
         {errors.resources && <p className="mt-2 text-xs text-red-400">{errors.resources}</p>}
+        <ConfirmDialog
+          open={resourceRemoveIdx !== null}
+          onClose={() => setResourceRemoveIdx(null)}
+          onConfirm={() => {
+            if (resourceRemoveIdx !== null) removeResource(resourceRemoveIdx)
+            setResourceRemoveIdx(null)
+          }}
+          title="Remove this resource?"
+          message="This row will be removed from the form. Save the item to persist changes."
+          confirmLabel="Remove"
+          cancelLabel="Cancel"
+          variant="danger"
+        />
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">

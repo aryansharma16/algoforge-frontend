@@ -6,6 +6,7 @@ import { apiSlice } from '../api/apiSlice'
 import UserAvatar from './UserAvatar'
 import { AppLogoMark } from './AppLogo'
 import { useGetCurrentUserQuery } from '../api/authApi'
+import ConfirmDialog from './ConfirmDialog'
 
 const linkClass = ({ isActive }) =>
   `flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium ${
@@ -16,6 +17,7 @@ const linkClass = ({ isActive }) =>
 
 export default function MobileNav() {
   const [open, setOpen] = useState(false)
+  const [logoutOpen, setLogoutOpen] = useState(false)
   const dispatch = useDispatch()
   const reduxUser = useSelector((s) => s.auth.user)
   const { data: me } = useGetCurrentUserQuery()
@@ -31,12 +33,6 @@ export default function MobileNav() {
       document.body.style.overflow = ''
     }
   }, [open])
-
-  function handleLogout() {
-    dispatch(logout())
-    dispatch(apiSlice.util.resetApiState())
-    setOpen(false)
-  }
 
   return (
     <>
@@ -125,7 +121,7 @@ export default function MobileNav() {
             <div className="border-t border-slate-200 p-3 dark:border-slate-800">
               <button
                 type="button"
-                onClick={handleLogout}
+                onClick={() => setLogoutOpen(true)}
                 className="w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/50"
               >
                 Logout
@@ -134,6 +130,21 @@ export default function MobileNav() {
           </nav>
         </div>
       )}
+      <ConfirmDialog
+        open={logoutOpen}
+        onClose={() => setLogoutOpen(false)}
+        onConfirm={() => {
+          dispatch(logout())
+          dispatch(apiSlice.util.resetApiState())
+          setOpen(false)
+          setLogoutOpen(false)
+        }}
+        title="Log out?"
+        message="You’ll need to sign in again to access your account."
+        confirmLabel="Log out"
+        cancelLabel="Stay signed in"
+        variant="danger"
+      />
     </>
   )
 }

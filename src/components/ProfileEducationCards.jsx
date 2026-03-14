@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import ConfirmDialog from './ConfirmDialog'
+
 const empty = () => ({
   institution: '',
   degree: '',
@@ -12,6 +15,7 @@ const inp =
 
 export default function ProfileEducationCards({ items, onChange }) {
   const list = items.length ? items : [empty()]
+  const [removeIdx, setRemoveIdx] = useState(null)
 
   function update(idx, key, value) {
     onChange(list.map((row, i) => (i === idx ? { ...row, [key]: value } : row)))
@@ -46,8 +50,8 @@ export default function ProfileEducationCards({ items, onChange }) {
               </span>
               <button
                 type="button"
-                onClick={() => remove(idx)}
-                className="text-xs text-red-400 hover:text-red-300"
+                onClick={() => setRemoveIdx(idx)}
+                className="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
               >
                 Remove card
               </button>
@@ -117,6 +121,19 @@ export default function ProfileEducationCards({ items, onChange }) {
       >
         + Add education
       </button>
+      <ConfirmDialog
+        open={removeIdx !== null}
+        onClose={() => setRemoveIdx(null)}
+        onConfirm={() => {
+          if (removeIdx !== null) remove(removeIdx)
+          setRemoveIdx(null)
+        }}
+        title="Remove this education entry?"
+        message="This card will be removed. Save your profile to apply."
+        confirmLabel="Remove"
+        cancelLabel="Cancel"
+        variant="danger"
+      />
     </div>
   )
 }

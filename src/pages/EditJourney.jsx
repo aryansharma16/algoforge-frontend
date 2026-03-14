@@ -14,6 +14,7 @@ import {
   mapJourneyServerErrors,
 } from '../features/journeys/journeyFormState'
 import { toast, apiErrorMessage } from '../utils/toast'
+import ConfirmDialog from '../components/ConfirmDialog'
 
 function EditJourneyForm({ journey, journeyId }) {
   const navigate = useNavigate()
@@ -144,17 +145,13 @@ export default function EditJourney() {
 function DeleteJourneySection({ journeyId, title }) {
   const navigate = useNavigate()
   const [deleteJourney, { isLoading }] = useDeleteJourneyMutation()
+  const [open, setOpen] = useState(false)
 
   async function onDelete() {
-    if (
-      !confirm(
-        `Delete “${title || 'this journey'}”? This cannot be undone.`
-      )
-    )
-      return
     try {
       await deleteJourney(journeyId).unwrap()
       toast.success('Journey deleted')
+      setOpen(false)
       navigate('/journeys', { replace: true })
     } catch (err) {
       toast.error('Could not delete journey', { description: apiErrorMessage(err) })
@@ -170,11 +167,22 @@ function DeleteJourneySection({ journeyId, title }) {
       <button
         type="button"
         disabled={isLoading}
-        onClick={onDelete}
+        onClick={() => setOpen(true)}
         className="mt-4 rounded-lg border border-red-800 bg-red-950/50 px-4 py-2 text-sm font-medium text-red-200 hover:bg-red-900/50 disabled:opacity-50"
       >
-        {isLoading ? 'Deleting…' : 'Delete journey'}
+        Delete journey
       </button>
+      <ConfirmDialog
+        open={open}
+        onClose={() => !isLoading && setOpen(false)}
+        onConfirm={onDelete}
+        title="Delete this journey?"
+        message={`“${title || 'This journey'}”, all its items, and related data will be removed permanently.`}
+        confirmLabel="Delete journey"
+        cancelLabel="Cancel"
+        variant="danger"
+        loading={isLoading}
+      />
     </section>
   )
 }

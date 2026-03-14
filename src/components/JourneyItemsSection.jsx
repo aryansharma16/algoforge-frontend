@@ -1,5 +1,8 @@
 import { useMemo, useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { useDeleteItemMutation } from '../api/itemApi'
+import ConfirmDialog from './ConfirmDialog'
+import { toast, apiErrorMessage } from '../utils/toast'
 import {
   LEARNING_ITEM_TYPES,
   ITEM_STATUSES,
@@ -158,6 +161,85 @@ function sortItems(items, sortField, dir) {
   })
 }
 
+/** ⋮ menu: View / Edit / Delete. Stops propagation so parent Link still works for the rest of the card. */
+function ItemQuickMenu({
+  journeyId,
+  itemId,
+  itemTitle,
+  base,
+  menuOpen,
+  setMenuOpen,
+  onAskDelete,
+}) {
+  const open = menuOpen === itemId
+  const wrapRef = useRef(null)
+
+  useEffect(() => {
+    if (!open) return
+    function onDoc(e) {
+      if (wrapRef.current && !wrapRef.current.contains(e.target)) setMenuOpen(null)
+    }
+    document.addEventListener('mousedown', onDoc)
+    return () => document.removeEventListener('mousedown', onDoc)
+  }, [open, setMenuOpen])
+
+  return (
+    <div className="relative z-20" ref={wrapRef}>
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="true"
+        aria-label="Item actions"
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          setMenuOpen(open ? null : itemId)
+        }}
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-slate-100 hover:text-slate-900 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+      >
+        <span className="text-lg leading-none">⋮</span>
+      </button>
+      {open && (
+        <ul
+          className="scrollbar-themed absolute right-0 top-full mt-1 min-w-[10rem] overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-xl dark:border-slate-600 dark:bg-[#16161e]"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <li>
+            <Link
+              to={`${base}/${itemId}`}
+              className="block px-3 py-2 text-sm text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+              onClick={() => setMenuOpen(null)}
+            >
+              View
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={`${base}/${itemId}/edit`}
+              className="block px-3 py-2 text-sm text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+              onClick={() => setMenuOpen(null)}
+            >
+              Edit
+            </Link>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40"
+              onClick={() => {
+                setMenuOpen(null)
+                onAskDelete({ _id: itemId, title: itemTitle })
+              }}
+            >
+              Delete
+            </button>
+          </li>
+        </ul>
+      )}
+    </div>
+  )
+}
+
 function ToggleChip({ active, onClick, children }) {
   return (
     <button
@@ -233,6 +315,9 @@ export default function JourneyItemsSection({
   const [addOpen, setAddOpen] = useState(false)
   const filterRef = useRef(null)
   const addRef = useRef(null)
+  const [itemMenuOpen, setItemMenuOpen] = useState(null)
+  const [deleteTarget, setDeleteTarget] = useState(null)
+  const [deleteItem, { isLoading: deleting }] = useDeleteItemMutation()
 
   const allTags = useMemo(() => collectUniques(list, 'tags'), [list])
   const allFlags = useMemo(() => collectUniques(list, 'flags'), [list])
@@ -303,6 +388,17 @@ export default function JourneyItemsSection({
   if (list.length === 0) return empty
 
   const base = `/journeys/${journeyId}/items`
+
+  async function confirmDeleteItem() {
+    if (!deleteTarget?._id) return
+    try {
+      await deleteItem({ journeyId, itemId: deleteTarget._id }).unwrap()
+      toast.success('Item deleted')
+      setDeleteTarget(null)
+    } catch (err) {
+      toast.error('Could not delete item', { description: apiErrorMessage(err) })
+    }
+  }
   const d = draft
 
   return (
@@ -733,13 +829,16 @@ export default function JourneyItemsSection({
         ) : view === 'cards' ? (
           <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {sorted.map((item) => (
-              <li key={item._id}>
+              <li
+                key={item._id}
+                className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 shadow-md transition hover:border-violet-300 hover:shadow-md dark:border-slate-800/90 dark:from-[#141820] dark:to-[#0d1117] dark:shadow-black/25 dark:hover:border-violet-500/35 dark:hover:shadow-violet-950/10"
+              >
                 <Link
                   to={`${base}/${item._id}`}
-                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-0 shadow-md transition hover:border-violet-300 hover:shadow-md dark:border-slate-800/90 dark:from-[#141820] dark:to-[#0d1117] dark:shadow-black/25 dark:hover:border-violet-500/35 dark:hover:shadow-violet-950/10"
+                  className="flex min-h-0 flex-1 flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/50"
                 >
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/40 to-transparent opacity-0 transition group-hover:opacity-100 dark:via-violet-500/25" />
-                  <div className="flex flex-1 flex-col p-4">
+                  <div className="flex flex-1 flex-col p-4 pr-12">
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex min-w-0 flex-1 items-start gap-3">
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-lg text-violet-700 ring-1 ring-violet-200 dark:bg-violet-500/10 dark:text-violet-300 dark:ring-violet-500/20">
@@ -792,21 +891,46 @@ export default function JourneyItemsSection({
                       </div>
                     )}
                   </div>
-                  <div className="flex items-center justify-between border-t border-slate-200 bg-slate-100/80 px-4 py-2.5 text-[11px] text-violet-700 dark:border-slate-800/80 dark:bg-black/20 dark:text-violet-400/80">
+                  <div className="mt-auto flex items-center justify-between border-t border-slate-200 bg-slate-100/80 px-4 py-2.5 text-[11px] text-violet-700 dark:border-slate-800/80 dark:bg-black/20 dark:text-violet-400/80">
                     <span>Open item</span>
                     <span className="transition group-hover:translate-x-0.5">→</span>
                   </div>
                 </Link>
+                <div className="absolute right-3 top-3 z-10">
+                  <ItemQuickMenu
+                    journeyId={journeyId}
+                    itemId={item._id}
+                    itemTitle={item.title}
+                    base={base}
+                    menuOpen={itemMenuOpen}
+                    setMenuOpen={setItemMenuOpen}
+                    onAskDelete={setDeleteTarget}
+                  />
+                </div>
               </li>
             ))}
           </ul>
         ) : view === 'detailed' ? (
           <ul className="space-y-4">
             {sorted.map((item) => (
-              <li key={item._id}>
+              <li
+                key={item._id}
+                className="relative rounded-2xl border border-slate-200 bg-white shadow-md transition hover:border-violet-300 dark:border-slate-800/90 dark:bg-gradient-to-br dark:from-[#12151c] dark:to-[#0a0c10] dark:shadow-lg dark:hover:border-violet-500/30 dark:hover:shadow-violet-950/5"
+              >
+                <div className="absolute right-3 top-3 z-10 sm:right-4 sm:top-4">
+                  <ItemQuickMenu
+                    journeyId={journeyId}
+                    itemId={item._id}
+                    itemTitle={item.title}
+                    base={base}
+                    menuOpen={itemMenuOpen}
+                    setMenuOpen={setItemMenuOpen}
+                    onAskDelete={setDeleteTarget}
+                  />
+                </div>
                 <Link
                   to={`${base}/${item._id}`}
-                  className="block rounded-2xl border border-slate-200 bg-white p-5 shadow-md transition hover:border-violet-300 sm:p-6 dark:border-slate-800/90 dark:bg-gradient-to-br dark:from-[#12151c] dark:to-[#0a0c10] dark:shadow-lg dark:hover:border-violet-500/30 dark:hover:shadow-violet-950/5"
+                  className="block rounded-2xl p-5 pr-14 sm:p-6 sm:pr-16"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
@@ -902,7 +1026,7 @@ export default function JourneyItemsSection({
           </ul>
         ) : (
           <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white dark:border-slate-800/90 dark:bg-[#0d1117]">
-            <table className="w-full min-w-[640px] text-left text-sm">
+            <table className="w-full min-w-[720px] text-left text-sm">
               <thead className="border-b border-slate-200 bg-slate-50 text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:border-slate-800 dark:bg-[#16161e] dark:text-slate-500">
                 <tr>
                   <th className="px-4 py-3.5">Title</th>
@@ -912,6 +1036,7 @@ export default function JourneyItemsSection({
                   <th className="px-4 py-3.5">Platform</th>
                   <th className="px-4 py-3.5">Diff</th>
                   <th className="px-4 py-3.5">Updated</th>
+                  <th className="w-12 px-2 py-3.5 text-right"> </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80">
@@ -945,6 +1070,17 @@ export default function JourneyItemsSection({
                       {item.platformDifficulty || item.personalDifficulty || '—'}
                     </td>
                     <td className="px-4 py-3 text-slate-500">{formatShort(item.updatedAt)}</td>
+                    <td className="px-2 py-2 text-right align-middle">
+                      <ItemQuickMenu
+                        journeyId={journeyId}
+                        itemId={item._id}
+                        itemTitle={item.title}
+                        base={base}
+                        menuOpen={itemMenuOpen}
+                        setMenuOpen={setItemMenuOpen}
+                        onAskDelete={setDeleteTarget}
+                      />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -952,6 +1088,21 @@ export default function JourneyItemsSection({
           </div>
         )}
       </div>
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        onClose={() => !deleting && setDeleteTarget(null)}
+        onConfirm={confirmDeleteItem}
+        title="Delete this item?"
+        message={
+          deleteTarget
+            ? `“${deleteTarget.title || 'This item'}” and its submissions will be removed permanently.`
+            : ''
+        }
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        variant="danger"
+        loading={deleting}
+      />
     </section>
   )
 }

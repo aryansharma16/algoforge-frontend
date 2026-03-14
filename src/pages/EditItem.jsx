@@ -15,6 +15,7 @@ import {
   mapItemServerErrors,
 } from '../features/items/itemFormState'
 import { toast, apiErrorMessage } from '../utils/toast'
+import ConfirmDialog from '../components/ConfirmDialog'
 
 function EditItemForm({ item, journeyId, itemId }) {
   const navigate = useNavigate()
@@ -82,12 +83,13 @@ export default function EditItem() {
     itemId,
   })
   const [deleteItem, { isLoading: deleting }] = useDeleteItemMutation()
+  const [deleteOpen, setDeleteOpen] = useState(false)
 
   async function onDelete() {
-    if (!confirm(`Delete “${item?.title || 'this item'}”? Cannot be undone.`)) return
     try {
       await deleteItem({ journeyId, itemId }).unwrap()
       toast.success('Item deleted')
+      setDeleteOpen(false)
       navigate(`/journeys/${journeyId}`, { replace: true })
     } catch (err) {
       toast.error('Could not delete', { description: apiErrorMessage(err) })
@@ -160,12 +162,23 @@ export default function EditItem() {
         <button
           type="button"
           disabled={deleting}
-          onClick={onDelete}
+          onClick={() => setDeleteOpen(true)}
           className="mt-4 rounded-xl border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-100 disabled:opacity-50 dark:border-red-800/80 dark:bg-red-950/40 dark:text-red-200 dark:hover:bg-red-900/40"
         >
-          {deleting ? 'Deleting…' : 'Delete item'}
+          Delete item
         </button>
       </section>
+      <ConfirmDialog
+        open={deleteOpen}
+        onClose={() => !deleting && setDeleteOpen(false)}
+        onConfirm={onDelete}
+        title="Delete this item?"
+        message={`“${item?.title || 'This item'}” and its submissions will be removed permanently.`}
+        confirmLabel="Delete item"
+        cancelLabel="Cancel"
+        variant="danger"
+        loading={deleting}
+      />
     </div>
   )
 }

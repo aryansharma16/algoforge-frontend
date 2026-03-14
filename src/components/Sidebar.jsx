@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/authSlice'
@@ -5,6 +6,7 @@ import { apiSlice } from '../api/apiSlice'
 import UserAvatar from './UserAvatar'
 import { AppLogoMark } from './AppLogo'
 import { useGetCurrentUserQuery } from '../api/authApi'
+import ConfirmDialog from './ConfirmDialog'
 
 function IconDashboard({ className }) {
   return (
@@ -54,10 +56,12 @@ export default function Sidebar() {
   const user = me || reduxUser
   const displayName = user?.displayName?.trim() || user?.username || 'Profile'
   const onProfilePage = pathname === '/profile'
+  const [logoutOpen, setLogoutOpen] = useState(false)
 
-  function handleLogout() {
+  function doLogout() {
     dispatch(logout())
     dispatch(apiSlice.util.resetApiState())
+    setLogoutOpen(false)
   }
 
   return (
@@ -106,18 +110,6 @@ export default function Sidebar() {
             <IconSettings className="shrink-0 text-current" />
             <span>Settings</span>
           </NavLink>
-          <NavLink
-            to="/profile"
-            end
-            className={({ isActive }) =>
-              `${itemBase} ${isActive ? active : inactive}`
-            }
-          >
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-violet-100 text-[11px] font-bold text-violet-700 ring-1 ring-violet-200 dark:bg-slate-700 dark:text-violet-200 dark:ring-slate-600">
-              {displayName?.trim()?.[0]?.toUpperCase() || 'P'}
-            </span>
-            <span>Profile</span>
-          </NavLink>
         </div>
       </nav>
 
@@ -146,19 +138,29 @@ export default function Sidebar() {
                   : 'text-slate-500'
               }`}
             >
-              {onProfilePage ? 'On profile' : 'View profile'}
+              View profile
             </p>
           </div>
         </Link>
         <button
           type="button"
-          onClick={handleLogout}
+          onClick={() => setLogoutOpen(true)}
           className={`${itemBase} mb-3 w-full border-t border-slate-200 pt-3 text-red-600 hover:bg-red-50 dark:border-slate-800 dark:text-red-400/90 dark:hover:bg-red-950/30 dark:hover:text-red-300`}
         >
           <IconLogout className="shrink-0" />
           <span>Logout</span>
         </button>
       </div>
+      <ConfirmDialog
+        open={logoutOpen}
+        onClose={() => setLogoutOpen(false)}
+        onConfirm={doLogout}
+        title="Log out?"
+        message="You’ll need to sign in again to access your account."
+        confirmLabel="Log out"
+        cancelLabel="Stay signed in"
+        variant="danger"
+      />
     </aside>
   )
 }

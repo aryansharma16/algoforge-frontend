@@ -7,11 +7,15 @@ const empty = () => ({
   description: '',
 })
 
+import { useState } from 'react'
+import ConfirmDialog from './ConfirmDialog'
+
 const inp =
   'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600'
 
 export default function ProfileWorkCards({ items, onChange }) {
   const list = items.length ? items : [empty()]
+  const [removeIdx, setRemoveIdx] = useState(null)
 
   function update(idx, key, value) {
     onChange(
@@ -55,8 +59,8 @@ export default function ProfileWorkCards({ items, onChange }) {
               </span>
               <button
                 type="button"
-                onClick={() => remove(idx)}
-                className="text-xs text-red-400 hover:text-red-300"
+                onClick={() => setRemoveIdx(idx)}
+                className="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
               >
                 Remove card
               </button>
@@ -128,6 +132,19 @@ export default function ProfileWorkCards({ items, onChange }) {
       >
         + Add work experience
       </button>
+      <ConfirmDialog
+        open={removeIdx !== null}
+        onClose={() => setRemoveIdx(null)}
+        onConfirm={() => {
+          if (removeIdx !== null) remove(removeIdx)
+          setRemoveIdx(null)
+        }}
+        title="Remove this role?"
+        message="This work experience card will be removed. Save your profile to apply."
+        confirmLabel="Remove"
+        cancelLabel="Cancel"
+        variant="danger"
+      />
     </div>
   )
 }

@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import ConfirmDialog from './ConfirmDialog'
 import {
   SOCIAL_PROFILE_TYPES,
   MAX_SOCIAL_PROFILES,
@@ -15,6 +17,7 @@ const sel = `${inp} cursor-pointer`
 
 export default function SocialProfileCards({ items, onChange }) {
   const list = items.length ? items : [empty()]
+  const [removeIdx, setRemoveIdx] = useState(null)
 
   function update(idx, key, value) {
     onChange(
@@ -120,6 +123,19 @@ export default function SocialProfileCards({ items, onChange }) {
           + Add profile link
         </button>
       )}
+      <ConfirmDialog
+        open={removeIdx !== null}
+        onClose={() => setRemoveIdx(null)}
+        onConfirm={() => {
+          if (removeIdx !== null) remove(removeIdx)
+          setRemoveIdx(null)
+        }}
+        title="Remove this link?"
+        message="This social profile row will be removed. Save your profile to apply."
+        confirmLabel="Remove"
+        cancelLabel="Cancel"
+        variant="danger"
+      />
     </div>
   )
 }

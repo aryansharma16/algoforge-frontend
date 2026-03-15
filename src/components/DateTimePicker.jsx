@@ -106,7 +106,7 @@ export default function DateTimePicker({
   return (
     <div className={`relative ${className}`} ref={popRef}>
       {label && (
-        <label htmlFor={btnId} className="mb-1 block text-xs text-slate-500">
+        <label htmlFor={btnId} className="mb-1 block text-xs text-slate-600 dark:text-slate-500">
           {label}
         </label>
       )}
@@ -115,23 +115,23 @@ export default function DateTimePicker({
         id={btnId}
         disabled={disabled}
         onClick={() => setOpen((o) => !o)}
-        className={`flex w-full items-center justify-between gap-2 rounded-lg border bg-slate-950 px-3 py-2 text-left text-sm text-slate-100 ${
-          error ? 'border-red-500' : 'border-slate-700'
-        } ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:border-slate-600'}`}
+        className={`flex w-full items-center justify-between gap-2 rounded-lg border bg-white px-3 py-2 text-left text-sm text-slate-900 dark:bg-slate-950 dark:text-slate-100 ${
+          error ? 'border-red-500' : 'border-slate-300 dark:border-slate-700'
+        } ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:border-slate-400 dark:hover:border-slate-600'}`}
       >
         <span className={value ? '' : 'text-slate-500'}>{display}</span>
-        <span className="text-slate-500" aria-hidden>
+        <span className="text-slate-400 dark:text-slate-500" aria-hidden>
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         </span>
       </button>
       {open && (
-        <div className="absolute z-50 mt-1 w-[min(100%,20rem)] rounded-xl border border-slate-600 bg-slate-900 p-3 shadow-xl ring-1 ring-violet-500/10">
+        <div className="absolute z-50 mt-1 w-[min(100%,20rem)] rounded-xl border border-slate-200 bg-white p-3 shadow-xl ring-1 ring-slate-200/80 dark:border-slate-600 dark:bg-slate-900 dark:ring-violet-500/10">
           <div className="mb-2 flex items-center justify-between gap-2">
             <button
               type="button"
-              className="rounded p-1 text-slate-400 hover:bg-slate-800 hover:text-white"
+              className="rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
               onClick={() =>
                 setCursor((c) =>
                   c.m === 0 ? { y: c.y - 1, m: 11 } : { y: c.y, m: c.m - 1 }
@@ -140,12 +140,12 @@ export default function DateTimePicker({
             >
               ‹
             </button>
-            <span className="text-sm font-medium text-slate-200">
+            <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
               {MONTHS[cursor.m]} {cursor.y}
             </span>
             <button
               type="button"
-              className="rounded p-1 text-slate-400 hover:bg-slate-800 hover:text-white"
+              className="rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
               onClick={() =>
                 setCursor((c) =>
                   c.m === 11 ? { y: c.y + 1, m: 0 } : { y: c.y, m: c.m + 1 }
@@ -178,7 +178,7 @@ export default function DateTimePicker({
                     parseLocal(value).getMonth() === cursor.m &&
                     parseLocal(value).getFullYear() === cursor.y
                       ? 'bg-violet-600 text-white'
-                      : 'text-slate-300 hover:bg-slate-800'
+                      : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
                   }`}
                 >
                   {day}
@@ -186,7 +186,7 @@ export default function DateTimePicker({
               )
             )}
           </div>
-          <div className="mt-3 flex items-center gap-2 border-t border-slate-800 pt-3">
+          <div className="mt-3 flex items-center gap-2 border-t border-slate-200 pt-3 dark:border-slate-800">
             <label className="sr-only">Time</label>
             <input
               type="time"
@@ -195,12 +195,12 @@ export default function DateTimePicker({
                 const [h, m] = e.target.value.split(':').map(Number)
                 applyTime(h || 0, m || 0)
               }}
-              className="flex-1 rounded border border-slate-700 bg-slate-950 px-2 py-1 text-sm text-slate-100"
+              className="flex-1 rounded border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
             />
             <button
               type="button"
               onClick={clear}
-              className="shrink-0 rounded px-2 py-1 text-xs text-slate-500 hover:text-red-400"
+              className="shrink-0 rounded px-2 py-1 text-xs text-slate-500 hover:text-red-500 dark:hover:text-red-400"
             >
               Clear
             </button>

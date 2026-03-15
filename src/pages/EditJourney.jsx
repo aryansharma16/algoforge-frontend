@@ -51,7 +51,7 @@ function EditJourneyForm({ journey, journeyId }) {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-2xl border border-slate-800/80 bg-slate-950/30 p-5 shadow-xl sm:p-8"
+      className="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg dark:border-slate-800/80 dark:bg-slate-950/30 dark:shadow-xl sm:p-8"
     >
       <JourneyForm
         form={form}
@@ -59,10 +59,10 @@ function EditJourneyForm({ journey, journeyId }) {
         setField={setField}
         idPrefix="edit"
       />
-      <div className="mt-8 flex flex-wrap items-center justify-end gap-3 border-t border-slate-800 pt-6">
+      <div className="mt-8 flex flex-wrap items-center justify-end gap-3 border-t border-slate-200 pt-6 dark:border-slate-800">
         <Link
           to={`/journeys/${journeyId}`}
-          className="rounded-lg px-4 py-2 text-sm text-slate-400 hover:bg-slate-800 hover:text-white"
+          className="rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
         >
           Cancel
         </Link>
@@ -94,10 +94,10 @@ export default function EditJourney() {
   if (isError || !journey) {
     return (
       <div>
-        <p className="text-red-400">Journey not found.</p>
+        <p className="text-red-600 dark:text-red-400">Journey not found.</p>
         <Link
           to="/journeys"
-          className="mt-4 inline-block text-violet-400 hover:underline"
+          className="mt-4 inline-block text-violet-600 hover:underline dark:text-violet-400"
         >
           ← Back to journeys
         </Link>
@@ -107,36 +107,36 @@ export default function EditJourney() {
 
   return (
     <div className="mx-auto max-w-4xl pb-16">
-      <nav className="mb-6 text-sm text-slate-500" aria-label="Breadcrumb">
+      <nav className="mb-6 text-sm text-slate-600 dark:text-slate-500" aria-label="Breadcrumb">
         <ol className="flex flex-wrap items-center gap-2">
           <li>
-            <Link to="/journeys" className="text-violet-400 hover:underline">
+            <Link to="/journeys" className="text-violet-600 hover:underline dark:text-violet-400">
               Journeys
             </Link>
           </li>
-          <li aria-hidden className="text-slate-600">
+          <li aria-hidden className="text-slate-400 dark:text-slate-600">
             /
           </li>
           <li>
             <Link
               to={`/journeys/${journeyId}`}
-              className="max-w-[12rem] truncate text-violet-400 hover:underline sm:max-w-none"
+              className="max-w-[12rem] truncate text-violet-600 hover:underline dark:text-violet-400 sm:max-w-none"
             >
               {journey.title || 'Journey'}
             </Link>
           </li>
-          <li aria-hidden className="text-slate-600">
+          <li aria-hidden className="text-slate-400 dark:text-slate-600">
             /
           </li>
-          <li className="text-slate-300">Edit</li>
+          <li className="font-medium text-slate-700 dark:font-normal dark:text-slate-300">Edit</li>
         </ol>
       </nav>
 
-      <header className="mb-8 border-b border-slate-800/80 pb-8">
-        <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+      <header className="mb-8 border-b border-slate-200 pb-8 dark:border-slate-800/80">
+        <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
           Edit journey
         </h1>
-        <p className="mt-2 max-w-xl text-sm text-slate-400">
+        <p className="mt-2 max-w-xl text-sm text-slate-600 dark:text-slate-400">
           Searchable fields, calendar dates, and focus tags. Save sends everything to your
           backend schema.
         </p>
@@ -166,16 +166,16 @@ function DeleteJourneySection({ journeyId, title }) {
   }
 
   return (
-    <section className="mt-10 rounded-xl border border-red-900/40 bg-red-950/20 p-6">
-      <h2 className="text-sm font-semibold text-red-300">Danger zone</h2>
-      <p className="mt-1 text-xs text-slate-500">
+    <section className="mt-10 rounded-xl border border-red-200 bg-red-50/80 p-6 dark:border-red-900/40 dark:bg-red-950/20">
+      <h2 className="text-sm font-semibold text-red-700 dark:text-red-300">Danger zone</h2>
+      <p className="mt-1 text-xs text-slate-600 dark:text-slate-500">
         Permanently remove this journey and its items from your account.
       </p>
       <button
         type="button"
         disabled={isLoading}
         onClick={() => setOpen(true)}
-        className="mt-4 rounded-lg border border-red-800 bg-red-950/50 px-4 py-2 text-sm font-medium text-red-200 hover:bg-red-900/50 disabled:opacity-50"
+        className="mt-4 rounded-lg border border-red-300 bg-red-100 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-200 disabled:opacity-50 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200 dark:hover:bg-red-900/50"
       >
         Delete journey
       </button>

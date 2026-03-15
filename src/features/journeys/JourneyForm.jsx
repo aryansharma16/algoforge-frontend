@@ -10,7 +10,7 @@ import {
 } from '../../constants/journey'
 
 const inputClass =
-  'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-slate-100 placeholder:text-slate-600 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30'
+  'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-600'
 
 export default function JourneyForm({
   form,
@@ -26,7 +26,7 @@ export default function JourneyForm({
     <div className="space-y-8">
       {errors._form && (
         <p
-          className="rounded-lg border border-red-800 bg-red-950/50 px-3 py-2 text-sm text-red-300"
+          className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800 dark:bg-red-950/50 dark:text-red-300"
           role="alert"
         >
           {errors._form}
@@ -34,13 +34,13 @@ export default function JourneyForm({
       )}
 
       {/* Primary */}
-      <section className="rounded-xl border border-slate-800/80 bg-slate-950/40 p-5 sm:p-6">
-        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-400/90">
+      <section className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">
+        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400/90">
           Identity
         </h2>
         <div className="space-y-4">
           <div>
-            <label className="mb-1 block text-xs text-slate-500">
+            <label className="mb-1 block text-xs text-slate-600 dark:text-slate-500">
               Title <span className="text-red-400">*</span>
             </label>
             <input
@@ -51,11 +51,11 @@ export default function JourneyForm({
               placeholder="e.g. DSA grind"
             />
             {errors.title && (
-              <p className="mt-1 text-xs text-red-400">{errors.title}</p>
+              <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.title}</p>
             )}
           </div>
           <div>
-            <label className="mb-1 block text-xs text-slate-500">Description</label>
+            <label className="mb-1 block text-xs text-slate-600 dark:text-slate-500">Description</label>
             <textarea
               value={form.description}
               onChange={(e) => setField('description', e.target.value)}
@@ -64,16 +64,16 @@ export default function JourneyForm({
               className={`min-h-[5rem] resize-y ${inputClass} ${inputErr('description')}`}
               placeholder="Goals, notes, links, milestones…"
             />
-            <p className="mt-0.5 text-[10px] text-slate-600">
+            <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-600">
               {form.description.length}/{JOURNEY_LIMITS.descriptionMax}
             </p>
             {errors.description && (
-              <p className="mt-1 text-xs text-red-400">{errors.description}</p>
+              <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.description}</p>
             )}
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-xs text-slate-500">Category</label>
+              <label className="mb-1 block text-xs text-slate-600 dark:text-slate-500">Category</label>
               <input
                 value={form.category}
                 onChange={(e) => setField('category', e.target.value)}
@@ -82,11 +82,11 @@ export default function JourneyForm({
                 placeholder="e.g. Interview prep"
               />
               {errors.category && (
-                <p className="mt-1 text-xs text-red-400">{errors.category}</p>
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.category}</p>
               )}
             </div>
             <div>
-              <label className="mb-1 block text-xs text-slate-500">Target items</label>
+              <label className="mb-1 block text-xs text-slate-600 dark:text-slate-500">Target items</label>
               <input
                 type="number"
                 min={0}
@@ -97,7 +97,7 @@ export default function JourneyForm({
                 placeholder="0"
               />
               {errors.targetItems && (
-                <p className="mt-1 text-xs text-red-400">{errors.targetItems}</p>
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.targetItems}</p>
               )}
             </div>
           </div>
@@ -106,8 +106,8 @@ export default function JourneyForm({
 
       <div className="grid gap-8 lg:grid-cols-2">
         {/* Type & tags */}
-        <section className="rounded-xl border border-slate-800/80 bg-slate-950/40 p-5 sm:p-6">
-          <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-400/90">
+        <section className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">
+          <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400/90">
             Track & topics
           </h2>
           <div className="space-y-5">
@@ -131,8 +131,8 @@ export default function JourneyForm({
         </section>
 
         {/* Status block */}
-        <section className="rounded-xl border border-slate-800/80 bg-slate-950/40 p-5 sm:p-6">
-          <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-400/90">
+        <section className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">
+          <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400/90">
             Status & visibility
           </h2>
           <div className="space-y-5">
@@ -157,7 +157,7 @@ export default function JourneyForm({
               placeholder="Search visibility…"
             />
             <div>
-              <label className="mb-1 block text-xs text-slate-500">Priority</label>
+              <label className="mb-1 block text-xs text-slate-600 dark:text-slate-500">Priority</label>
               <input
                 type="number"
                 step={1}
@@ -166,11 +166,11 @@ export default function JourneyForm({
                 className={`${inputClass} ${inputErr('priority')}`}
                 placeholder="0"
               />
-              <p className="mt-0.5 text-[10px] text-slate-600">
+              <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-600">
                 Higher sorts first on dashboards
               </p>
               {errors.priority && (
-                <p className="mt-1 text-xs text-red-400">{errors.priority}</p>
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.priority}</p>
               )}
             </div>
           </div>
@@ -178,8 +178,8 @@ export default function JourneyForm({
       </div>
 
       {/* Schedule */}
-      <section className="rounded-xl border border-slate-800/80 bg-slate-950/40 p-5 sm:p-6">
-        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-400/90">
+      <section className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">
+        <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400/90">
           Schedule
         </h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -208,13 +208,13 @@ export default function JourneyForm({
       </section>
 
       {/* Metadata */}
-      <section className="rounded-xl border border-slate-800/80 bg-slate-950/40 p-5 sm:p-6">
-        <h2 className="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-400/90">
+      <section className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800/80 dark:bg-slate-950/40 sm:p-6">
+        <h2 className="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400/90">
           Custom metadata
         </h2>
-        <p className="mb-3 text-[10px] text-slate-600">
+        <p className="mb-3 text-[10px] text-slate-500 dark:text-slate-600">
           JSON object. Focus tags above are saved separately as{' '}
-          <code className="text-slate-500">topicTags</code>.
+          <code className="text-slate-700 dark:text-slate-500">topicTags</code>.
         </p>
         <textarea
           value={form.metadataJson}
@@ -225,7 +225,7 @@ export default function JourneyForm({
           placeholder={'{\n  "repo": "my-notes", "cohort": "2025"\n}'}
         />
         {errors.metadata && (
-          <p className="mt-1 text-xs text-red-400">{errors.metadata}</p>
+          <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.metadata}</p>
         )}
       </section>
 

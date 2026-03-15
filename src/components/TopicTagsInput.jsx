@@ -52,26 +52,26 @@ export default function TopicTagsInput({
 
   return (
     <div ref={wrapRef} className="space-y-2">
-      <label className="block text-xs text-slate-500">
-        Focus tags <span className="text-slate-600">(search CS topics)</span>
+      <label className="block text-xs text-slate-600 dark:text-slate-500">
+        Focus tags <span className="text-slate-500 dark:text-slate-600">(search CS topics)</span>
       </label>
       <div
-        className={`min-h-[2.75rem] rounded-lg border bg-slate-950 px-2 py-1.5 ${
-          error ? 'border-red-500' : 'border-slate-700'
+        className={`min-h-[2.75rem] rounded-lg border bg-white px-2 py-1.5 dark:bg-slate-950 ${
+          error ? 'border-red-500' : 'border-slate-300 dark:border-slate-700'
         }`}
       >
         <div className="flex flex-wrap gap-1.5">
           {value.map((id) => (
             <span
               key={id}
-              className="inline-flex items-center gap-1 rounded-md bg-violet-950/80 px-2 py-0.5 text-xs text-violet-200 ring-1 ring-violet-500/30"
+              className="inline-flex items-center gap-1 rounded-md bg-violet-100 px-2 py-0.5 text-xs text-violet-800 ring-1 ring-violet-200 dark:bg-violet-950/80 dark:text-violet-200 dark:ring-violet-500/30"
             >
               {CS_TOPIC_LABEL[id] || id}
               {!disabled && (
                 <button
                   type="button"
                   onClick={() => remove(id)}
-                  className="rounded p-0.5 text-violet-400 hover:bg-violet-900/50 hover:text-white"
+                  className="rounded p-0.5 text-violet-600 hover:bg-violet-200 hover:text-violet-900 dark:text-violet-400 dark:hover:bg-violet-900/50 dark:hover:text-white"
                   aria-label={`Remove ${id}`}
                 >
                   ×
@@ -101,7 +101,7 @@ export default function TopicTagsInput({
                   add(filtered[0].id)
                 }
               }}
-              className="min-w-[8rem] flex-1 border-0 bg-transparent py-1 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-0"
+              className="min-w-[8rem] flex-1 border-0 bg-transparent py-1 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-0 dark:text-slate-100 dark:placeholder:text-slate-600"
             />
           )}
         </div>
@@ -109,13 +109,13 @@ export default function TopicTagsInput({
       {open && filtered.length > 0 && !disabled && (
         <ul
           id={listId}
-          className="scrollbar-themed max-h-52 overflow-y-auto overflow-x-hidden rounded-lg border border-slate-600 bg-slate-900 py-1 shadow-lg"
+          className="scrollbar-themed max-h-52 overflow-y-auto overflow-x-hidden rounded-lg border border-slate-200 bg-white py-1 shadow-lg dark:border-slate-600 dark:bg-slate-900"
         >
           {filtered.map((o) => (
             <li key={o.id}>
               <button
                 type="button"
-                className="flex w-full items-center justify-between px-3 py-2 text-left text-sm text-slate-200 hover:bg-slate-800"
+                className="flex w-full items-center justify-between px-3 py-2 text-left text-sm text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => add(o.id)}
               >
@@ -131,10 +131,10 @@ export default function TopicTagsInput({
       {open && query && filtered.length === 0 && (
         <p className="text-xs text-slate-500">No matching topics.</p>
       )}
-      <p className="text-[10px] text-slate-600">
+      <p className="text-[10px] text-slate-500 dark:text-slate-600">
         {value.length}/{MAX_TAGS} tags · Stored with your journey
       </p>
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && <p className="text-xs text-red-600 dark:text-red-400">{error}</p>}
     </div>
   )
 }

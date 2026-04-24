@@ -100,13 +100,36 @@ src/
 
 ## Setup
 
-1. **Env** – Create `.env` with `VITE_API_URL` pointing at your backend (e.g. `http://localhost:5000/api`).
+1. **Env** – Copy `.env.example` to `.env` and set `VITE_API_URL` to your backend (e.g. `http://localhost:5123/api`).
 2. **Install** – `npm install`
 3. **Dev** – `npm run dev`
 4. **Build** – `npm run build` (output in `dist/`)
 5. **Lint** – `npm run lint`
 
 Backend must expose REST APIs for auth, journeys, items, submissions, and dashboard (see `src/api/` for expected endpoints and payloads).
+
+### Connecting to a remote backend (e.g. EC2)
+
+When the frontend runs on one origin (e.g. `http://localhost:5173`) and the API on another (e.g. `http://35.154.216.23:5123`), the browser treats it as cross-origin and will block requests unless the **backend** allows it.
+
+1. **Frontend** – In `.env` set:
+   ```bash
+   VITE_API_URL=http://35.154.216.23:5123/api
+   ```
+   Restart the dev server after changing `.env`.
+
+2. **Backend** – Enable CORS so the browser allows requests from your frontend origin. In your Node/Express server (e.g. `src/server.js`):
+   ```bash
+   npm install cors
+   ```
+   ```js
+   const cors = require('cors');
+   app.use(cors({ origin: '*', credentials: true }));
+   // or simply: app.use(require('cors')());
+   ```
+   Then restart the backend (e.g. `pm2 restart algoforge`).
+
+Without CORS enabled on the backend, you’ll see `TypeError: Failed to fetch` and “Provisional headers” in the Network tab because the browser blocks the request before it reaches the server.
 
 ---
 
